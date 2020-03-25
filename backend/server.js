@@ -9,11 +9,9 @@ connectDB();
 // Initialize Middleware
 app.use(express.json({ extended: false }));
 
-app.get("/", (req, res) => res.send("API Running"));
-
 // Define Routes
-app.use("/students", require("./Routes/students"));
-app.use("/companies", require("./Routes/companies"));
+app.use("/students", require("./routes/students"));
+app.use("/companies", require("./routes/companies"));
 
 const PORT = process.env.PORT || 3001;
 
