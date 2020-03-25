@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 const Student = require("../models/Student/Students");
 const { auth } = require("../config/passport");
 
-auth();
+auth("student");
 
 // @route   POST students/signup
 // @desc    Register a student
