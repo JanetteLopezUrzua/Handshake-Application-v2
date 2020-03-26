@@ -42,7 +42,7 @@ class Firstscreen extends React.Component {
           <Link
             className="firstscreenbuttons"
             style={{ marginLeft: "20px" }}
-            to="/company/signin"
+            to="/company/login"
           >
             Company
           </Link>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { LOGIN_SUCCESS, LOGIN_FAIL } from "./types";
 
-// Student Sign Up
+// Student Log In
 export const studentlogin = ({ email, password }) => async dispatch => {
   const config = {
     headers: {
@@ -26,7 +26,7 @@ export const studentlogin = ({ email, password }) => async dispatch => {
       payload: res.data
     });
   } catch (err) {
-    console.log(err.response.data);
+    console.log(err);
     const errors = err.response.data.errors;
 
     dispatch({

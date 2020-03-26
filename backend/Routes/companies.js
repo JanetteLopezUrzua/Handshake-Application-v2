@@ -17,7 +17,8 @@ router.post(
   [
     check("name", "Name is required")
       .not()
-      .isEmpty(),
+      .isEmpty()
+      .trim(),
     check("email", "Please enter a valid email").isEmail(),
     check(
       "password",
@@ -26,6 +27,7 @@ router.post(
     check("location", "Location is required")
       .not()
       .isEmpty()
+      .trim()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -61,7 +63,7 @@ router.post(
       await company.save();
 
       payload = {
-        company: {
+        user: {
           id: company.id,
           type: "company"
         }
@@ -91,6 +93,9 @@ router.post(
   "/login",
   [
     check("email", "Please enter a valid email").isEmail(),
+    check("password", "Password is required")
+      .not()
+      .isEmpty(),
     check("password", "Password is required").exists()
   ],
   async (req, res) => {
@@ -122,7 +127,7 @@ router.post(
       }
 
       payload = {
-        company: {
+        user: {
           id: company.id,
           type: "company"
         }

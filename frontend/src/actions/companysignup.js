@@ -1,13 +1,12 @@
 import axios from "axios";
 import { SIGNUP_SUCCESS, SIGNUP_FAIL } from "./types";
 
-// Student Sign Up
-export const studentsignup = ({
-  fname,
-  lname,
+// Company Sign Up
+export const companysignup = ({
+  name,
   email,
   password,
-  college
+  location
 }) => async dispatch => {
   const config = {
     headers: {
@@ -15,14 +14,14 @@ export const studentsignup = ({
     }
   };
 
-  const body = JSON.stringify({ fname, lname, email, password, college });
+  const body = JSON.stringify({ name, email, password, location });
 
   console.log(body);
 
   try {
     axios.defaults.withCredentials = true;
     const res = await axios.post(
-      "http://localhost:3001/students/signup",
+      "http://localhost:3001/companies/signup",
       body,
       config
     );

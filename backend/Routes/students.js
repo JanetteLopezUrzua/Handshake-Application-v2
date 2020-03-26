@@ -69,7 +69,7 @@ router.post(
       await student.save();
 
       payload = {
-        student: {
+        user: {
           id: student.id,
           type: "student"
         }
@@ -133,7 +133,7 @@ router.post(
       }
 
       payload = {
-        student: {
+        user: {
           id: student.id,
           type: "student"
         }
