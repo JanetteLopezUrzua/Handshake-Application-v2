@@ -3,130 +3,90 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import axios from "axios";
-// import cookie from "react-cookies";
 import { Redirect } from "react-router";
 import "../components.css";
 import hsimage from "../../assets/Handshakebanner.jpg";
 
-class Login extends React.Component {
+import { connect } from "react-redux";
+import { studentlogin } from "../../actions/studentlogin";
+
+class ConnectedLogin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
-      password: "",
-      errormessages: {}
+      password: ""
     };
   }
 
-  emailChangeHandler = e => {
-    this.setState({
-      email: e.target.value
-    });
+  handleChange = e => {
+    this.setState({ [e.target.id]: e.target.value });
   };
 
-  passwordChangeHandler = e => {
-    this.setState({
-      password: e.target.value
-    });
-  };
-
-  signin = e => {
+  login = e => {
     e.preventDefault();
 
-    const data = {
-      email: this.state.email,
-      password: this.state.password
-    };
+    const { email, password } = this.state;
 
-    let emailerrormsg = "";
-    let passerrormsg = "";
-
-    const wspatt = new RegExp("^ *$");
-
-    // Check that email input is valid
-    if (wspatt.test(data.email) || data.email === "") {
-      emailerrormsg = "Required. Enter Email.";
-    }
-
-    // password is at least 8 characters and 1 number
-    if (wspatt.test(data.password) || data.password === "") {
-      passerrormsg = "Required. Enter Password.";
-    }
-
-    if (data.email !== "" && data.password !== "") {
-      axios.defaults.withCredentials = true;
-      axios
-        .post("http://localhost:3001/student/signin", data)
-        .then(response => {
-          console.log("Status Code : ", response.status);
-          this.setState({
-            errormessages: {}
-          });
-        })
-        .catch(error => {
-          this.setState({
-            errormessages: {
-              accounterrormsg: error.response.data
-            }
-          });
-        });
-    } else {
-      this.setState({
-        errormessages: {
-          emailerrormsg,
-          passerrormsg
-        }
-      });
-    }
+    this.props.dispatch(studentlogin({ email, password }));
   };
 
   render() {
-    // if sign in then redirect to the student profile
+    let emailerrormsg = "";
+    let passerrormsg = "";
+    let accounterrormsg = "";
+
+    const login = this.props.login;
+
+    //redirect based on successful signup
     let redirectVar = null;
-    // const path = `/student/${cookie.load("id")}`;
-    // if (cookie.load("user") === "student") {
-    //   redirectVar = <Redirect to={path} />;
-    // }
+
+    if (login.isAuthenticated === true) {
+      const id = localStorage.getItem("id");
+      const path = `/student/${id}`;
+      redirectVar = <Redirect to={path} />;
+    }
+
+    if (login.token === null && login.payload) {
+      login.payload.forEach(err => {
+        if (err.param === "email") emailerrormsg = err.msg;
+        else if (err.param === "password") passerrormsg = err.msg;
+        else accounterrormsg = err.msg;
+      });
+    }
 
     return (
       <div>
         {redirectVar}
         <img id="banner" src={hsimage} alt="handshake banner" />
-        <h2 className="pagetitle">Sign In</h2>
+        <h2 className="pagetitle">Log In</h2>
         <Form id="signup-form">
-          <Form.Group as={Col} controlId="Email">
+          <Form.Group as={Col} controlId="email">
             <Form.Label className="labels">Email</Form.Label>
             <Form.Control
-              onChange={this.emailChangeHandler}
+              onChange={this.handleChange}
               type="email"
               placeholder="Enter email"
             />
-            <p className="errormessage">
-              {" "}
-              {this.state.errormessages.emailerrormsg}
-            </p>
+            <p className="errormessage"> {emailerrormsg}</p>
           </Form.Group>
 
-          <Form.Group as={Col} controlId="Password">
+          <Form.Group as={Col} controlId="password">
             <Form.Label className="labels">Password</Form.Label>
             <Form.Control
-              onChange={this.passwordChangeHandler}
+              onChange={this.handleChange}
               type="password"
               placeholder="Password"
             />
-            <p className="errormessage">
-              {" "}
-              {this.state.errormessages.passerrormsg}
-            </p>
+            <p className="errormessage"> {passerrormsg}</p>
           </Form.Group>
 
-          <p className="errormessage">
+          <p className="errormessage" style={{ textAlign: "center" }}>
             {" "}
-            {this.state.errormessages.accounterrormsg}
+            {accounterrormsg}
           </p>
 
-          <Button onClick={this.signin} className="submitbutton" type="submit">
+          <Button onClick={this.login} className="submitbutton" type="submit">
             Log In
           </Button>
 
@@ -139,4 +99,8 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => {
+  return { login: state.login };
+};
+const LogIn = connect(mapStateToProps)(ConnectedLogin);
+export default LogIn;

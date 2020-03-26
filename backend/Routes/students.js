@@ -99,6 +99,9 @@ router.post(
   "/login",
   [
     check("email", "Please enter a valid email").isEmail(),
+    check("password", "Password is required")
+      .not()
+      .isEmpty(),
     check("password", "Password is required").exists()
   ],
   async (req, res) => {

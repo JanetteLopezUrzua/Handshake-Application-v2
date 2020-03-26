@@ -3,7 +3,6 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { Redirect } from "react-router";
 import "../components.css";
 import hsimage from "../../assets/Handshakebanner.jpg";
