@@ -1,0 +1,676 @@
+/* Front page */
+.firstscreenbuttons {
+  background-color: #9f9fa1;
+  color: white;
+  padding: 50px;
+  border-radius: 10px;
+  font-size: 28px;
+  text-decoration: none;
+  font-weight: 500;
+  text-align: center;
+  display: inline-block;
+}
+
+.firstscreenbuttons:hover {
+  background-color: #5a5a5a;
+  color: white;
+  text-decoration: none;
+}
+
+#banner {
+  display: block;
+  height: 120px;
+  margin: 0 auto;
+  width: 40%;
+}
+
+/* Sign Up and Sign In*/
+#signup-form {
+  border-radius: 10px;
+  padding: 30px 30px;
+  margin: 0 auto;
+  width: 40%;
+  background-color: #e8e8e8;
+}
+
+.pagetitle {
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  letter-spacing: 0.1em;
+}
+
+.errormessage {
+  color: #f10f10;
+  padding-top: 10px;
+  margin: 0;
+}
+
+.submitbutton {
+  background-color: #9f9fa1;
+  width: 50%;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  border: none;
+}
+
+.submitbutton:hover {
+  background-color: #5a5a5a;
+}
+
+.loginlink {
+  font-weight: 500;
+  margin-top: 30px;
+  margin-bottom: 0;
+}
+
+.labels {
+  font-size: 1rem;
+  margin-top: 0.3px;
+  margin-bottom: 0;
+  font-family: Suisse Int\'l,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,sans-serif;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* Navigation bar */
+#navbar {
+  background: #fff;
+  box-shadow: 0 0.5px 2px #d1d1d1;
+  position: relative;
+  z-index: 1;
+  transition: box-shadow, 0.5s, -webkit-box-shadow;
+  margin: 0 auto;
+  min-width: 320px;
+  padding: 12px 50px 12px;
+  height: 80px;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.navbaritem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0 8px 0 0;
+  padding: 35px 8px;
+  position: relative;
+  white-space: nowrap;
+  height: 80px;
+}
+
+.navbaritem:hover {
+  border-bottom: 1.5px solid #444;
+  text-decoration: none;
+}
+
+.navbaritem:active,
+.navbaritem:focus {
+  border-bottom: 1.5px solid #1569e0;
+}
+
+.navbaritem span {
+  padding-bottom: 4px;
+  text-decoration: none;
+  color: #444;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.searchbar {
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #f7f7f7;
+}
+
+.form-control:focus,
+.form-control:active {
+  box-shadow: none !important;
+  outline: 0px !important;
+}
+
+#searchtext {
+  line-height: 34px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: rgba(0, 0, 0, 0.56);
+  max-width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: Suisse Int\'l,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,sans-serif;
+}
+
+#searchtext:focus {
+  border: 1.5px solid;
+  background-color: #fff;
+  border-color: #183684;
+}
+
+.dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
+#logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.navbarpic {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  background-color: #707070;
+  color: #fff;
+  font-size: 14px;
+  font-weight: Bold;
+  text-align: center;
+  cursor: pointer;
+  line-height: 2.3;
+  text-transform: uppercase;
+}
+
+#navbarname {
+  font-size: 14px;
+  font-weight: Bold;
+  cursor: pointer;
+  color: #707070;
+}
+
+.navbardropdown {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0 8px 0 0;
+  padding: 35px 8px;
+  position: relative;
+  white-space: nowrap;
+  height: 80px;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+/* Other buttons */
+.save {
+  background-color: #0d7f02;
+  color: #fff;
+  border: none;
+  margin-left: 15px;
+}
+
+.save:hover {
+  background-color: #004600;
+}
+
+.cancel {
+  background-color: rgba(0, 0, 0, 0.06);
+  color: rgba(0, 0, 0, 0.98);
+  border: none;
+}
+
+.cancel:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.delete {
+  background-color: #e50000;
+  border: none;
+}
+
+.delete:hover {
+  background-color: #b20000;
+}
+
+/* Cards */
+
+.card {
+  padding: 24px;
+  margin: 15px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  font-family: Suisse Int\'l,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,sans-serif;
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.05),
+    2px 2px 2px 1px rgba(0, 0, 0, 0.05);
+}
+
+.card-footer {
+  text-align: right;
+}
+
+.editbutton {
+  background-color: white;
+  border: none;
+}
+
+.editbutton:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.card-subtitle,
+.form-label {
+  margin-top: 0.3px;
+}
+
+.card-text,
+.form-control {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* Skills component */
+#skillbox {
+  background-color: rgba(0, 0, 0, 0.06);
+  display: inline-block;
+  padding: 2px;
+  margin: 4px;
+}
+
+#skillbutton {
+  background-color: rgba(0, 0, 0, 0);
+  display: inline;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#skillbutton:hover {
+  border: none;
+  color: red;
+}
+
+/* Profile Component */
+
+.ProfilePicButton {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  width: 180px;
+  height: 180px;
+  background-color: #f5f9ff;
+  border: 1px solid #e0e0e0;
+  color: #1569e0;
+  font-size: 13px;
+  font-weight: Bold;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.ProfilePicImage {
+  border-radius: 50%;
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
+
+.ProfilePicNoImage {
+  border-radius: 50%;
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  background-color: #707070;
+  color: #fff;
+  font-size: 40px;
+  font-weight: Bold;
+  text-align: center;
+  line-height: 4.5;
+  text-transform: uppercase;
+  object-fit: cover;
+}
+
+.ProfilePicButtononImage {
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  border-radius: 50%;
+  width: 184px;
+  height: 184px;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 3.8px solid rgba(255, 255, 255, 0);
+  color: rgba(255, 255, 255, 0.06);
+  font-size: 13px;
+  font-weight: Bold;
+  text-align: center;
+  margin: 0 auto;
+  /* margin-bottom: 10px; */
+}
+
+.ProfilePicButtononImage:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.form-control:focus,
+.form-control:active,
+.btn-primary:focus,
+.btn-primary:active,
+.clearbutton:focus,
+.clearbutton:active {
+  box-shadow: none !important;
+  outline: 0px !important;
+}
+
+/* Education Details */
+.BottomAddButton {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  text-decoration: none;
+  border: 0;
+  border-radius: 3px;
+  padding: 8px 12px;
+  -webkit-transition: background-color 0.2s;
+  -o-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+  font-family: Suisse Int\'l,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,sans-serif;
+  background: rgba(0, 0, 0, 0);
+  border: 0;
+  color: #1569e0;
+  margin: 0;
+  width: 100%;
+}
+
+.BottomAddButton:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+  color: #1153b1;
+}
+
+.schoolname,
+.schooldegree,
+.schooldate,
+.schooldata {
+  text-transform: capitalize;
+  margin: 0;
+  padding: 0;
+  display: block;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.schoolname {
+  font-family: Suisse Int\'l,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,sans-serif;
+  color: rgba(0, 0, 0, 0.98);
+  font-weight: 500;
+  line-height: 1.8em;
+}
+
+.schooldegree {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.schooldate {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.schooldata {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+/* Students List */
+
+.studentslistbarcard {
+  margin: 0;
+  padding: 0;
+}
+
+.studentslistbar {
+  margin: 0 5%;
+  align-items: baseline;
+}
+
+.studentslistbar h2 {
+  margin: 0;
+  font-size: 20px;
+  font-family: Suisse Int\'l,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,sans-serif;
+  line-height: 40px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.clearbutton {
+  padding: 0;
+  margin: 0;
+  color: #1569e0;
+  font-size: 14px;
+}
+
+.clearbutton:hover {
+  text-decoration: underline;
+  color: #1569e0;
+}
+
+.studentslisttitle {
+  margin: 0;
+  font-family: Suisse Int\'l,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,sans-serif;
+  color: white;
+  line-height: 1.33em;
+  font-weight: 500;
+  font-size: 16px;
+  background-color: rgb(21, 105, 224);
+}
+
+.studentslistsubtitle {
+  margin: 0 0 0.7em;
+  font-family: Suisse Int\'l,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,sans-serif;
+  color: rgba(0, 0, 0, 0.98);
+  line-height: 1.33em;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.studentslistpics {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  background-color: #707070;
+  color: #fff;
+  font-size: 14px;
+  font-weight: Bold;
+  text-align: center;
+  line-height: 2.3;
+  text-transform: uppercase;
+}
+
+.studentslistinfo {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 13px;
+  font-weight: 400;
+  margin: 0;
+  line-height: 18.5714px;
+  text-transform: capitalize;
+}
+
+.studentslistname {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 18px;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.studentslistcollege {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 14px;
+  line-height: 22px;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+/* Company Profile */
+.CompanyProfilePicImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.CompanyProfilePicButton {
+  width: 100%;
+  height: 100%;
+  background-color: #f5f9ff;
+  border: 1px solid #e0e0e0;
+  color: #1569e0;
+  font-size: 13px;
+  font-weight: Bold;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.CompanyProfilePicButtononImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  width: 122px;
+  height: 122px;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 3.8px solid rgba(255, 255, 255, 0);
+  color: rgba(255, 255, 255, 0.06);
+  font-size: 13px;
+  font-weight: Bold;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.CompanyProfilePicButtononImage:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.CompanyProfilePicNoImage {
+  width: 122px;
+  height: 122px;
+  margin: 0 auto;
+  background-color: #707070;
+  color: #fff;
+  font-size: 40px;
+  font-weight: Bold;
+  text-align: center;
+  line-height: 4.5;
+  text-transform: uppercase;
+  object-fit: cover;
+}
+
+/******* Company - Events ********/
+
+.BannerPicImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.BannerPicButton {
+  width: 100%;
+  height: 100%;
+  background-color: #f5f9ff;
+  border: 1px solid #e0e0e0;
+  color: #1569e0;
+  font-size: 13px;
+  font-weight: Bold;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.BannerPicButtononImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  width: 100%;
+  height: 200px;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 3.8px solid rgba(255, 255, 255, 0);
+  color: rgba(255, 255, 255, 0.06);
+  font-size: 13px;
+  font-weight: Bold;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.BannerPicButtononImage:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.eventslistpics {
+  width: 60px;
+  height: 60px;
+  background-color: #707070;
+  color: #fff;
+  font-size: 14px;
+  font-weight: Bold;
+  text-align: center;
+  line-height: 2.3;
+  text-transform: uppercase;
+}
+
+/* *********Student - Events ******** */
+.eventsnavbaritem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0 8px 0 0;
+  padding: 0 8px;
+  position: relative;
+  white-space: nowrap;
+}
+
+.eventsnavbaritem:hover {
+  border-bottom: 1.5px solid #444;
+  text-decoration: none;
+}
+
+.eventsnavbaritem:active,
+.eventsnavbaritem:focus {
+  border-bottom: 1.5px solid #1569e0;
+}
+
+.eventsnavbaritem span {
+  padding-bottom: 4px;
+  text-decoration: none;
+  color: #444;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/**** Job Postings *****/
+.categorybuttons {
+  color: #1569e0;
+  border-radius: 20px;
+  background-color: white;
+  font-size: 12px;
+  margin: 10px 0 0 10px;
+}

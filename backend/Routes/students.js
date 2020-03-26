@@ -15,9 +15,14 @@ auth("student");
 router.post(
   "/signup",
   [
-    check("name", "Name is required")
+    check("fname", "First name is required")
       .not()
-      .isEmpty(),
+      .isEmpty()
+      .trim(),
+    check("lname", "Last name is required")
+      .not()
+      .isEmpty()
+      .trim(),
     check("email", "Please enter a valid email").isEmail(),
     check(
       "password",
@@ -26,16 +31,18 @@ router.post(
     check("college", "College name is required")
       .not()
       .isEmpty()
+      .trim()
   ],
   async (req, res) => {
     const errors = validationResult(req);
-
+    console.log(errors);
+    console.log(req.body);
     //Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password, college } = req.body;
+    const { fname, lname, email, password, college } = req.body;
 
     try {
       //Check if student email exists
@@ -48,7 +55,8 @@ router.post(
       }
 
       student = new Student({
-        name,
+        fname,
+        lname,
         email,
         password,
         college_name: college
