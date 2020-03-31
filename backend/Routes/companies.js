@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 const Company = require("../models/Company/Companies");
 const { auth } = require("../config/passport");
 
-auth("company");
+auth();
 
 // @route   POST companies/signup
 // @desc    Register a company
@@ -76,7 +76,7 @@ router.post(
         { expiresIn: 1008000 },
         (err, token) => {
           if (err) throw err;
-          res.json({ token });
+          res.json("JWT " + token);
         }
       );
     } catch (err) {
@@ -140,7 +140,7 @@ router.post(
         { expiresIn: 1008000 },
         (err, token) => {
           if (err) throw err;
-          res.json({ token });
+          res.json("JWT " + token);
         }
       );
     } catch (err) {

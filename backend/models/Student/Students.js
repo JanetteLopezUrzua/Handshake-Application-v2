@@ -22,6 +22,26 @@ const StudentsSchema = new mongoose.Schema(
     college_name: {
       type: String,
       required: true
+    },
+    dob: {
+      type: String,
+      required: false
+    },
+    city: {
+      type: String,
+      required: false
+    },
+    state: {
+      type: String,
+      required: false
+    },
+    country: {
+      type: String,
+      required: false
+    },
+    photo: {
+      type: String,
+      required: false
     }
   },
   {

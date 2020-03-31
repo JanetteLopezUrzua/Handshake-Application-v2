@@ -13,8 +13,8 @@ export default function(state = initialState, action) {
 
   switch (type) {
     case SIGNUP_SUCCESS:
-      localStorage.setItem("token", payload.token);
-      var decoded = jwt_decode(payload.token);
+      localStorage.setItem("token", payload);
+      var decoded = jwt_decode(payload.split(" ")[1]);
       localStorage.setItem("id", decoded.user.id);
       localStorage.setItem("type", decoded.user.type);
       return {
@@ -24,7 +24,7 @@ export default function(state = initialState, action) {
         loading: false
       };
 
-    case SIGNUP_FAIL: {
+    case SIGNUP_FAIL:
       localStorage.removeItem("token");
       return {
         ...state,
@@ -33,7 +33,6 @@ export default function(state = initialState, action) {
         isAuthenticated: false,
         loading: false
       };
-    }
 
     default:
       return state;

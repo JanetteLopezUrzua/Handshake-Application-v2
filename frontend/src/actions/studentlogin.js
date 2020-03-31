@@ -26,7 +26,7 @@ export const studentlogin = ({ email, password }) => async dispatch => {
       payload: res.data
     });
   } catch (err) {
-    console.log(err);
+    console.log("ERR", err);
     const errors = err.response.data.errors;
 
     dispatch({

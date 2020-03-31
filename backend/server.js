@@ -32,8 +32,9 @@ app.use(function(req, res, next) {
 
 // Define Routes
 app.use("/students", require("./routes/students"));
+app.use("/students", require("./routes/studentProfile"));
 app.use("/companies", require("./routes/companies"));
 
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 
 app.listen(PORT, () => console.log(`Server started on port: ${PORT}`));

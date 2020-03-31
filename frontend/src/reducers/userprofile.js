@@ -1,10 +1,13 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL } from "../actions/types";
+import {
+  USER_PROFILE_LOADED,
+  USER_PROFILE_UPDATE,
+  USER_PROFILE_UPDATE_ERROR,
+  AUTH_ERROR
+} from "../actions/types";
 const jwt_decode = require("jwt-decode");
 
 const initialState = {
-  token: localStorage.getItem("token"),
   isAuthenticated: null,
-  loading: true,
   user: null
 };
 
@@ -12,18 +15,28 @@ export default function(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case LOGIN_SUCCESS:
-      localStorage.setItem("token", payload);
-      var decoded = jwt_decode(payload.split(" ")[1]);
-      localStorage.setItem("id", decoded.user.id);
-      localStorage.setItem("type", decoded.user.type);
+    case USER_PROFILE_LOADED:
       return {
         ...state,
         isAuthenticated: true,
-        loading: false
+        laoding: false,
+        user: payload
       };
 
-    case LOGIN_FAIL: {
+    case USER_PROFILE_UPDATE:
+      return {
+        ...state,
+        user: payload,
+        payload: null
+      };
+
+    case USER_PROFILE_UPDATE_ERROR:
+      return {
+        ...state,
+        payload
+      };
+
+    case AUTH_ERROR:
       localStorage.removeItem("token");
       return {
         ...state,
@@ -32,7 +45,6 @@ export default function(state = initialState, action) {
         isAuthenticated: false,
         loading: false
       };
-    }
 
     default:
       return state;

@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 const Student = require("../models/Student/Students");
 const { auth } = require("../config/passport");
 
-auth("student");
+auth();
 
 // @route   POST students/signup
 // @desc    Register a student
@@ -82,7 +82,7 @@ router.post(
         { expiresIn: 1008000 },
         (err, token) => {
           if (err) throw err;
-          res.json({ token });
+          res.json("JWT " + token);
         }
       );
     } catch (err) {
@@ -146,7 +146,7 @@ router.post(
         { expiresIn: 1008000 },
         (err, token) => {
           if (err) throw err;
-          res.json({ token });
+          res.json("JWT " + token);
         }
       );
     } catch (err) {

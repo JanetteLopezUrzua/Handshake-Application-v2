@@ -5,9 +5,9 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Firstscreen from "./components/Firstscreen";
 import StudentSignup from "./components/Student/Signup";
 import StudentLogin from "./components/Student/Login";
-// import StudentProfile from "./components/Student/StudentProfile/ProfilePage";
 import CompanySignup from "./components/Company/Signup";
 import CompanyLogin from "./components/Company/Login";
+import StudentProfile from "./components/Student/StudentProfile/ProfilePage";
 // import CompanyProfile from "./components/Company/CompanyProfile/ProfilePage";
 // import StudentStudentsList from "./components/Student/StudentTab/StudentsPage";
 // import CompanyStudentsList from "./components/Company/StudentTab/StudentsPage";
@@ -61,25 +61,34 @@ class App extends Component {
     //   </div>
     // );
 
-    // const DefaultContainer = () => (
-    //   <div>
-    //     <Navbar photochange={this.state.photochange} />
-    //     <Switch>
-    //       <Route exact path="/job/:job_id" component={Job} />
-    //       <Route exact path="/event/:event_id" component={Event} />
-    //       <Route exact path="/company/events/new" component={NewEvent} />
-    //       <Route exact path="/company/events" component={CompanyEvents} />
-    //       <Route exact path="/company/jobs/new" component={NewJob} />
-    //       <Route exact path="/company/jobs" component={CompanyJobs} />
-    //       <Route exact path="/student/students" component={StudentStudentsList} />
-    //       <Route exact path="/company/students" component={CompanyStudentsList} />
-    //       <Route exact path="/student/:id" render={(props) => <StudentProfile {...props} handlephotochange={this.handlephotochange} />} />
-    //       <Route excat path="/company/:id" render={(props) => <CompanyProfile {...props} handlephotochange={this.handlephotochange} />} />
-    //       <Route path="/student/jobs/" component={JobsContainer} />
-    //       <Route path="/student/events/" component={EventsContainer} />
-    //     </Switch>
-    //   </div>
-    // );
+    const DefaultContainer = () => (
+      <div>
+        <Navbar photochange={this.state.photochange} />
+        <Switch>
+          {/* <Route exact path="/job/:job_id" component={Job} />
+          <Route exact path="/event/:event_id" component={Event} />
+          <Route exact path="/company/events/new" component={NewEvent} />
+          <Route exact path="/company/events" component={CompanyEvents} />
+          <Route exact path="/company/jobs/new" component={NewJob} />
+          <Route exact path="/company/jobs" component={CompanyJobs} />
+          <Route exact path="/student/students" component={StudentStudentsList} />
+          <Route exact path="/company/students" component={CompanyStudentsList} /> */}
+          <Route
+            exact
+            path="/student/:id"
+            render={props => (
+              <StudentProfile
+                {...props}
+                handlephotochange={this.handlephotochange}
+              />
+            )}
+          />
+          {/* <Route excat path="/company/:id" render={(props) => <CompanyProfile {...props} handlephotochange={this.handlephotochange} />} />
+          <Route path="/student/jobs/" component={JobsContainer} />
+          <Route path="/student/events/" component={EventsContainer} /> */}
+        </Switch>
+      </div>
+    );
 
     return (
       // Use Browser Router to route to different pages
@@ -90,7 +99,7 @@ class App extends Component {
           <Route path="/student/login" component={StudentLogin} />
           <Route path="/company/signup" component={CompanySignup} />
           <Route path="/company/login" component={CompanyLogin} />
-          {/* <Route component={DefaultContainer} /> */}
+          <Route component={DefaultContainer} />
         </Switch>
       </BrowserRouter>
     );
