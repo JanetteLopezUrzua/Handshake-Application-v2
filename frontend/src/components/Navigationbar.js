@@ -5,35 +5,35 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
-// import Col from "react-bootstrap/Col";
-// import Row from "react-bootstrap/Row";
 import { Link } from "react-router-dom";
-//import cookie from "react-cookies";
 import { FaSearch } from "react-icons/fa";
 import axios from "axios";
-// import {Redirect} from 'react-router';
 import hslogo from "../assets/logo.jpg";
 
-class Navigationbar extends React.Component {
+import { connect } from "react-redux";
+import { logout } from "../actions/logout";
+import { loadstudentprofile } from "../actions/studentprofile";
+
+class ConnectedNavigationbar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       id: "",
-      // fname: "",
       photo: "",
       has_image: false,
       firstnameletter: "",
       lastnameletter: "",
 
       // Company
-      // name: "",
       nameletter: ""
     };
   }
 
-  componentDidMount() {
-    // if (cookie.load("user") === "student") this.getStudentImage();
-    // if (cookie.load("user") === "company") this.getCompanyImage();
+  async componentDidMount() {
+    await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+
+    if (localStorage.getItem("type") === "student") this.getStudentImage();
+    if (localStorage.getItem("type") === "company") this.getCompanyImage();
   }
 
   // componentDidUpdate(props, state) {
@@ -47,42 +47,29 @@ class Navigationbar extends React.Component {
   // }
 
   getStudentImage() {
-    // console.log("STUDENT NAV BAR", this.state.id);
-    axios
-      .get(`http://localhost:3001/student/navbar/${this.state.id}`)
-      .then(response => {
-        const info = response.data;
+    console.log("inside user image");
+    let userprofile = this.props.userprofile;
 
-        const fn = info.fname.charAt(0);
-        const ln = info.lname.charAt(0);
+    if (userprofile.user !== null) {
+      const fn = userprofile.user.student.fname.charAt(0);
+      const ln = userprofile.user.student.lname.charAt(0);
 
-        console.log(response.data);
+      if (userprofile.user.student.photo) {
         this.setState({
-          //  fname: info.fname,
-          photo: info.photo,
+          photo: userprofile.user.student.photo,
           firstnameletter: fn,
-          lastnameletter: ln
+          lastnameletter: ln,
+          has_image: true
         });
-
-        if (this.state.photo === "" || this.state.photo === null) {
-          this.setState({
-            has_image: false
-          });
-        } else {
-          // const imageURL = `${Buffer.from(info.photo).toString()}`;
-
-          this.setState({
-            // photo: imageURL,
-            has_image: true
-          });
-        }
-
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-        console.log(error.response.data);
-      });
+      } else {
+        console.log("inside else");
+        this.setState({
+          firstnameletter: fn,
+          lastnameletter: ln,
+          has_image: false
+        });
+      }
+    }
   }
 
   getCompanyImage() {
@@ -122,56 +109,56 @@ class Navigationbar extends React.Component {
       });
   }
 
-  // handle logout to destroy the cookie
   handleLogout = () => {
-    // cookie.remove("id", { path: "/" });
-    // cookie.remove("user", { path: "/" });
+    this.props.dispatch(logout());
   };
 
   render() {
     let img = "";
 
-    // if (cookie.load("user") === "student") {
-    if (this.state.has_image === true) {
-      img = (
-        <Container>
-          <img
-            className="navbarpic"
-            src={`http://localhost:3001/resumesandimages/${this.state.photo}`}
-            alt="user profile pic"
-            roundedcircle="true"
-          />
-        </Container>
-      );
-    } else {
-      img = (
-        <div>
-          <p className="navbarpic">
-            {this.state.firstnameletter}
-            {this.state.lastnameletter}
-          </p>
-        </div>
-      );
+    if (localStorage.getItem("type") === "student") {
+      if (this.state.has_image === true) {
+        img = (
+          <Container>
+            <img
+              className="navbarpic"
+              src={`http://localhost:3001/resumesandimages/${this.state.photo}`}
+              alt="user profile pic"
+              roundedcircle="true"
+            />
+          </Container>
+        );
+      } else {
+        img = (
+          <div>
+            <p className="navbarpic">
+              {this.state.firstnameletter}
+              {this.state.lastnameletter}
+            </p>
+          </div>
+        );
+      }
     }
 
-    // if (cookie.load("user") === "company") {
-    if (this.state.has_image === true) {
-      img = (
-        <Container>
-          <img
-            className="navbarpic"
-            src={`http://localhost:3001/resumesandimages/${this.state.photo}`}
-            alt="user profile pic"
-            roundedcircle="true"
-          />
-        </Container>
-      );
-    } else {
-      img = (
-        <div>
-          <p className="navbarpic">{this.state.nameletter}</p>
-        </div>
-      );
+    if (localStorage.getItem("type") === "company") {
+      if (this.state.has_image === true) {
+        img = (
+          <Container>
+            <img
+              className="navbarpic"
+              src={`http://localhost:3001/resumesandimages/${this.state.photo}`}
+              alt="user profile pic"
+              roundedcircle="true"
+            />
+          </Container>
+        );
+      } else {
+        img = (
+          <div>
+            <p className="navbarpic">{this.state.nameletter}</p>
+          </div>
+        );
+      }
     }
 
     let eventspath = "";
@@ -222,12 +209,17 @@ class Navigationbar extends React.Component {
             <span>Career Center</span>
           </Nav.Link>
           <NavDropdown className="navbardropdown" title={img}>
-            <Link style={{ color: "black" }} to={``}>
+            <Link
+              style={{ color: "black" }}
+              to={`/${localStorage.getItem("type")}/${localStorage.getItem(
+                "id"
+              )}`}
+            >
               Profile
             </Link>
             <NavDropdown.Divider />
             <Link style={{ color: "black" }} onClick={this.handleLogout} to="/">
-              Sign Out
+              Log Out
             </Link>
           </NavDropdown>
         </Nav>
@@ -235,5 +227,8 @@ class Navigationbar extends React.Component {
     );
   }
 }
-
+const mapStateToProps = state => {
+  return { userprofile: state.userprofile };
+};
+const Navigationbar = connect(mapStateToProps)(ConnectedNavigationbar);
 export default Navigationbar;

@@ -1,4 +1,4 @@
-import { SIGNUP_SUCCESS, SIGNUP_FAIL } from "../actions/types";
+import { SIGNUP_SUCCESS, SIGNUP_FAIL, LOG_OUT } from "../actions/types";
 const jwt_decode = require("jwt-decode");
 
 const initialState = {
@@ -25,7 +25,10 @@ export default function(state = initialState, action) {
       };
 
     case SIGNUP_FAIL:
+    case LOG_OUT:
       localStorage.removeItem("token");
+      localStorage.removeItem("id");
+      localStorage.removeItem("type");
       return {
         ...state,
         payload,
