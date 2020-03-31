@@ -1,6 +1,6 @@
 import {
   USER_PROFILE_LOADED,
-  USER_PROFILE_UPDATE,
+  USER_BASIC_INFO_UPDATE,
   USER_PROFILE_UPDATE_ERROR,
   AUTH_ERROR
 } from "../actions/types";
@@ -23,7 +23,7 @@ export default function(state = initialState, action) {
         user: payload
       };
 
-    case USER_PROFILE_UPDATE:
+    case USER_BASIC_INFO_UPDATE:
       return {
         ...state,
         user: payload,

@@ -4,8 +4,8 @@ const jwt = require("jsonwebtoken");
 const { secret } = require("../config/default");
 const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
-const Student = require("../models/Student/Students");
 const { auth } = require("../config/passport");
+var kafka = require("../kafka/client");
 
 auth();
 
@@ -42,53 +42,42 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { fname, lname, email, password, college } = req.body;
+    kafka.make_request("student_signup", req.body, function(err, results) {
+      try {
+        //Check if student email exists
+        //let student = await Student.findOne({ email });
 
-    try {
-      //Check if student email exists
-      let student = await Student.findOne({ email });
+        student = results;
+        console.log("Student Results", results);
 
-      if (student) {
-        return res.status(400).json({
-          errors: [{ msg: "An account with that email already exists" }]
-        });
+        if (student === []) {
+          return res.status(400).json({
+            errors: [{ msg: "An account with that email already exists" }]
+          });
+        }
+
+        payload = {
+          user: {
+            id: student._id,
+            type: "student"
+          }
+        };
+
+        //Change to 3600 in production
+        const token = jwt.sign(
+          payload,
+          secret,
+          { expiresIn: 1008000 },
+          (err, token) => {
+            if (err) throw err;
+            res.json("JWT " + token);
+          }
+        );
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server error occurred");
       }
-
-      student = new Student({
-        fname,
-        lname,
-        email,
-        password,
-        college_name: college
-      });
-
-      const salt = await bcrypt.genSalt(10);
-
-      student.password = await bcrypt.hash(password, salt);
-
-      await student.save();
-
-      payload = {
-        user: {
-          id: student.id,
-          type: "student"
-        }
-      };
-
-      //Change to 3600 in production
-      const token = jwt.sign(
-        payload,
-        secret,
-        { expiresIn: 1008000 },
-        (err, token) => {
-          if (err) throw err;
-          res.json("JWT " + token);
-        }
-      );
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server error occurred");
-    }
+    });
   }
 );
 
@@ -104,7 +93,7 @@ router.post(
       .isEmpty(),
     check("password", "Password is required").exists()
   ],
-  async (req, res) => {
+  (req, res) => {
     const errors = validationResult(req);
 
     //Check if there are errors
@@ -112,47 +101,53 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password } = req.body;
+    const { password } = req.body;
 
-    try {
-      //Check if student email exists
-      let student = await Student.findOne({ email });
+    kafka.make_request("student_login", req.body, async function(err, results) {
+      try {
+        //Check if student email exists
+        // let student = await Student.findOne({ email });
+        student = results;
 
-      if (!student) {
-        return res.status(400).json({
-          errors: [{ msg: "Invalid Credentials" }]
-        });
-      }
-
-      const isPasswordAMatch = await bcrypt.compare(password, student.password);
-
-      if (!isPasswordAMatch) {
-        return res.status(400).json({
-          errors: [{ msg: "Invalid Credentials" }]
-        });
-      }
-
-      payload = {
-        user: {
-          id: student.id,
-          type: "student"
+        if (!student) {
+          return res.status(400).json({
+            errors: [{ msg: "Invalid Credentials" }]
+          });
         }
-      };
 
-      //Change to 3600 in production
-      const token = jwt.sign(
-        payload,
-        secret,
-        { expiresIn: 1008000 },
-        (err, token) => {
-          if (err) throw err;
-          res.json("JWT " + token);
+        const isPasswordAMatch = await bcrypt.compare(
+          password,
+          student.password
+        );
+
+        if (!isPasswordAMatch) {
+          return res.status(400).json({
+            errors: [{ msg: "Invalid Credentials" }]
+          });
         }
-      );
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server error occurred");
-    }
+
+        payload = {
+          user: {
+            id: student._id,
+            type: "student"
+          }
+        };
+
+        //Change to 3600 in production
+        const token = jwt.sign(
+          payload,
+          secret,
+          { expiresIn: 1008000 },
+          (err, token) => {
+            if (err) throw err;
+            res.json("JWT " + token);
+          }
+        );
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server error occurred");
+      }
+    });
   }
 );
 

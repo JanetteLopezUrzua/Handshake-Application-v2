@@ -4,7 +4,7 @@ import DisplayInfo from "./DisplayInfo";
 import EditInfo from "./EditInfo";
 
 import { connect } from "react-redux";
-import { updatestudentprofile } from "../../../../actions/studentprofile";
+import { updatebasicinfo } from "../../../../actions/studentprofile";
 
 class ConnectedBasicDetails extends React.Component {
   constructor(props) {
@@ -115,7 +115,7 @@ class ConnectedBasicDetails extends React.Component {
     }
 
     await this.props.dispatch(
-      updatestudentprofile({
+      updatebasicinfo({
         id,
         fname,
         lname,

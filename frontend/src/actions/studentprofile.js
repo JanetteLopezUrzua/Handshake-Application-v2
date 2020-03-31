@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
   USER_PROFILE_LOADED,
-  USER_PROFILE_UPDATE,
+  USER_BASIC_INFO_UPDATE,
   USER_PROFILE_UPDATE_ERROR,
   AUTH_ERROR
 } from "./types";
@@ -26,7 +26,7 @@ export const loadstudentprofile = id => async dispatch => {
   }
 };
 
-export const updatestudentprofile = ({
+export const updatebasicinfo = ({
   id,
   fname,
   lname,
@@ -51,13 +51,13 @@ export const updatestudentprofile = ({
 
   try {
     const res = await axios.put(
-      "http://localhost:3001/students/info",
+      "http://localhost:3001/students/basicinfo",
       body,
       config
     );
 
     dispatch({
-      type: USER_PROFILE_UPDATE,
+      type: USER_BASIC_INFO_UPDATE,
       payload: res.data
     });
   } catch (err) {
