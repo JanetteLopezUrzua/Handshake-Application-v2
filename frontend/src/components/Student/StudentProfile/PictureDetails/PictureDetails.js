@@ -112,8 +112,10 @@ class ConnectedPictureDetails extends React.Component {
       lname = this.props.userprofile.user.student.lname
         ? this.props.userprofile.user.student.lname
         : "";
-      college = this.props.userprofile.user.student.college_name
-        ? this.props.userprofile.user.student.college_name
+      college = this.props.userprofile.user.student.schools
+        ? this.props.userprofile.user.student.schools.find(school => {
+            return school.primaryschool === "true";
+          })
         : "";
       photo = this.props.userprofile.user.student.photo
         ? this.props.userprofile.user.student.photo
@@ -226,7 +228,7 @@ class ConnectedPictureDetails extends React.Component {
             textTransform: "capitalize"
           }}
         >
-          {college}
+          {college.name}
         </Card.Subtitle>
       </Card>
     );

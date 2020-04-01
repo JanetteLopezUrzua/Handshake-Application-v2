@@ -191,9 +191,7 @@ router.put(
     ) {
       try {
         let student = results;
-        console.log("STUDEEEEEEEEENT", student);
         if (student === 0) {
-          console.log("going inseideeeee");
           return res.status(400).json({
             errors: [{ msg: "Skill already exists" }]
           });

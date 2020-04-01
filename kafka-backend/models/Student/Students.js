@@ -19,10 +19,6 @@ const StudentsSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    college_name: {
-      type: String,
-      required: true
-    },
     dob: {
       type: String,
       required: false
@@ -55,6 +51,42 @@ const StudentsSchema = new mongoose.Schema(
       {
         skill: {
           type: String,
+          required: false
+        }
+      }
+    ],
+    schools: [
+      {
+        name: {
+          type: String,
+          required: true
+        },
+        primaryschool: {
+          type: String,
+          required: false
+        },
+        location: {
+          type: String,
+          required: false
+        },
+        degree: {
+          type: String,
+          required: false
+        },
+        major: {
+          type: String,
+          required: false
+        },
+        passingmonth: {
+          type: Number,
+          required: false
+        },
+        passingyear: {
+          type: Number,
+          required: false
+        },
+        gpa: {
+          type: Number,
           required: false
         }
       }

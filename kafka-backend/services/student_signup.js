@@ -18,7 +18,10 @@ async function handle_request(msg, callback) {
       lname,
       email,
       password,
-      college_name: college
+      schools: {
+        name: college,
+        primaryschool: "true"
+      }
     });
 
     const salt = await bcrypt.genSalt(10);
