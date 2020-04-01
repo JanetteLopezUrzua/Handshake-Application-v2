@@ -17,59 +17,6 @@ import { loadstudentprofile } from "../actions/studentprofile";
 class ConnectedNavigationbar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      id: "",
-      photo: "",
-      has_image: false,
-      firstnameletter: "",
-      lastnameletter: "",
-
-      // Company
-      nameletter: ""
-    };
-  }
-
-  async componentDidMount() {
-    await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
-
-    if (localStorage.getItem("type") === "student") this.getStudentImage();
-    if (localStorage.getItem("type") === "company") this.getCompanyImage();
-  }
-
-  // componentDidUpdate(props, state) {
-  //   if (this.props.photochange !== props.photochange) {
-  //     this.getImage();
-  //   }
-  //   // this.props.photochange = false;
-  //   console.log("THIS PROPS ARE", this.props);
-  //   console.log("THE CURRENT PROPS ARE", props);
-  //   console.log("THE CURRENTS STATE", state);
-  // }
-
-  getStudentImage() {
-    console.log("inside user image");
-    let userprofile = this.props.userprofile;
-
-    if (userprofile.user !== null) {
-      const fn = userprofile.user.student.fname.charAt(0);
-      const ln = userprofile.user.student.lname.charAt(0);
-
-      if (userprofile.user.student.photo) {
-        this.setState({
-          photo: userprofile.user.student.photo,
-          firstnameletter: fn,
-          lastnameletter: ln,
-          has_image: true
-        });
-      } else {
-        console.log("inside else");
-        this.setState({
-          firstnameletter: fn,
-          lastnameletter: ln,
-          has_image: false
-        });
-      }
-    }
   }
 
   getCompanyImage() {
@@ -114,15 +61,37 @@ class ConnectedNavigationbar extends React.Component {
   };
 
   render() {
+    let userprofile = this.props.userprofile;
+    let fn = "";
+    let ln = "";
+    let has_image = "";
+    let photo = "";
+
+    if (localStorage.getItem("type") === "student") {
+      if (userprofile.user !== null) {
+        fn = userprofile.user.student.fname.charAt(0);
+        ln = userprofile.user.student.lname.charAt(0);
+
+        if (userprofile.user.student.photo) {
+          photo = userprofile.user.student.photo;
+          has_image = true;
+        } else {
+          has_image = false;
+        }
+      }
+    }
+
+    if (localStorage.getItem("type") === "company") this.getCompanyImage();
+
     let img = "";
 
     if (localStorage.getItem("type") === "student") {
-      if (this.state.has_image === true) {
+      if (has_image === true) {
         img = (
           <Container>
             <img
               className="navbarpic"
-              src={`http://localhost:3001/resumesandimages/${this.state.photo}`}
+              src={`http://localhost:3001/resumesandimages/${photo}`}
               alt="user profile pic"
               roundedcircle="true"
             />
@@ -132,8 +101,8 @@ class ConnectedNavigationbar extends React.Component {
         img = (
           <div>
             <p className="navbarpic">
-              {this.state.firstnameletter}
-              {this.state.lastnameletter}
+              {fn}
+              {ln}
             </p>
           </div>
         );
@@ -141,23 +110,19 @@ class ConnectedNavigationbar extends React.Component {
     }
 
     if (localStorage.getItem("type") === "company") {
-      if (this.state.has_image === true) {
+      if (has_image === true) {
         img = (
           <Container>
             <img
               className="navbarpic"
-              src={`http://localhost:3001/resumesandimages/${this.state.photo}`}
+              src={`http://localhost:3001/resumesandimages/${photo}`}
               alt="user profile pic"
               roundedcircle="true"
             />
           </Container>
         );
       } else {
-        img = (
-          <div>
-            <p className="navbarpic">{this.state.nameletter}</p>
-          </div>
-        );
+        img = <div>{/* <p className="navbarpic">{name}</p> */}</div>;
       }
     }
 

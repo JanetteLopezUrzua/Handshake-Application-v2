@@ -92,4 +92,38 @@ router.put(
   }
 );
 
+// @route   PUT students/photo
+// @desc    Update student photo
+// @access  Public
+router.put("/photo", checkAuth, async (req, res) => {
+  console.log(req.body);
+
+  kafka.make_request("student_update_photo", req.body, function(err, results) {
+    try {
+      let student = results;
+      res.json({ student });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
+// @route   DELETE students/photo/;id
+// @desc    Delete student photo
+// @access  Public
+router.delete("/photo/:id", checkAuth, async (req, res) => {
+  let id = req.params.id;
+
+  kafka.make_request("student_delete_photo", id, function(err, results) {
+    try {
+      let student = results;
+      res.json({ student });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
 module.exports = router;

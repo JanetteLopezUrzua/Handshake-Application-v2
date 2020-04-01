@@ -24,45 +24,6 @@ class ConnectedBasicDetails extends React.Component {
 
   static getDerivedStateFromProps = props => ({ id: props.id });
 
-  componentDidMount() {
-    let fname = "";
-    let lname = "";
-    let dob = "";
-    let city = "";
-    let state = "";
-    let country = "";
-
-    if (this.props.userprofile.user !== null) {
-      fname = this.props.userprofile.user.student.fname
-        ? this.props.userprofile.user.student.fname
-        : "";
-      lname = this.props.userprofile.user.student.lname
-        ? this.props.userprofile.user.student.lname
-        : "";
-      dob = this.props.userprofile.user.student.dob
-        ? this.props.userprofile.user.student.dob
-        : "";
-      city = this.props.userprofile.user.student.city
-        ? this.props.userprofile.user.student.city
-        : "";
-      state = this.props.userprofile.user.student.state
-        ? this.props.userprofile.user.student.state
-        : "";
-      country = this.props.userprofile.user.student.country
-        ? this.props.userprofile.user.student.country
-        : "";
-    }
-
-    this.setState({
-      fname,
-      lname,
-      dob,
-      city,
-      state,
-      country
-    });
-  }
-
   handleClick = e => {
     e.preventDefault();
     this.setState({ editWasTriggered: true });
@@ -137,6 +98,7 @@ class ConnectedBasicDetails extends React.Component {
   };
 
   render() {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAA", this.props.userprofile);
     const { editWasTriggered } = this.state;
 
     let display = "";

@@ -7,7 +7,7 @@ import { Redirect } from "react-router";
 import BasicDetails from "./BasicDetails/BasicDetails";
 import CareerObjective from "./CareerObjective/CareerObjective";
 // import Skillset from "./Skillset/Skillset";
-// import PictureDetails from "./PictureDetails/PictureDetails";
+import PictureDetails from "./PictureDetails/PictureDetails";
 // import ContactInformation from "./ContactInfo/ContactInformation";
 // import EducationDetails from "./EducationDetails/EducationDetails";
 // import WorkDetails from "./WorkDetails/WorkDetails";
@@ -42,10 +42,10 @@ class ConnectedProfilePage extends React.Component {
         {redirectVar}
         <Row>
           <Col sm={4}>
-            {/* <PictureDetails
+            <PictureDetails
               id={this.props.match.params.id}
               photochange={this.props.handlephotochange}
-            /> */}
+            />
             {/* <Skillset id={this.props.match.params.id} /> */}
             <BasicDetails id={this.props.match.params.id} />
           </Col>

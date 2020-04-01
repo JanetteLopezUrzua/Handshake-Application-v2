@@ -18,20 +18,6 @@ class ConnectedCareerObjective extends React.Component {
 
   static getDerivedStateFromProps = props => ({ id: props.id });
 
-  componentDidMount() {
-    let objective = "";
-
-    if (this.props.userprofile.user !== null) {
-      objective = this.props.userprofile.user.student.objective
-        ? this.props.userprofile.user.student.objective
-        : "";
-    }
-
-    this.setState({
-      objective
-    });
-  }
-
   handleClick = e => {
     e.preventDefault();
     this.setState({ editWasTriggered: true });

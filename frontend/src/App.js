@@ -28,17 +28,6 @@ import Navbar from "./components/Navigationbar";
 
 // App Component
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      photochange: false
-    };
-  }
-
-  handlephotochange = () => {
-    this.setState(prevState => ({ photochange: !prevState.photochange }));
-  };
-
   render() {
     // const JobsContainer = () => (
     //   <div>
@@ -63,7 +52,7 @@ class App extends Component {
 
     const DefaultContainer = () => (
       <div>
-        <Navbar photochange={this.state.photochange} />
+        <Navbar />
         <Switch>
           {/* <Route exact path="/job/:job_id" component={Job} />
           <Route exact path="/event/:event_id" component={Event} />
@@ -73,16 +62,7 @@ class App extends Component {
           <Route exact path="/company/jobs" component={CompanyJobs} />
           <Route exact path="/student/students" component={StudentStudentsList} />
           <Route exact path="/company/students" component={CompanyStudentsList} /> */}
-          <Route
-            exact
-            path="/student/:id"
-            render={props => (
-              <StudentProfile
-                {...props}
-                handlephotochange={this.handlephotochange}
-              />
-            )}
-          />
+          <Route exact path="/student/:id" component={StudentProfile} />
           {/* <Route excat path="/company/:id" render={(props) => <CompanyProfile {...props} handlephotochange={this.handlephotochange} />} />
           <Route path="/student/jobs/" component={JobsContainer} />
           <Route path="/student/events/" component={EventsContainer} /> */}

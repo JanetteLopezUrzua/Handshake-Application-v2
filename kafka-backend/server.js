@@ -10,6 +10,8 @@ var StudentSignup = require("./services/student_signup.js");
 var StudentInfo = require("./services/student_info");
 var StudentUpdateBasicInfo = require("./services/student_update_basic_info");
 var StudentUpdateCareerObjective = require("./services/student_update_career_objective");
+var StudentUpdatePhoto = require("./services/student_update_photo");
+var StudentDeletePhoto = require("./services/student_delete_photo");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -51,3 +53,5 @@ handleTopicRequest(
   "student_update_career_objective",
   StudentUpdateCareerObjective
 );
+handleTopicRequest("student_update_photo", StudentUpdatePhoto);
+handleTopicRequest("student_delete_photo", StudentDeletePhoto);
