@@ -109,7 +109,7 @@ router.put("/photo", checkAuth, async (req, res) => {
   });
 });
 
-// @route   DELETE students/photo/;id
+// @route   DELETE students/photo/:id
 // @desc    Delete student photo
 // @access  Public
 router.delete("/photo/:id", checkAuth, async (req, res) => {
@@ -125,5 +125,43 @@ router.delete("/photo/:id", checkAuth, async (req, res) => {
     }
   });
 });
+
+// @route   PUT students/contactinfo
+// @desc    Update student contact information
+// @access  Public
+router.put(
+  "/contactinfo",
+  [
+    check("email", "Please enter a valid email")
+      .isEmail()
+      .trim(),
+    check("phonenumber", "Phone Number must be exactly 10 numbers")
+      .isNumeric()
+      .isLength({ min: 10, max: 10 })
+  ],
+  checkAuth,
+  async (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors);
+    console.log(req.body);
+    //Check if there are errors
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    kafka.make_request("student_update_contact_info", req.body, function(
+      err,
+      results
+    ) {
+      try {
+        let student = results;
+        res.json({ student });
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+      }
+    });
+  }
+);
 
 module.exports = router;

@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import DisplayInfo from "./DisplayInfo";
 import EditInfo from "./EditInfo";
 
@@ -98,7 +97,6 @@ class ConnectedBasicDetails extends React.Component {
   };
 
   render() {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAA", this.props.userprofile);
     const { editWasTriggered } = this.state;
 
     let display = "";

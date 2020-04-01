@@ -6,7 +6,8 @@ import {
   USER_PROFILE_UPDATE_ERROR,
   AUTH_ERROR,
   STUDENT_PHOTO_UPDATE,
-  STUDENT_PHOTO_DELETE
+  STUDENT_PHOTO_DELETE,
+  STUDENT_CONTACT_INFO_UPDATE
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -162,6 +163,47 @@ export const deletephoto = id => async dispatch => {
 
     dispatch({
       type: STUDENT_PHOTO_DELETE,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+export const updatecontactinfo = ({
+  id,
+  email,
+  phonenumber
+}) => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const body = JSON.stringify({ id, email, phonenumber });
+
+  console.log(body);
+
+  try {
+    const res = await axios.put(
+      "http://localhost:3001/students/contactinfo",
+      body,
+      config
+    );
+
+    dispatch({
+      type: STUDENT_CONTACT_INFO_UPDATE,
       payload: res.data
     });
   } catch (err) {

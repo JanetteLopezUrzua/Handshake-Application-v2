@@ -46,6 +46,10 @@ const StudentsSchema = new mongoose.Schema(
     objective: {
       type: String,
       required: false
+    },
+    phonenumber: {
+      type: String,
+      required: false
     }
   },
   {
