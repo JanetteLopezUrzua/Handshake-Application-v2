@@ -50,7 +50,7 @@ router.post(
         student = results;
         console.log("Student Results", results);
 
-        if (student === []) {
+        if (student === 0) {
           return res.status(400).json({
             errors: [{ msg: "An account with that email already exists" }]
           });

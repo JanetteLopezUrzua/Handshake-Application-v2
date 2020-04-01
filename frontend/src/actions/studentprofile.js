@@ -7,7 +7,9 @@ import {
   AUTH_ERROR,
   STUDENT_PHOTO_UPDATE,
   STUDENT_PHOTO_DELETE,
-  STUDENT_CONTACT_INFO_UPDATE
+  STUDENT_CONTACT_INFO_UPDATE,
+  STUDENT_SKILLSET_UPDATE,
+  STUDENT_SKILL_DELETE
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -204,6 +206,68 @@ export const updatecontactinfo = ({
 
     dispatch({
       type: STUDENT_CONTACT_INFO_UPDATE,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+export const updateskills = ({ id, skill }) => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const body = JSON.stringify({ id, skill });
+
+  console.log(body);
+
+  try {
+    const res = await axios.put(
+      "http://localhost:3001/students/skillset",
+      body,
+      config
+    );
+
+    dispatch({
+      type: STUDENT_SKILLSET_UPDATE,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+export const deleteskill = (id, skill) => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.delete(
+      `http://localhost:3001/students/skill/${id}/${skill}`
+    );
+
+    dispatch({
+      type: STUDENT_SKILL_DELETE,
       payload: res.data
     });
   } catch (err) {

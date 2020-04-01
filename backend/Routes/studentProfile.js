@@ -164,4 +164,66 @@ router.put(
   }
 );
 
+// @route   PUT students/skillset
+// @desc    Update student skillset
+// @access  Public
+router.put(
+  "/skillset",
+  [
+    check("skill", "Enter a skill")
+      .not()
+      .isEmpty()
+      .trim()
+  ],
+  checkAuth,
+  async (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors);
+    console.log(req.body);
+    //Check if there are errors
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    kafka.make_request("student_update_skillset", req.body, function(
+      err,
+      results
+    ) {
+      try {
+        let student = results;
+        console.log("STUDEEEEEEEEENT", student);
+        if (student === 0) {
+          console.log("going inseideeeee");
+          return res.status(400).json({
+            errors: [{ msg: "Skill already exists" }]
+          });
+        }
+
+        res.json({ student });
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+      }
+    });
+  }
+);
+
+// @route   DELETE students/skill/:id/:skill
+// @desc    Delete student photo
+// @access  Public
+router.delete("/skill/:id/:skill", checkAuth, async (req, res) => {
+  kafka.make_request("student_delete_skill", req.params, function(
+    err,
+    results
+  ) {
+    try {
+      let student = results;
+      res.json({ student });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
 module.exports = router;

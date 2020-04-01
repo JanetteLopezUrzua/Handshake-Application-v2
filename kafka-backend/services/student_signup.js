@@ -11,7 +11,7 @@ async function handle_request(msg, callback) {
     //Check if student email exists
     let student = await Student.findOne({ email });
 
-    if (student) return callback(null, []);
+    if (student) return callback(null, 0);
 
     student = new Student({
       fname,

@@ -50,7 +50,15 @@ const StudentsSchema = new mongoose.Schema(
     phonenumber: {
       type: String,
       required: false
-    }
+    },
+    skillset: [
+      {
+        skill: {
+          type: String,
+          required: false
+        }
+      }
+    ]
   },
   {
     versionKey: false
