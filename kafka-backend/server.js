@@ -9,6 +9,7 @@ var StudentLogin = require("./services/student_login.js");
 var StudentSignup = require("./services/student_signup.js");
 var StudentInfo = require("./services/student_info");
 var StudentUpdateBasicInfo = require("./services/student_update_basic_info");
+var StudentUpdateCareerObjective = require("./services/student_update_career_objective");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -46,3 +47,7 @@ handleTopicRequest("student_login", StudentLogin);
 handleTopicRequest("student_signup", StudentSignup);
 handleTopicRequest("student_info", StudentInfo);
 handleTopicRequest("student_update_basic_info", StudentUpdateBasicInfo);
+handleTopicRequest(
+  "student_update_career_objective",
+  StudentUpdateCareerObjective
+);

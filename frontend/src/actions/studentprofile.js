@@ -1,7 +1,8 @@
 import axios from "axios";
 import {
   USER_PROFILE_LOADED,
-  USER_BASIC_INFO_UPDATE,
+  STUDENT_BASIC_INFO_UPDATE,
+  STUDENT_CAREER_OBJECTIVE_UPDATE,
   USER_PROFILE_UPDATE_ERROR,
   AUTH_ERROR
 } from "./types";
@@ -57,7 +58,44 @@ export const updatebasicinfo = ({
     );
 
     dispatch({
-      type: USER_BASIC_INFO_UPDATE,
+      type: STUDENT_BASIC_INFO_UPDATE,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+export const updatecareerobjective = ({ id, objective }) => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const body = JSON.stringify({ id, objective });
+
+  console.log(body);
+
+  try {
+    const res = await axios.put(
+      "http://localhost:3001/students/careerobjective",
+      body,
+      config
+    );
+
+    dispatch({
+      type: STUDENT_CAREER_OBJECTIVE_UPDATE,
       payload: res.data
     });
   } catch (err) {

@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Redirect } from "react-router";
 import BasicDetails from "./BasicDetails/BasicDetails";
-// import CareerObjective from "./CareerObjective/CareerObjective";
+import CareerObjective from "./CareerObjective/CareerObjective";
 // import Skillset from "./Skillset/Skillset";
 // import PictureDetails from "./PictureDetails/PictureDetails";
 // import ContactInformation from "./ContactInfo/ContactInformation";
@@ -50,8 +50,8 @@ class ConnectedProfilePage extends React.Component {
             <BasicDetails id={this.props.match.params.id} />
           </Col>
           <Col sm={8}>
-            {/* <CareerObjective id={this.props.match.params.id} />
-            <EducationDetails id={this.props.match.params.id} />
+            <CareerObjective id={this.props.match.params.id} />
+            {/* <EducationDetails id={this.props.match.params.id} />
             <WorkDetails id={this.props.match.params.id} />
             <ContactInformation id={this.props.match.params.id} /> */}
           </Col>

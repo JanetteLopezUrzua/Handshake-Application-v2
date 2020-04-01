@@ -11,10 +11,8 @@ const ConnectedEditInfo = props => {
   let fnameerrormsg = "";
   let lnameerrormsg = "";
 
-  const userprofile = props.userprofile;
-
-  if (userprofile.payload) {
-    userprofile.payload.forEach(err => {
+  if (props.userprofile.payload) {
+    props.userprofile.payload.forEach(err => {
       if (err.param === "fname") fnameerrormsg = err.msg;
       else if (err.param === "lname") lnameerrormsg = err.msg;
     });

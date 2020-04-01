@@ -1,8 +1,9 @@
 import {
   USER_PROFILE_LOADED,
-  USER_BASIC_INFO_UPDATE,
   USER_PROFILE_UPDATE_ERROR,
-  AUTH_ERROR
+  AUTH_ERROR,
+  STUDENT_BASIC_INFO_UPDATE,
+  STUDENT_CAREER_OBJECTIVE_UPDATE
 } from "../actions/types";
 const jwt_decode = require("jwt-decode");
 
@@ -23,7 +24,8 @@ export default function(state = initialState, action) {
         user: payload
       };
 
-    case USER_BASIC_INFO_UPDATE:
+    case STUDENT_BASIC_INFO_UPDATE:
+    case STUDENT_CAREER_OBJECTIVE_UPDATE:
       return {
         ...state,
         user: payload,

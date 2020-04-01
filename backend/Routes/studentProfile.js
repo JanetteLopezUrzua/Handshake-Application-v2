@@ -67,4 +67,29 @@ router.put(
   }
 );
 
+// @route   PUT students/careerobjective
+// @desc    Update student career objective
+// @access  Public
+router.put(
+  "/careerobjective",
+  [check("objective").trim()],
+  checkAuth,
+  async (req, res) => {
+    console.log(req.body);
+
+    kafka.make_request("student_update_career_objective", req.body, function(
+      err,
+      results
+    ) {
+      try {
+        let student = results;
+        res.json({ student });
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+      }
+    });
+  }
+);
+
 module.exports = router;
