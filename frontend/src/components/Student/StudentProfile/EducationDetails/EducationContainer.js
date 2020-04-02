@@ -3,78 +3,36 @@ import axios from "axios";
 import DisplayEducation from "./DisplayEducation";
 import EditEducation from "./EditEducation";
 
-class EducationContainer extends React.Component {
+import { connect } from "react-redux";
+import { deleteschool } from "../../../../actions/studentprofile";
+
+class ConnectedEducationContainer extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       id: "",
-      school: this.props.school,
+      school: "",
       editWasTriggered: false
     };
   }
 
-  static getDerivedStateFromProps = props => ({ id: props.id });
+  static getDerivedStateFromProps = props => ({
+    id: props.id,
+    school: props.school
+  });
 
   handleClick = e => {
     e.preventDefault();
-
     this.setState({ editWasTriggered: true });
   };
 
-  schoolNameChangeHandler = e => {
-    const school = { ...this.state.school };
-    school.schoolname = e.target.value;
+  handleChange = e => {
     this.setState({
-      school
-    });
-  };
-
-  locationChangeHandler = e => {
-    const school = { ...this.state.school };
-    school.location = e.target.value;
-    this.setState({
-      school
-    });
-  };
-
-  degreeChangeHandler = e => {
-    const school = { ...this.state.school };
-    school.degree = e.target.value;
-    this.setState({
-      school
-    });
-  };
-
-  majorChangeHandler = e => {
-    const school = { ...this.state.school };
-    school.major = e.target.value;
-    this.setState({
-      school
-    });
-  };
-
-  passingMonthChangeHandler = e => {
-    const school = { ...this.state.school };
-    school.passingmonth = e.target.value;
-    this.setState({
-      school
-    });
-  };
-
-  passingYearChangeHandler = e => {
-    const school = { ...this.state.school };
-    school.passingyear = e.target.value;
-    this.setState({
-      school
-    });
-  };
-
-  gpaChangeHandler = e => {
-    const school = { ...this.state.school };
-    school.gpa = e.target.value;
-    this.setState({
-      school
+      school: {
+        ...this.state.school,
+        [e.target.id]: e.target.value
+      }
     });
   };
 
@@ -116,9 +74,12 @@ class EducationContainer extends React.Component {
     });
   };
 
-  handleDelete = (schoolname, degree, e) => {
+  handleDelete = async e => {
     e.preventDefault();
-    this.props.delete(schoolname, degree);
+    const id = this.state.id;
+    const schoolid = this.state.school._id;
+    await this.props.deleteschool(id, schoolid);
+
     this.setState({
       editWasTriggered: false
     });
@@ -137,13 +98,7 @@ class EducationContainer extends React.Component {
     if (this.state.editWasTriggered) {
       display = (
         <EditEducation
-          schoolnamechange={this.schoolNameChangeHandler}
-          locationchange={this.locationChangeHandler}
-          degreechange={this.degreeChangeHandler}
-          majorchange={this.majorChangeHandler}
-          passingmonthchange={this.passingMonthChangeHandler}
-          passingyearchange={this.passingYearChangeHandler}
-          gpachange={this.gpaChangeHandler}
+          handleChange={this.handleChange}
           save={this.handleSave}
           cancel={this.handleCancel}
           school={this.state.school}
@@ -155,5 +110,13 @@ class EducationContainer extends React.Component {
     return <>{display}</>;
   }
 }
-
+function mapDispatchToProps(dispatch) {
+  return {
+    deleteschool: (id, schoolid) => dispatch(deleteschool(id, schoolid))
+  };
+}
+const EducationContainer = connect(
+  null,
+  mapDispatchToProps
+)(ConnectedEducationContainer);
 export default EducationContainer;

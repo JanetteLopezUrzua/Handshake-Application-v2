@@ -32,10 +32,9 @@ async function handle_request(msg, callback) {
         }
       }
     });
-    console.log("STUDEEEEEEEEEEEEEEEEEEEEEEEEEEEEEENT", student);
+
     if (student.schools.length !== 0) return callback(null, 0);
     else {
-      console.log("insideeee!");
       let student = await Student.findByIdAndUpdate(
         id,
         {

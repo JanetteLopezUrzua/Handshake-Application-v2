@@ -1,59 +1,67 @@
-import React from 'react';
+import React from "react";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
-const EditEducation = (props) => {
+const EditEducation = props => {
   let {
     // eslint-disable-next-line prefer-const
-    schoolname, primaryschool, location, degree, major, passingmonth, passingyear, gpa
+    name,
+    location,
+    degree,
+    major,
+    passingmonth,
+    passingyear,
+    gpa
   } = props.school;
 
-  const wspatt = new RegExp("^ *$");
-
-  if (schoolname === null || schoolname === "null" || wspatt.test(schoolname)) {
-    schoolname = "";
-  }
-  if (location === null || location === "null" || wspatt.test(location)) {
-    location = "";
-  }
-  if (degree === null || degree === "null" || wspatt.test(degree)) {
-    degree = "";
-  }
-  if (major === null || major === "null" || wspatt.test(major)) {
-    major = "";
-  }
-  if (passingmonth === 0 || passingmonth === null || passingmonth === "null" || wspatt.test(passingmonth)) {
-    passingmonth = "";
-  }
-  if (passingyear === 0 || passingyear === null || passingyear === "null" || wspatt.test(passingyear)) {
-    passingyear = "";
-  }
-  if (gpa === 0 || gpa === null || gpa === "null" || wspatt.test(gpa)) {
-    gpa = "";
-  }
-
-  let del = "";
-  if (primaryschool === "false") {
-    del = (<Col><Button className="delete" onClick={(e) => { props.delete(schoolname, degree, e); }}>Delete</Button></Col>);
-  }
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
 
   return (
-
-    <Container style={{
-      paddingRight: '0', paddingLeft: '10px', marginBottom: '30px', cursor: 'pointer'
-    }}
+    <Container
+      style={{
+        paddingRight: "0",
+        paddingLeft: "10px",
+        marginBottom: "30px",
+        cursor: "pointer"
+      }}
     >
-      <Form.Group controlId="Schoolname">
+      <Form.Group controlId="name">
         <Form.Label className="labels">School Name</Form.Label>
-        <Form.Control onChange={props.schoolnamechange} name="name" type="text" placeholder={schoolname} readOnly />
+        <Form.Control
+          onChange={props.handleChange}
+          name="name"
+          type="text"
+          placeholder={name}
+        />
       </Form.Group>
       <Form.Group controlId="degree">
         <Form.Label className="labels">Education Level</Form.Label>
-        <Form.Control as="select" onChange={props.degreechange} name="degree" type="text" placeholder={degree}>
-          <option value="" hidden>{degree}</option>
+        <Form.Control
+          as="select"
+          onChange={props.handleChange}
+          name="degree"
+          type="text"
+          placeholder={degree}
+        >
+          <option value="" hidden>
+            {degree}
+          </option>
           <option>High school</option>
           <option>Associates</option>
           <option>Certificate</option>
@@ -65,29 +73,47 @@ const EditEducation = (props) => {
           <option>Non-degree seeking</option>
         </Form.Control>
       </Form.Group>
-      <Form.Group controlId="Passingmonth">
-        <Form.Label className="labels">End Date</Form.Label>
-        <Row>
-          <Col>
-            <Form.Control as="select" onChange={props.passingmonthchange} name="month" type="text" placeholder={passingmonth}>
-              <option value="" hidden>{passingmonth}</option>
-              <option value="January">January</option>
-              <option value="February">February</option>
-              <option value="March">March</option>
-              <option value="April">April</option>
-              <option value="May">May</option>
-              <option value="June">June</option>
-              <option value="July">July</option>
-              <option value="August">August</option>
-              <option value="September">September</option>
-              <option value="October">October</option>
-              <option value="November">November</option>
-              <option value="December">December</option>
+      <Row>
+        <Col>
+          <Form.Group controlId="passingmonth">
+            <Form.Label className="labels">End Date</Form.Label>
+            <Form.Control
+              as="select"
+              onChange={props.handleChange}
+              name="month"
+              type="text"
+              placeholder={months[passingmonth - 1]}
+            >
+              <option value="" hidden>
+                {months[passingmonth - 1]}
+              </option>
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
             </Form.Control>
-          </Col>
-          <Col>
-            <Form.Control as="select" onChange={props.passingyearchange} name="year" type="number">
-              <option value="" hidden>{passingyear}</option>
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group controlId="passingyear">
+            <Form.Label className="labels"></Form.Label>
+            <Form.Control
+              as="select"
+              onChange={props.handleChange}
+              name="year"
+              type="number"
+            >
+              <option value="" hidden>
+                {passingyear}
+              </option>
               <option value="2030">2030</option>
               <option value="2029">2029</option>
               <option value="2028">2028</option>
@@ -180,26 +206,49 @@ const EditEducation = (props) => {
               <option value="1941">1941</option>
               <option value="1940">1940</option>
             </Form.Control>
-          </Col>
-        </Row>
-      </Form.Group>
+          </Form.Group>
+        </Col>
+      </Row>
       <Form.Group controlId="major">
         <Form.Label className="labels">Major</Form.Label>
-        <Form.Control onChange={props.majorchange} name="major" type="text" placeholder={major} />
+        <Form.Control
+          onChange={props.handleChange}
+          name="major"
+          type="text"
+          placeholder={major}
+        />
       </Form.Group>
       <Form.Group controlId="gpa">
         <Form.Label className="labels">Cumulative GPA</Form.Label>
-        <Form.Control onChange={props.gpachange} name="gpa" type="number" placeholder={gpa} />
+        <Form.Control
+          onChange={props.handleChange}
+          name="gpa"
+          type="number"
+          placeholder={gpa}
+        />
       </Form.Group>
       <Form.Group controlId="location">
         <Form.Label className="labels">School Location</Form.Label>
-        <Form.Control onChange={props.locationchange} name="location" type="text" placeholder={location} />
+        <Form.Control
+          onChange={props.handleChange}
+          name="location"
+          type="text"
+          placeholder={location}
+        />
       </Form.Group>
       <Row>
-        {del}
+        <Col>
+          <Button className="delete" onClick={props.delete}>
+            Delete
+          </Button>
+        </Col>
         <Col style={{ textAlign: "right" }}>
-          <Button className="cancel" onClick={props.cancel}>Cancel</Button>
-          <Button className="save" onClick={props.save}>Save</Button>
+          <Button className="cancel" onClick={props.cancel}>
+            Cancel
+          </Button>
+          <Button className="save" onClick={props.save}>
+            Save
+          </Button>
         </Col>
       </Row>
     </Container>

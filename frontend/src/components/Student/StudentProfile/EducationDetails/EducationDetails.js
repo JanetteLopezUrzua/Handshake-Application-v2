@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -21,7 +20,7 @@ class ConnectedEducationDetails extends React.Component {
       message: "",
       school: {
         name: "",
-        primaryschool: "",
+        primaryschool: "false",
         location: "",
         degree: "",
         major: "",
@@ -68,7 +67,7 @@ class ConnectedEducationDetails extends React.Component {
         newform: false,
         school: {
           name: "",
-          primaryschool: "",
+          primaryschool: "false",
           location: "",
           degree: "",
           major: "",
@@ -83,7 +82,8 @@ class ConnectedEducationDetails extends React.Component {
   handleCancel = () => {
     this.setState({
       school: {
-        schoolname: "",
+        name: "",
+        primaryschool: "false",
         location: "",
         degree: "",
         major: "",
@@ -93,20 +93,6 @@ class ConnectedEducationDetails extends React.Component {
       },
       newform: false
     });
-  };
-
-  handleDelete = (schoolname, degree) => {
-    axios
-      .delete("http://localhost:3001/student/educationinfo/delete", {
-        data: { id: this.state.id, schoolname, degree }
-      })
-      .then(response => {
-        console.log(response);
-        this.getInfo();
-      })
-      .catch(error => {
-        console.log(error);
-      });
   };
 
   render() {

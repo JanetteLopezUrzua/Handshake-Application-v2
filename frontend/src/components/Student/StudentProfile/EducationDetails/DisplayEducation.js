@@ -18,6 +18,21 @@ const DisplayEducation = props => {
     gpa
   } = props.school;
 
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
   let primarydisplay = "";
   if (primaryschool === "true") {
     primarydisplay = (
@@ -77,7 +92,7 @@ const DisplayEducation = props => {
         </Row>
         <Card.Subtitle className="schooldegree">{degree}</Card.Subtitle>
         <Card.Text className="schooldate">
-          {passingmonth} {passingyear}
+          {months[passingmonth - 1]} {passingyear}
         </Card.Text>
         <Card.Text className="schooldata">
           <span style={{ fontWeight: "bold" }}>{majordisplay}</span> {major}

@@ -281,4 +281,22 @@ router.post(
   }
 );
 
+// @route   DELETE students/school/:id/:schoolid
+// @desc    Delete school from the student profile
+// @access  Public
+router.delete("/school/:id/:schoolid", checkAuth, async (req, res) => {
+  kafka.make_request("student_delete_school", req.params, function(
+    err,
+    results
+  ) {
+    try {
+      let student = results;
+      res.json({ student });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
 module.exports = router;
