@@ -205,8 +205,8 @@ const ConnectedNewFormEducation = props => {
           type="text"
         />
       </Form.Group>
+      <p className="errormessage">{othererrormsg}</p>
       <Row>
-        <p className="errormessage">{othererrormsg}</p>
         <Col style={{ textAlign: "right" }}>
           <Button className="cancel" onClick={props.cancel}>
             Cancel

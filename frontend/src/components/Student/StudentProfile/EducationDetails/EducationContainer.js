@@ -1,10 +1,8 @@
 import React from "react";
-import axios from "axios";
 import DisplayEducation from "./DisplayEducation";
 import EditEducation from "./EditEducation";
-
 import { connect } from "react-redux";
-import { deleteschool } from "../../../../actions/studentprofile";
+import { deleteschool, updateschool } from "../../../../actions/studentprofile";
 
 class ConnectedEducationContainer extends React.Component {
   constructor(props) {
@@ -12,14 +10,24 @@ class ConnectedEducationContainer extends React.Component {
 
     this.state = {
       id: "",
-      school: "",
+      schoolid: "",
+      school: {
+        name: props.school.name,
+        primaryschool: props.school.primaryschool,
+        location: props.school.location,
+        degree: props.school.degree,
+        major: props.school.major,
+        passingmonth: props.school.passingmonth,
+        passingyear: props.school.passingyear,
+        gpa: props.school.gpa
+      },
       editWasTriggered: false
     };
   }
 
   static getDerivedStateFromProps = props => ({
     id: props.id,
-    school: props.school
+    schoolid: props.schoolid
   });
 
   handleClick = e => {
@@ -36,13 +44,13 @@ class ConnectedEducationContainer extends React.Component {
     });
   };
 
-  handleSave = e => {
+  handleSave = async e => {
     e.preventDefault();
 
-    const data = {
-      id: this.state.id,
-      schoolname: this.state.school.schoolname,
-      primaryschool: "false",
+    const id = this.state.id;
+    const schoolid = this.state.schoolid;
+    console.log("YESSSSSSSSSSSSSSSSSSSSSSS", schoolid);
+    const school = {
       location: this.state.school.location,
       degree: this.state.school.degree,
       major: this.state.school.major,
@@ -51,20 +59,14 @@ class ConnectedEducationContainer extends React.Component {
       gpa: this.state.school.gpa
     };
 
-    axios
-      .post("http://localhost:3001/student/educationinfo", data)
-      .then(response => {
-        console.log(response);
-        this.setState({
-          editWasTriggered: false
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({
-          school: ""
-        });
+    await this.props.dispatch(updateschool(id, school, schoolid));
+
+    if (this.props.userprofile.payload) {
+    } else {
+      this.setState({
+        editWasTriggered: false
       });
+    }
   };
 
   handleCancel = () => {
@@ -78,7 +80,7 @@ class ConnectedEducationContainer extends React.Component {
     e.preventDefault();
     const id = this.state.id;
     const schoolid = this.state.school._id;
-    await this.props.deleteschool(id, schoolid);
+    await this.props.dispatch(deleteschool(id, schoolid));
 
     this.setState({
       editWasTriggered: false
@@ -110,13 +112,10 @@ class ConnectedEducationContainer extends React.Component {
     return <>{display}</>;
   }
 }
-function mapDispatchToProps(dispatch) {
-  return {
-    deleteschool: (id, schoolid) => dispatch(deleteschool(id, schoolid))
-  };
-}
-const EducationContainer = connect(
-  null,
-  mapDispatchToProps
-)(ConnectedEducationContainer);
+const mapStateToProps = state => {
+  return { userprofile: state.userprofile };
+};
+const EducationContainer = connect(mapStateToProps)(
+  ConnectedEducationContainer
+);
 export default EducationContainer;

@@ -83,7 +83,6 @@ class ConnectedEducationDetails extends React.Component {
     this.setState({
       school: {
         name: "",
-        primaryschool: "false",
         location: "",
         degree: "",
         major: "",
@@ -106,6 +105,7 @@ class ConnectedEducationDetails extends React.Component {
             school => (
               <EducationContainer
                 key={school._id}
+                schoolid={school._id}
                 id={this.state.id}
                 school={school}
                 delete={this.handleDelete}

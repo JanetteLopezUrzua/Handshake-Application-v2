@@ -5,9 +5,22 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
-const EditEducation = props => {
+import { connect } from "react-redux";
+
+const ConnectedEditEducation = props => {
+  let schoolnameerrormsg = "";
+  let gpaerrormsg = "";
+  let othererrormsg = "";
+
+  if (props.userprofile.payload) {
+    props.userprofile.payload.forEach(err => {
+      if (err.param === "name") schoolnameerrormsg = err.update.msg;
+      else if (err.param === "gpa") gpaerrormsg = err.update.msg;
+      else othererrormsg = err.updateschoolmsg;
+    });
+  }
+
   let {
-    // eslint-disable-next-line prefer-const
     name,
     location,
     degree,
@@ -48,7 +61,9 @@ const EditEducation = props => {
           name="name"
           type="text"
           placeholder={name}
+          readOnly
         />
+        <p className="errormessage">{schoolnameerrormsg}</p>
       </Form.Group>
       <Form.Group controlId="degree">
         <Form.Label className="labels">Education Level</Form.Label>
@@ -226,6 +241,7 @@ const EditEducation = props => {
           type="number"
           placeholder={gpa}
         />
+        <p className="errormessage">{gpaerrormsg}</p>
       </Form.Group>
       <Form.Group controlId="location">
         <Form.Label className="labels">School Location</Form.Label>
@@ -236,6 +252,7 @@ const EditEducation = props => {
           placeholder={location}
         />
       </Form.Group>
+      <p className="errormessage">{othererrormsg}</p>
       <Row>
         <Col>
           <Button className="delete" onClick={props.delete}>
@@ -254,5 +271,8 @@ const EditEducation = props => {
     </Container>
   );
 };
-
+const mapStateToProps = state => {
+  return { userprofile: state.userprofile };
+};
+const EditEducation = connect(mapStateToProps)(ConnectedEditEducation);
 export default EditEducation;

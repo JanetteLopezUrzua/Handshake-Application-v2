@@ -11,7 +11,8 @@ import {
   STUDENT_SKILLSET_UPDATE,
   STUDENT_SKILL_DELETE,
   STUDENT_ADD_NEW_SCHOOL,
-  STUDENT_SCHOOL_DELETE
+  STUDENT_SCHOOL_DELETE,
+  STUDENT_SCHOOL_UPDATE
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -353,6 +354,54 @@ export const deleteschool = (id, schoolid) => async dispatch => {
 
     dispatch({
       type: STUDENT_SCHOOL_DELETE,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+export const updateschool = (id, school, schoolid) => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  let { location, degree, major, passingmonth, passingyear, gpa } = school;
+
+  const body = JSON.stringify({
+    id,
+    schoolid,
+    location,
+    degree,
+    major,
+    passingmonth,
+    passingyear,
+    gpa
+  });
+  console.log("NOOOOOOOOOOO", schoolid);
+  console.log(body);
+
+  try {
+    const res = await axios.put(
+      "http://localhost:3001/students/school",
+      body,
+      config
+    );
+
+    dispatch({
+      type: STUDENT_SCHOOL_UPDATE,
       payload: res.data
     });
   } catch (err) {

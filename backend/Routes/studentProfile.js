@@ -300,3 +300,48 @@ router.delete("/school/:id/:schoolid", checkAuth, async (req, res) => {
 });
 
 module.exports = router;
+
+// @route   PUT students/school
+// @desc    Update a school in the student profile
+// @access  Public
+router.put(
+  "/school",
+  [
+    check("gpa", "GPA must follow this format: 0.00").isLength({
+      min: 4,
+      max: 4
+    })
+  ],
+  checkAuth,
+  async (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors);
+    console.log(req.body);
+    //Check if there are errors
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: update.errors.array() });
+    }
+
+    if (
+      (req.body.passingmonth === null && req.body.passingyear !== null) ||
+      (req.body.passingmonth !== null && req.body.passingyear === null)
+    ) {
+      return res
+        .status(400)
+        .json({ errors: [{ updateschoolmsg: "Enter complete end date" }] });
+    }
+
+    kafka.make_request("student_update_school", req.body, function(
+      err,
+      results
+    ) {
+      try {
+        let student = results;
+        res.json({ student });
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+      }
+    });
+  }
+);
