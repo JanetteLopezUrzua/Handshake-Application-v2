@@ -12,13 +12,8 @@ import hslogo from "../assets/logo.jpg";
 
 import { connect } from "react-redux";
 import { logout } from "../actions/logout";
-import { loadstudentprofile } from "../actions/studentprofile";
 
 class ConnectedNavigationbar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   getCompanyImage() {
     // console.log("Company NAV BAR", this.state.id);
     axios

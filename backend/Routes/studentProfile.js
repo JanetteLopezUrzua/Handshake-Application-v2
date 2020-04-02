@@ -193,7 +193,7 @@ router.put(
         let student = results;
         if (student === 0) {
           return res.status(400).json({
-            errors: [{ msg: "Skill already exists" }]
+            errors: [{ skillmsg: "Skill already exists" }]
           });
         }
 
@@ -223,5 +223,62 @@ router.delete("/skill/:id/:skill", checkAuth, async (req, res) => {
     }
   });
 });
+
+// @route   POST students/newschool
+// @desc    Add a new school to the student profile
+// @access  Public
+router.post(
+  "/newschool",
+  [
+    check("name", "School name is required")
+      .not()
+      .isEmpty()
+      .trim(),
+    check("gpa", "GPA must follow this format: 0.00").isLength({
+      min: 4,
+      max: 4
+    })
+  ],
+  checkAuth,
+  async (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors);
+    console.log(req.body);
+    //Check if there are errors
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    if (
+      (req.body.passingmonth === "" && req.body.passingyear !== "") ||
+      (req.body.passingmonth !== "" && req.body.passingyear === "")
+    ) {
+      return res
+        .status(400)
+        .json({ errors: [{ schoolmsg: "Enter complete end date" }] });
+    }
+
+    kafka.make_request("student_add_new_school", req.body, function(
+      err,
+      results
+    ) {
+      try {
+        let student = results;
+        if (student === 0) {
+          return res.status(400).json({
+            errors: [
+              { schoolmsg: "A school with this information already exists" }
+            ]
+          });
+        }
+
+        res.json({ student });
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+      }
+    });
+  }
+);
 
 module.exports = router;

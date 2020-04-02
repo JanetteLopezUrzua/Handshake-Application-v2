@@ -86,7 +86,7 @@ const StudentsSchema = new mongoose.Schema(
           required: false
         },
         gpa: {
-          type: Number,
+          type: String,
           required: false
         }
       }

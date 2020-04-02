@@ -15,6 +15,7 @@ var StudentDeletePhoto = require("./services/student_delete_photo");
 var StudentUpdateContactInfo = require("./services/student_update_contact_info");
 var StudentUpdateSkillset = require("./services/student_update_skillset");
 var StudentDeleteSkill = require("./services/student_delete_skill");
+var StudentAddNewSchool = require("./services/student_add_new_school");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -61,3 +62,4 @@ handleTopicRequest("student_delete_photo", StudentDeletePhoto);
 handleTopicRequest("student_update_contact_info", StudentUpdateContactInfo);
 handleTopicRequest("student_update_skillset", StudentUpdateSkillset);
 handleTopicRequest("student_delete_skill", StudentDeleteSkill);
+handleTopicRequest("student_add_new_school", StudentAddNewSchool);

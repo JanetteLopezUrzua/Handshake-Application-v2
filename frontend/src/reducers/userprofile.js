@@ -8,7 +8,8 @@ import {
   STUDENT_PHOTO_DELETE,
   STUDENT_CONTACT_INFO_UPDATE,
   STUDENT_SKILLSET_UPDATE,
-  STUDENT_SKILL_DELETE
+  STUDENT_SKILL_DELETE,
+  STUDENT_ADD_NEW_SCHOOL
 } from "../actions/types";
 
 const initialState = {
@@ -35,6 +36,7 @@ export default function(state = initialState, action) {
     case STUDENT_CONTACT_INFO_UPDATE:
     case STUDENT_SKILLSET_UPDATE:
     case STUDENT_SKILL_DELETE:
+    case STUDENT_ADD_NEW_SCHOOL:
       return {
         ...state,
         user: payload,

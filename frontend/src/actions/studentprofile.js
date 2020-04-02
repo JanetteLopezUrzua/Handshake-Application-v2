@@ -9,7 +9,8 @@ import {
   STUDENT_PHOTO_DELETE,
   STUDENT_CONTACT_INFO_UPDATE,
   STUDENT_SKILLSET_UPDATE,
-  STUDENT_SKILL_DELETE
+  STUDENT_SKILL_DELETE,
+  STUDENT_ADD_NEW_SCHOOL
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -268,6 +269,66 @@ export const deleteskill = (id, skill) => async dispatch => {
 
     dispatch({
       type: STUDENT_SKILL_DELETE,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+export const addnewschool = ({ id, school }) => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  console.log("SCHOOOOOOOOOOOOOOOOL", school);
+
+  let {
+    name,
+    primaryschool,
+    location,
+    degree,
+    major,
+    passingmonth,
+    passingyear,
+    gpa
+  } = school;
+
+  const body = JSON.stringify({
+    id,
+    name,
+    primaryschool,
+    location,
+    degree,
+    major,
+    passingmonth,
+    passingyear,
+    gpa
+  });
+
+  console.log(body);
+
+  try {
+    const res = await axios.post(
+      "http://localhost:3001/students/newschool",
+      body,
+      config
+    );
+
+    dispatch({
+      type: STUDENT_ADD_NEW_SCHOOL,
       payload: res.data
     });
   } catch (err) {

@@ -1,8 +1,6 @@
 import React from "react";
-import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-// import cookie from 'react-cookies';
 import DisplaySkills from "./DisplaySkills";
 import EditSkills from "./EditSkills";
 
@@ -56,6 +54,7 @@ class ConnectedSkillset extends React.Component {
           skillsList = this.props.userprofile.user.student.skillset.map(
             skill => (
               <DisplaySkills
+                key={skill._id}
                 id={this.state.id}
                 skill={skill.skill}
                 handleDelete={this.handleDelete}
@@ -70,7 +69,7 @@ class ConnectedSkillset extends React.Component {
     if (this.props.userprofile.payload) {
       this.props.userprofile.payload.forEach(err => {
         if (err.param === "skill") skillerrormsg = err.msg;
-        else skillerrormsg = err.msg;
+        else skillerrormsg = err.skillmsg;
       });
     }
 

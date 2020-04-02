@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import cookie from "react-cookies";
-import { Redirect } from "react-router";
-// import Container from "react-bootstrap/Container";
+//import { Redirect } from "react-router";
 import "./components.css";
 import hsimage from "../assets/Handshakebanner.jpg";
 
