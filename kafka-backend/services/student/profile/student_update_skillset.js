@@ -1,4 +1,4 @@
-const Student = require("../models/Student/Students");
+const Student = require("../../../models/Student/Students");
 
 async function handle_request(msg, callback) {
   console.log("Inside student_update_skillset kafka backend");

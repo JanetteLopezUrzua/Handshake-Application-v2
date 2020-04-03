@@ -22,12 +22,12 @@ class ConnectedProfilePage extends React.Component {
     this.state = {};
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
     const id = this.props.match.params.id;
-    this.props.dispatch(loadstudentprofile(id));
+    await this.props.dispatch(loadstudentprofile(id));
   }
 
   render() {

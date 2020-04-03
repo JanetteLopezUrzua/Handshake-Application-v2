@@ -1,16 +1,16 @@
-const Student = require("../models/Student/Students");
+const Student = require("../../../models/Student/Students");
 
 async function handle_request(msg, callback) {
-  console.log("Inside student_delete_photo kafka backend");
+  console.log("Inside student_delete_skill kafka backend");
   console.log(msg);
 
-  let id = msg;
+  let { id, skill } = msg;
 
   try {
     console.log(id);
     let student = await Student.findByIdAndUpdate(
       id,
-      { $unset: { photo: "" } },
+      { $pull: { skillset: { skill } } },
       { new: true }
     );
 

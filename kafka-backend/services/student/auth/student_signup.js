@@ -1,4 +1,4 @@
-const Student = require("../models/Student/Students");
+const Student = require("../../../models/Student/Students");
 const bcrypt = require("bcryptjs");
 
 async function handle_request(msg, callback) {

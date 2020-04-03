@@ -5,22 +5,22 @@ connectDB();
 
 //topics files
 //var signin = require('./services/signin.js');
-var StudentLogin = require("./services/student_login.js");
-var StudentSignup = require("./services/student_signup.js");
-var StudentInfo = require("./services/student_info");
-var StudentUpdateBasicInfo = require("./services/student_update_basic_info");
-var StudentUpdateCareerObjective = require("./services/student_update_career_objective");
-var StudentUpdatePhoto = require("./services/student_update_photo");
-var StudentDeletePhoto = require("./services/student_delete_photo");
-var StudentUpdateContactInfo = require("./services/student_update_contact_info");
-var StudentUpdateSkillset = require("./services/student_update_skillset");
-var StudentDeleteSkill = require("./services/student_delete_skill");
-var StudentAddNewSchool = require("./services/student_add_new_school");
-var StudentDeleteSchool = require("./services/student_delete_school");
-var StudentUpdateSchool = require("./services/student_update_school");
-var StudentAddNewJob = require("./services/student_add_new_job");
-var StudentDeleteJob = require("./services/student_delete_job");
-var StudentUpdateJob = require("./services/student_update_job");
+var StudentLogin = require("./services/student/auth/student_login.js");
+var StudentSignup = require("./services/student/auth/student_signup.js");
+var StudentInfo = require("./services/student/profile/student_info");
+var StudentUpdateBasicInfo = require("./services/student/profile/student_update_basic_info");
+var StudentUpdateCareerObjective = require("./services/student/profile/student_update_career_objective");
+var StudentUpdatePhoto = require("./services/student/profile/student_update_photo");
+var StudentDeletePhoto = require("./services/student/profile/student_delete_photo");
+var StudentUpdateContactInfo = require("./services/student/profile/student_update_contact_info");
+var StudentUpdateSkillset = require("./services/student/profile/student_update_skillset");
+var StudentDeleteSkill = require("./services/student/profile/student_delete_skill");
+var StudentAddNewSchool = require("./services/student/profile/student_add_new_school");
+var StudentDeleteSchool = require("./services/student/profile/student_delete_school");
+var StudentUpdateSchool = require("./services/student/profile/student_update_school");
+var StudentAddNewJob = require("./services/student/profile/student_add_new_job");
+var StudentDeleteJob = require("./services/student/profile/student_delete_job");
+var StudentUpdateJob = require("./services/student/profile/student_update_job");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';

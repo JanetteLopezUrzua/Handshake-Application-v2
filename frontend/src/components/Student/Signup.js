@@ -26,12 +26,12 @@ class ConnectedSignup extends React.Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  signup = e => {
+  signup = async e => {
     e.preventDefault();
 
     const { fname, lname, email, password, college } = this.state;
 
-    this.props.dispatch(
+    await this.props.dispatch(
       studentsignup({ fname, lname, email, password, college })
     );
   };

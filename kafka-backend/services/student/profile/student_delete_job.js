@@ -1,22 +1,20 @@
-const Student = require("../models/Student/Students");
+const Student = require("../../../models/Student/Students");
 
 async function handle_request(msg, callback) {
-  console.log("Inside student_delete_skill kafka backend");
+  console.log("Inside student_delete_job kafka backend");
   console.log(msg);
 
-  let { id, skill } = msg;
+  let { id, jobid } = msg;
 
   try {
-    console.log(id);
     let student = await Student.findByIdAndUpdate(
       id,
-      { $pull: { skillset: { skill } } },
+      { $pull: { jobs: { _id: jobid } } },
       { new: true }
     );
 
     callback(null, student);
   } catch (err) {
-    //throw err;
     console.log(err);
     callback(err, "Error");
   }

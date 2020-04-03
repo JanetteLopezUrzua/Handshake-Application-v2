@@ -1,15 +1,15 @@
-const Student = require("../models/Student/Students");
+const Company = require("../../../models/Company/Companies");
 
 async function handle_request(msg, callback) {
-  console.log("Inside student_login kafka backend");
+  console.log("Inside company_login kafka backend");
   console.log(msg);
 
   const { email } = msg;
 
   try {
     //Check if student email exists
-    let student = await Student.findOne({ email });
-    callback(null, student);
+    let company = await Company.findOne({ email });
+    callback(null, company);
   } catch (err) {
     //throw err;
     callback(err, "Error");

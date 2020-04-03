@@ -1,15 +1,19 @@
-const Student = require("../models/Student/Students");
+const Student = require("../../../models/Student/Students");
 
 async function handle_request(msg, callback) {
-  console.log("Inside student_update_contact_info kafka backend");
+  console.log("Inside student_update_basic_info kafka backend");
   console.log(msg);
 
-  let { id, email, phonenumber } = msg;
+  let { id, fname, lname, dob, city, state, country } = msg;
 
   try {
     data = {
-      email,
-      phonenumber
+      fname,
+      lname,
+      dob,
+      city,
+      state,
+      country
     };
     console.log(id);
     let student = await Student.findByIdAndUpdate(id, data, { new: true });

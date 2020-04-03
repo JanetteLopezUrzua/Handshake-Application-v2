@@ -1,4 +1,4 @@
-const Company = require("../models/Company/Companies");
+const Company = require("../../../models/Company/Companies");
 const bcrypt = require("bcryptjs");
 
 async function handle_request(msg, callback) {
