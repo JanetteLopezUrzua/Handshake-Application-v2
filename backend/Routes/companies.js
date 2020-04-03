@@ -6,6 +6,7 @@ const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const Company = require("../models/Company/Companies");
 const { auth } = require("../config/passport");
+var kafka = require("../kafka/client");
 
 auth();
 
@@ -37,52 +38,41 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password, location } = req.body;
+    kafka.make_request("company_signup", req.body, function(err, results) {
+      try {
+        //Check if company email exists
+        //let company = await Company.findOne({ email });
+        let company = results;
+        console.log("Company Results", results);
 
-    try {
-      //Check if company email exists
-      let company = await Company.findOne({ email });
+        if (company === 0) {
+          return res.status(400).json({
+            errors: [{ msg: "An account with that email already exists" }]
+          });
+        }
 
-      if (company) {
-        return res.status(400).json({
-          errors: [{ msg: "An account with that email already exists" }]
-        });
+        payload = {
+          user: {
+            id: company._id,
+            type: "company"
+          }
+        };
+
+        //Change to 3600 in production
+        const token = jwt.sign(
+          payload,
+          secret,
+          { expiresIn: 1008000 },
+          (err, token) => {
+            if (err) throw err;
+            res.json("JWT " + token);
+          }
+        );
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server error occurred");
       }
-
-      company = new Company({
-        name,
-        email,
-        password,
-        location
-      });
-
-      const salt = await bcrypt.genSalt(10);
-
-      company.password = await bcrypt.hash(password, salt);
-
-      await company.save();
-
-      payload = {
-        user: {
-          id: company.id,
-          type: "company"
-        }
-      };
-
-      //Change to 3600 in production
-      const token = jwt.sign(
-        payload,
-        secret,
-        { expiresIn: 1008000 },
-        (err, token) => {
-          if (err) throw err;
-          res.json("JWT " + token);
-        }
-      );
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server error occurred");
-    }
+    });
   }
 );
 
@@ -106,47 +96,54 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password } = req.body;
+    const { password } = req.body;
 
-    try {
-      //Check if company email exists
-      let company = await Company.findOne({ email });
+    kafka.make_request("company_login", req.body, async function(err, results) {
+      try {
+        //Check if company email exists
+        //let company = await Company.findOne({ email });
 
-      if (!company) {
-        return res.status(400).json({
-          errors: [{ msg: "Invalid Credentials" }]
-        });
-      }
+        let company = results;
 
-      const isPasswordAMatch = await bcrypt.compare(password, company.password);
-
-      if (!isPasswordAMatch) {
-        return res.status(400).json({
-          errors: [{ msg: "Invalid Credentials" }]
-        });
-      }
-
-      payload = {
-        user: {
-          id: company.id,
-          type: "company"
+        if (!company) {
+          return res.status(400).json({
+            errors: [{ msg: "Invalid Credentials" }]
+          });
         }
-      };
 
-      //Change to 3600 in production
-      const token = jwt.sign(
-        payload,
-        secret,
-        { expiresIn: 1008000 },
-        (err, token) => {
-          if (err) throw err;
-          res.json("JWT " + token);
+        const isPasswordAMatch = await bcrypt.compare(
+          password,
+          company.password
+        );
+
+        if (!isPasswordAMatch) {
+          return res.status(400).json({
+            errors: [{ msg: "Invalid Credentials" }]
+          });
         }
-      );
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server error occurred");
-    }
+
+        payload = {
+          user: {
+            id: company._id,
+            type: "company"
+          }
+        };
+
+        //Change to 3600 in production
+        const token = jwt.sign(
+          payload,
+          secret,
+          { expiresIn: 1008000 },
+          (err, token) => {
+            if (err) throw err;
+            res.json("JWT " + token);
+          }
+        );
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server error occurred");
+      }
+    });
   }
 );
 

@@ -14,43 +14,6 @@ import { connect } from "react-redux";
 import { logout } from "../actions/logout";
 
 class ConnectedNavigationbar extends React.Component {
-  getCompanyImage() {
-    // console.log("Company NAV BAR", this.state.id);
-    axios
-      .get(`http://localhost:3001/company/navbar/${this.state.id}`)
-      .then(response => {
-        const info = response.data;
-
-        const cn = info.name.charAt(0);
-
-        console.log(response.data);
-        this.setState({
-          // name: info.name,
-          photo: info.photo,
-          nameletter: cn
-        });
-
-        if (this.state.photo === "" || this.state.photo === null) {
-          this.setState({
-            has_image: false
-          });
-        } else {
-          // const imageURL = `${Buffer.from(info.photo).toString()}`;
-
-          this.setState({
-            // photo: imageURL,
-            has_image: true
-          });
-        }
-
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-        console.log(error.response.data);
-      });
-  }
-
   handleLogout = () => {
     this.props.dispatch(logout());
   };
@@ -61,6 +24,7 @@ class ConnectedNavigationbar extends React.Component {
     let ln = "";
     let has_image = "";
     let photo = "";
+    let cn = "";
 
     if (localStorage.getItem("type") === "student") {
       if (userprofile.user !== null) {
@@ -76,7 +40,18 @@ class ConnectedNavigationbar extends React.Component {
       }
     }
 
-    if (localStorage.getItem("type") === "company") this.getCompanyImage();
+    if (localStorage.getItem("type") === "company") {
+      if (userprofile.user !== null) {
+        cn = userprofile.user.company.name.charAt(0);
+
+        if (userprofile.user.company.photo) {
+          photo = userprofile.user.company.photo;
+          has_image = true;
+        } else {
+          has_image = false;
+        }
+      }
+    }
 
     let img = "";
 
@@ -117,7 +92,11 @@ class ConnectedNavigationbar extends React.Component {
           </Container>
         );
       } else {
-        img = <div>{/* <p className="navbarpic">{name}</p> */}</div>;
+        img = (
+          <div>
+            <p className="navbarpic">{cn}</p>
+          </div>
+        );
       }
     }
 

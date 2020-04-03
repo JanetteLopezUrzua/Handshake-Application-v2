@@ -23,12 +23,12 @@ class ConnectedLogin extends React.Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  login = e => {
+  login = async e => {
     e.preventDefault();
 
     const { email, password } = this.state;
 
-    this.props.dispatch(companylogin({ email, password }));
+    await this.props.dispatch(companylogin({ email, password }));
   };
 
   render() {

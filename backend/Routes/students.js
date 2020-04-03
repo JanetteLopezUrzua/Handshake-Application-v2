@@ -47,7 +47,7 @@ router.post(
         //Check if student email exists
         //let student = await Student.findOne({ email });
 
-        student = results;
+        let student = results;
         console.log("Student Results", results);
 
         if (student === 0) {
@@ -107,7 +107,8 @@ router.post(
       try {
         //Check if student email exists
         // let student = await Student.findOne({ email });
-        student = results;
+
+        let student = results;
 
         if (!student) {
           return res.status(400).json({

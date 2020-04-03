@@ -4,7 +4,8 @@ const connectDB = require("./config/db");
 connectDB();
 
 //topics files
-//var signin = require('./services/signin.js');
+
+/************* STUDENT *************************/
 var StudentLogin = require("./services/student/auth/student_login.js");
 var StudentSignup = require("./services/student/auth/student_signup.js");
 var StudentInfo = require("./services/student/profile/student_info");
@@ -21,6 +22,10 @@ var StudentUpdateSchool = require("./services/student/profile/student_update_sch
 var StudentAddNewJob = require("./services/student/profile/student_add_new_job");
 var StudentDeleteJob = require("./services/student/profile/student_delete_job");
 var StudentUpdateJob = require("./services/student/profile/student_update_job");
+
+/************* COMPANY *************************/
+var CompanyLogin = require("./services/company/auth/company_login.js");
+var CompanySignup = require("./services/company/auth/company_signup.js");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -54,6 +59,8 @@ function handleTopicRequest(topic_name, fname) {
 // Add your TOPICs here
 //first argument is topic name
 //second argument is a function that will handle this topic request
+
+/************* STUDENT *************************/
 handleTopicRequest("student_login", StudentLogin);
 handleTopicRequest("student_signup", StudentSignup);
 handleTopicRequest("student_info", StudentInfo);
@@ -73,3 +80,7 @@ handleTopicRequest("student_update_school", StudentUpdateSchool);
 handleTopicRequest("student_add_new_job", StudentAddNewJob);
 handleTopicRequest("student_delete_job", StudentDeleteJob);
 handleTopicRequest("student_update_job", StudentUpdateJob);
+
+/************* COMPANY *************************/
+handleTopicRequest("company_login", CompanyLogin);
+handleTopicRequest("company_signup", CompanySignup);

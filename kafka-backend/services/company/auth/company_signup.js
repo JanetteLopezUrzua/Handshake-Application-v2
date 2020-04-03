@@ -8,10 +8,10 @@ async function handle_request(msg, callback) {
   const { name, email, password, location } = msg;
 
   try {
-    //Check if student email exists
+    //Check if company email exists
     let company = await Company.findOne({ email });
 
-    if (company) return callback(null, []);
+    if (company) return callback(null, 0);
 
     company = new Company({
       name,

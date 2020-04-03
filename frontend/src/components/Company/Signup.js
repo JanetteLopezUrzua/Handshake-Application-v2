@@ -25,12 +25,14 @@ class ConnectedSignup extends React.Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  signup = e => {
+  signup = async e => {
     e.preventDefault();
 
     const { name, email, password, location } = this.state;
 
-    this.props.dispatch(companysignup({ name, email, password, location }));
+    await this.props.dispatch(
+      companysignup({ name, email, password, location })
+    );
   };
 
   render() {
