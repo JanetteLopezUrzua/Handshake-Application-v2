@@ -12,7 +12,11 @@ import {
   STUDENT_SKILL_DELETE,
   STUDENT_ADD_NEW_SCHOOL,
   STUDENT_SCHOOL_DELETE,
-  STUDENT_SCHOOL_UPDATE
+  STUDENT_SCHOOL_UPDATE,
+  STUDENT_ADD_NEW_JOB,
+  STUDENT_JOB_DELETE,
+  STUDENT_JOB_UPDATE,
+  DELETE_ERRORS
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -390,7 +394,7 @@ export const updateschool = (id, school, schoolid) => async dispatch => {
     passingyear,
     gpa
   });
-  console.log("NOOOOOOOOOOO", schoolid);
+
   console.log(body);
 
   try {
@@ -413,4 +417,144 @@ export const updateschool = (id, school, schoolid) => async dispatch => {
       payload: errors
     });
   }
+};
+
+export const addnewjob = ({ id, job }) => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  let {
+    companyname,
+    title,
+    startdatemonth,
+    startdateyear,
+    enddatemonth,
+    enddateyear,
+    description
+  } = job;
+
+  const body = JSON.stringify({
+    id,
+    companyname,
+    title,
+    startdatemonth,
+    startdateyear,
+    enddatemonth,
+    enddateyear,
+    description
+  });
+
+  console.log(body);
+
+  try {
+    const res = await axios.post(
+      "http://localhost:3001/students/newjob",
+      body,
+      config
+    );
+
+    dispatch({
+      type: STUDENT_ADD_NEW_JOB,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+export const deletejob = (id, jobid) => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.delete(
+      `http://localhost:3001/students/job/${id}/${jobid}`
+    );
+
+    dispatch({
+      type: STUDENT_JOB_DELETE,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+export const updatejob = (id, job, jobid) => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  let {
+    startdatemonth,
+    startdateyear,
+    enddatemonth,
+    enddateyear,
+    description
+  } = job;
+
+  const body = JSON.stringify({
+    id,
+    jobid,
+    startdatemonth,
+    startdateyear,
+    enddatemonth,
+    enddateyear,
+    description
+  });
+
+  console.log(body);
+
+  try {
+    const res = await axios.put(
+      "http://localhost:3001/students/job",
+      body,
+      config
+    );
+
+    dispatch({
+      type: STUDENT_JOB_UPDATE,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+export const deleteerrors = () => dispatch => {
+  dispatch({
+    type: DELETE_ERRORS
+  });
 };

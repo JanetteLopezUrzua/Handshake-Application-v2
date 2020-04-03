@@ -90,6 +90,38 @@ const StudentsSchema = new mongoose.Schema(
           required: false
         }
       }
+    ],
+    jobs: [
+      {
+        companyname: {
+          type: String,
+          required: true
+        },
+        title: {
+          type: String,
+          required: true
+        },
+        startdatemonth: {
+          type: Number,
+          required: false
+        },
+        startdateyear: {
+          type: Number,
+          required: false
+        },
+        enddatemonth: {
+          type: Number,
+          required: false
+        },
+        enddateyear: {
+          type: Number,
+          required: false
+        },
+        description: {
+          type: String,
+          required: false
+        }
+      }
     ]
   },
   {

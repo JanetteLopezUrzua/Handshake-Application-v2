@@ -11,7 +11,11 @@ import {
   STUDENT_SKILL_DELETE,
   STUDENT_ADD_NEW_SCHOOL,
   STUDENT_SCHOOL_DELETE,
-  STUDENT_SCHOOL_UPDATE
+  STUDENT_SCHOOL_UPDATE,
+  STUDENT_ADD_NEW_JOB,
+  STUDENT_JOB_DELETE,
+  STUDENT_JOB_UPDATE,
+  DELETE_ERRORS
 } from "../actions/types";
 
 const initialState = {
@@ -41,6 +45,9 @@ export default function(state = initialState, action) {
     case STUDENT_ADD_NEW_SCHOOL:
     case STUDENT_SCHOOL_DELETE:
     case STUDENT_SCHOOL_UPDATE:
+    case STUDENT_ADD_NEW_JOB:
+    case STUDENT_JOB_DELETE:
+    case STUDENT_JOB_UPDATE:
       return {
         ...state,
         user: payload,
@@ -51,6 +58,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         payload
+      };
+
+    case DELETE_ERRORS:
+      return {
+        ...state,
+        payload: null
       };
 
     case AUTH_ERROR:

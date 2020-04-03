@@ -299,8 +299,6 @@ router.delete("/school/:id/:schoolid", checkAuth, async (req, res) => {
   });
 });
 
-module.exports = router;
-
 // @route   PUT students/school
 // @desc    Update a school in the student profile
 // @access  Public
@@ -345,3 +343,149 @@ router.put(
     });
   }
 );
+
+// @route   POST students/newjob
+// @desc    Add a new job to the student profile
+// @access  Public
+router.post(
+  "/newjob",
+  [
+    check("companyname", "Company name is required")
+      .not()
+      .isEmpty()
+      .trim(),
+    check("title", "Title is required")
+      .not()
+      .isEmpty()
+      .trim()
+  ],
+  checkAuth,
+  async (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors);
+    console.log(req.body);
+    //Check if there are errors
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    if (
+      (req.body.startdatemonth !== "" && req.body.startdateyear === "") ||
+      (req.body.startdatemonth === "" && req.body.startdateyear !== "") ||
+      (req.body.enddatemonth === "" && req.body.enddateyear !== "") ||
+      (req.body.enddatemonth !== "" && req.body.enddateyear === "")
+    ) {
+      return res.status(400).json({
+        errors: [
+          {
+            jobmsg: "Found date with a year but not a month. Enter month too."
+          }
+        ]
+      });
+    }
+
+    if (
+      req.body.startdateyear > req.body.enddateyear ||
+      (req.body.startdateyear === req.body.enddateyear &&
+        req.body.startdatemonth > req.body.enddatemonth)
+    ) {
+      return res.status(400).json({
+        errors: [
+          {
+            jobmsg: "Start date cannot be after end date"
+          }
+        ]
+      });
+    }
+
+    kafka.make_request("student_add_new_job", req.body, function(err, results) {
+      try {
+        let student = results;
+        if (student === 0) {
+          return res.status(400).json({
+            errors: [
+              {
+                jobmsg: "A work experience with this information already exists"
+              }
+            ]
+          });
+        }
+
+        res.json({ student });
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+      }
+    });
+  }
+);
+
+// @route   DELETE students/job/:id/:jobid
+// @desc    Delete job from the student profile
+// @access  Public
+router.delete("/job/:id/:jobid", checkAuth, async (req, res) => {
+  kafka.make_request("student_delete_job", req.params, function(err, results) {
+    try {
+      let student = results;
+      res.json({ student });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
+// @route   PUT students/job
+// @desc    Update a job in the student profile
+// @access  Public
+router.put("/job", checkAuth, async (req, res) => {
+  const errors = validationResult(req);
+  console.log(errors);
+  console.log(req.body);
+  //Check if there are errors
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: update.errors.array() });
+  }
+
+  if (
+    (req.body.startdatemonth !== null && req.body.startdateyear === null) ||
+    (req.body.startdatemonth === null && req.body.startdateyear !== null) ||
+    (req.body.enddatemonth === null && req.body.enddateyear !== null) ||
+    (req.body.enddatemonth !== null && req.body.enddateyear === null)
+  ) {
+    return res.status(400).json({
+      errors: [
+        {
+          updatejobmsg:
+            "Found date with a year but not a month. Enter month too."
+        }
+      ]
+    });
+  }
+
+  if (
+    req.body.startdateyear > req.body.enddateyear ||
+    (req.body.startdateyear === req.body.enddateyear &&
+      req.body.startdatemonth > req.body.enddatemonth)
+  ) {
+    return res.status(400).json({
+      errors: [
+        {
+          updatejobmsg: "Start date cannot be after end date"
+        }
+      ]
+    });
+  }
+
+  kafka.make_request("student_update_job", req.body, function(err, results) {
+    try {
+      let student = results;
+      res.json({ student });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
+module.exports = router;

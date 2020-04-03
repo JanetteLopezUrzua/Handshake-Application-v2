@@ -4,35 +4,34 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import EducationContainer from "./EducationContainer";
-import NewFormEducation from "./NewFormEducation";
+import WorkContainer from "./WorkContainer";
+import NewFormWork from "./NewFormWork";
 
 import { connect } from "react-redux";
-import { addnewschool } from "../../../../actions/studentprofile";
+import { addnewjob } from "../../../../actions/studentprofile";
 
-class ConnectedEducationDetails extends React.Component {
+class ConnectedWorkDetails extends React.Component {
   constructor() {
     super();
 
     this.state = {
       id: "",
       newform: false,
-      school: {
-        name: "",
-        primaryschool: "false",
-        location: "",
-        degree: "",
-        major: "",
-        passingmonth: "",
-        passingyear: "",
-        gpa: ""
+      job: {
+        companyname: "",
+        title: "",
+        startdatemonth: "",
+        startdateyear: "",
+        enddatemonth: "",
+        enddateyear: "",
+        description: ""
       }
     };
   }
 
   static getDerivedStateFromProps = props => ({ id: props.id });
 
-  addSchool = e => {
+  addWork = e => {
     e.preventDefault();
 
     this.setState({
@@ -42,8 +41,8 @@ class ConnectedEducationDetails extends React.Component {
 
   handleChange = e => {
     this.setState({
-      school: {
-        ...this.state.school,
+      job: {
+        ...this.state.job,
         [e.target.id]: e.target.value
       }
     });
@@ -51,12 +50,12 @@ class ConnectedEducationDetails extends React.Component {
 
   handleSave = async e => {
     e.preventDefault();
-    const { id, school } = this.state;
+    const { id, job } = this.state;
 
     await this.props.dispatch(
-      addnewschool({
+      addnewjob({
         id,
-        school
+        job
       })
     );
 
@@ -64,15 +63,14 @@ class ConnectedEducationDetails extends React.Component {
     } else {
       this.setState({
         newform: false,
-        school: {
-          name: "",
-          primaryschool: "false",
-          location: "",
-          degree: "",
-          major: "",
-          passingmonth: "",
-          passingyear: "",
-          gpa: ""
+        job: {
+          companyname: "",
+          title: "",
+          startdatemonth: "",
+          startdateyear: "",
+          enddatemonth: "",
+          enddateyear: "",
+          description: ""
         }
       });
     }
@@ -80,48 +78,45 @@ class ConnectedEducationDetails extends React.Component {
 
   handleCancel = () => {
     this.setState({
-      school: {
-        name: "",
-        location: "",
-        degree: "",
-        major: "",
-        passingmonth: "",
-        passingyear: "",
-        gpa: ""
+      job: {
+        companyname: "",
+        title: "",
+        startdatemonth: "",
+        startdateyear: "",
+        enddatemonth: "",
+        enddateyear: "",
+        description: ""
       },
       newform: false
     });
   };
 
   render() {
-    let schoolsList = "";
+    let jobsList = "";
     let message = "";
 
     if (this.props.userprofile.user !== null) {
-      if (this.props.userprofile.user.student.schools) {
-        if (this.props.userprofile.user.student.schools.length === 0) {
-          schoolsList = "";
-          message =
-            "Where is somewhere you have studied? - Add your current school here so you can be found on the students list.";
+      if (this.props.userprofile.user.student.jobs) {
+        if (this.props.userprofile.user.student.jobs.length === 0) {
+          jobsList = "";
+          message = "Where is somewhere you have worked?";
         } else
-          schoolsList = this.props.userprofile.user.student.schools.map(
-            school => (
-              <EducationContainer
-                key={school._id}
-                schoolid={school._id}
-                id={this.state.id}
-                school={school}
-              />
-            )
-          );
+          jobsList = this.props.userprofile.user.student.jobs.map(job => (
+            <WorkContainer
+              key={job._id}
+              jobid={job._id}
+              id={this.state.id}
+              job={job}
+            />
+          ));
       }
     }
 
-    let newschoolform = "";
-    if (this.state.newform === false) newschoolform = "";
+    let newjobform = "";
+    if (this.state.newform === false) newjobform = "";
     else {
-      newschoolform = (
-        <NewFormEducation
+      newjobform = (
+        <NewFormWork
           handleChange={this.handleChange}
           save={this.handleSave}
           cancel={this.handleCancel}
@@ -135,8 +130,8 @@ class ConnectedEducationDetails extends React.Component {
       localStorage.getItem("type") === "student"
     ) {
       button = (
-        <Button onClick={this.addSchool} className="BottomAddButton">
-          Add School
+        <Button onClick={this.addWork} className="BottomAddButton">
+          Add Work Experience
         </Button>
       );
     } else button = "";
@@ -144,14 +139,14 @@ class ConnectedEducationDetails extends React.Component {
     return (
       <Card style={{ padding: "0" }}>
         <Card.Title style={{ paddingLeft: "24px", paddingTop: "24px" }}>
-          Education
+          Work Experience
         </Card.Title>
         <Form.Label style={{ color: "blue", padding: "0 24px" }}>
           {message}
         </Form.Label>
         <Container style={{ maxHeight: "800px", overflowY: "scroll" }}>
-          {schoolsList}
-          {newschoolform}
+          {jobsList}
+          {newjobform}
         </Container>
         <NavDropdown.Divider style={{ margin: "0" }}></NavDropdown.Divider>
         {button}
@@ -162,5 +157,5 @@ class ConnectedEducationDetails extends React.Component {
 const mapStateToProps = state => {
   return { userprofile: state.userprofile };
 };
-const EducationDetails = connect(mapStateToProps)(ConnectedEducationDetails);
-export default EducationDetails;
+const WorkDetails = connect(mapStateToProps)(ConnectedWorkDetails);
+export default WorkDetails;

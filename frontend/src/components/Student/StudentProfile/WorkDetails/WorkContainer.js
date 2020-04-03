@@ -1,30 +1,29 @@
 import React from "react";
-import DisplayEducation from "./DisplayEducation";
-import EditEducation from "./EditEducation";
+import DisplayWork from "./DisplayWork";
+import EditWork from "./EditWork";
 
 import { connect } from "react-redux";
 import {
-  deleteschool,
-  updateschool,
+  deletejob,
+  updatejob,
   deleteerrors
 } from "../../../../actions/studentprofile";
 
-class ConnectedEducationContainer extends React.Component {
+class ConnectedWorkContainer extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       id: "",
-      schoolid: "",
-      school: {
-        name: props.school.name,
-        primaryschool: props.school.primaryschool,
-        location: props.school.location,
-        degree: props.school.degree,
-        major: props.school.major,
-        passingmonth: props.school.passingmonth,
-        passingyear: props.school.passingyear,
-        gpa: props.school.gpa
+      jobid: "",
+      job: {
+        companyname: props.job.companyname,
+        title: props.job.title,
+        startdatemonth: props.job.startdatemonth,
+        startdateyear: props.job.startdateyear,
+        enddatemonth: props.job.enddatemonth,
+        enddateyear: props.job.enddateyear,
+        description: props.job.description
       },
       editWasTriggered: false
     };
@@ -32,7 +31,7 @@ class ConnectedEducationContainer extends React.Component {
 
   static getDerivedStateFromProps = props => ({
     id: props.id,
-    schoolid: props.schoolid
+    jobid: props.jobid
   });
 
   handleClick = e => {
@@ -42,8 +41,8 @@ class ConnectedEducationContainer extends React.Component {
 
   handleChange = e => {
     this.setState({
-      school: {
-        ...this.state.school,
+      job: {
+        ...this.state.job,
         [e.target.id]: e.target.value
       }
     });
@@ -53,17 +52,16 @@ class ConnectedEducationContainer extends React.Component {
     e.preventDefault();
 
     const id = this.state.id;
-    const schoolid = this.state.schoolid;
-    const school = {
-      location: this.state.school.location,
-      degree: this.state.school.degree,
-      major: this.state.school.major,
-      passingmonth: this.state.school.passingmonth,
-      passingyear: this.state.school.passingyear,
-      gpa: this.state.school.gpa
+    const jobid = this.state.jobid;
+    const job = {
+      startdatemonth: this.state.job.startdatemonth,
+      startdateyear: this.state.job.startdateyear,
+      enddatemonth: this.state.job.enddatemonth,
+      enddateyear: this.state.job.enddateyear,
+      description: this.state.job.description
     };
 
-    await this.props.dispatch(updateschool(id, school, schoolid));
+    await this.props.dispatch(updatejob(id, job, jobid));
 
     if (this.props.userprofile.payload) {
     } else {
@@ -76,7 +74,7 @@ class ConnectedEducationContainer extends React.Component {
   handleCancel = async () => {
     await this.props.dispatch(deleteerrors());
     this.setState({
-      school: this.props.school,
+      job: this.props.job,
       editWasTriggered: false
     });
   };
@@ -84,8 +82,8 @@ class ConnectedEducationContainer extends React.Component {
   handleDelete = async e => {
     e.preventDefault();
     const id = this.state.id;
-    const schoolid = this.state.schoolid;
-    await this.props.dispatch(deleteschool(id, schoolid));
+    const jobid = this.state.jobid;
+    await this.props.dispatch(deletejob(id, jobid));
 
     this.setState({
       editWasTriggered: false
@@ -95,20 +93,20 @@ class ConnectedEducationContainer extends React.Component {
   render() {
     let display = "";
     display = (
-      <DisplayEducation
+      <DisplayWork
         id={this.state.id}
         clicked={this.handleClick}
-        school={this.state.school}
+        job={this.state.job}
       />
     );
 
     if (this.state.editWasTriggered) {
       display = (
-        <EditEducation
+        <EditWork
           handleChange={this.handleChange}
           save={this.handleSave}
           cancel={this.handleCancel}
-          school={this.state.school}
+          job={this.state.job}
           delete={this.handleDelete}
         />
       );
@@ -120,7 +118,5 @@ class ConnectedEducationContainer extends React.Component {
 const mapStateToProps = state => {
   return { userprofile: state.userprofile };
 };
-const EducationContainer = connect(mapStateToProps)(
-  ConnectedEducationContainer
-);
-export default EducationContainer;
+const WorkContainer = connect(mapStateToProps)(ConnectedWorkContainer);
+export default WorkContainer;

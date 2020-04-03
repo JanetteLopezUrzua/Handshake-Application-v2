@@ -18,6 +18,9 @@ var StudentDeleteSkill = require("./services/student_delete_skill");
 var StudentAddNewSchool = require("./services/student_add_new_school");
 var StudentDeleteSchool = require("./services/student_delete_school");
 var StudentUpdateSchool = require("./services/student_update_school");
+var StudentAddNewJob = require("./services/student_add_new_job");
+var StudentDeleteJob = require("./services/student_delete_job");
+var StudentUpdateJob = require("./services/student_update_job");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -67,3 +70,6 @@ handleTopicRequest("student_delete_skill", StudentDeleteSkill);
 handleTopicRequest("student_add_new_school", StudentAddNewSchool);
 handleTopicRequest("student_delete_school", StudentDeleteSchool);
 handleTopicRequest("student_update_school", StudentUpdateSchool);
+handleTopicRequest("student_add_new_job", StudentAddNewJob);
+handleTopicRequest("student_delete_job", StudentDeleteJob);
+handleTopicRequest("student_update_job", StudentUpdateJob);
