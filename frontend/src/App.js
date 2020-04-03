@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { Component } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -8,7 +7,7 @@ import StudentLogin from "./components/Student/Login";
 import CompanySignup from "./components/Company/Signup";
 import CompanyLogin from "./components/Company/Login";
 import StudentProfile from "./components/Student/StudentProfile/ProfilePage";
-// import CompanyProfile from "./components/Company/CompanyProfile/ProfilePage";
+import CompanyProfile from "./components/Company/CompanyProfile/ProfilePage";
 // import StudentStudentsList from "./components/Student/StudentTab/StudentsPage";
 // import CompanyStudentsList from "./components/Company/StudentTab/StudentsPage";
 // import NewEvent from "./components/Company/Events/NewEvent/NewEventInfo";
@@ -63,8 +62,8 @@ class App extends Component {
           <Route exact path="/student/students" component={StudentStudentsList} />
           <Route exact path="/company/students" component={CompanyStudentsList} /> */}
           <Route exact path="/student/:id" component={StudentProfile} />
-          {/* <Route excat path="/company/:id" render={(props) => <CompanyProfile {...props} handlephotochange={this.handlephotochange} />} />
-          <Route path="/student/jobs/" component={JobsContainer} />
+          <Route excat path="/company/:id" component={CompanyProfile} />
+          {/* <Route path="/student/jobs/" component={JobsContainer} />
           <Route path="/student/events/" component={EventsContainer} /> */}
         </Switch>
       </div>

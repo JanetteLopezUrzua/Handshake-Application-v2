@@ -26,6 +26,8 @@ var StudentUpdateJob = require("./services/student/profile/student_update_job");
 /************* COMPANY *************************/
 var CompanyLogin = require("./services/company/auth/company_login.js");
 var CompanySignup = require("./services/company/auth/company_signup.js");
+var CompanyInfo = require("./services/company/profile/company_info");
+var CompanyUpdateBasicInfo = require("./services/company/profile/company_update_basic_info");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -84,3 +86,5 @@ handleTopicRequest("student_update_job", StudentUpdateJob);
 /************* COMPANY *************************/
 handleTopicRequest("company_login", CompanyLogin);
 handleTopicRequest("company_signup", CompanySignup);
+handleTopicRequest("company_info", CompanyInfo);
+handleTopicRequest("company_update_basic_info", CompanyUpdateBasicInfo);

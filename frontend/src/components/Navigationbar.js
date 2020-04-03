@@ -7,7 +7,6 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import axios from "axios";
 import hslogo from "../assets/logo.jpg";
 
 import { connect } from "react-redux";

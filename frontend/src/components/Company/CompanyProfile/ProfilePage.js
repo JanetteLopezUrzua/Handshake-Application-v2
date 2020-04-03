@@ -5,20 +5,16 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Redirect } from "react-router";
 import BasicDetails from "./BasicDetails/BasicDetails";
-import CareerObjective from "./CareerObjective/CareerObjective";
-import Skillset from "./Skillset/Skillset";
 import PictureDetails from "./PictureDetails/PictureDetails";
 import ContactInformation from "./ContactInfo/ContactInformation";
-import EducationDetails from "./EducationDetails/EducationDetails";
-import WorkDetails from "./WorkDetails/WorkDetails";
 
 import setAuthToken from "../../../utils/setAuthToken";
 import { connect } from "react-redux";
-import { loadstudentprofile } from "../../../actions/studentprofile";
+import { loadcompanyprofile } from "../../../actions/companyprofile";
 
 class ConnectedProfilePage extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {};
   }
 
@@ -27,7 +23,7 @@ class ConnectedProfilePage extends React.Component {
       setAuthToken(localStorage.token);
     }
     const id = this.props.match.params.id;
-    await this.props.dispatch(loadstudentprofile(id));
+    await this.props.dispatch(loadcompanyprofile(id));
   }
 
   render() {
@@ -40,16 +36,12 @@ class ConnectedProfilePage extends React.Component {
     return (
       <Container>
         {redirectVar}
+        <PictureDetails id={this.props.match.params.id} />
         <Row>
-          <Col sm={4}>
-            <PictureDetails id={this.props.match.params.id} />
-            <Skillset id={this.props.match.params.id} />
+          <Col sm={8}>
             <BasicDetails id={this.props.match.params.id} />
           </Col>
-          <Col sm={8}>
-            <CareerObjective id={this.props.match.params.id} />
-            <EducationDetails id={this.props.match.params.id} />
-            <WorkDetails id={this.props.match.params.id} />
+          <Col sm={4}>
             <ContactInformation id={this.props.match.params.id} />
           </Col>
         </Row>
