@@ -43,7 +43,6 @@ const ConnectedEditInfo = props => {
           onChange={props.handleChange}
           name="location"
           type="text"
-          placeholder={location}
         />
         <p className="errormessage"> {locationerrormsg}</p>
       </Form.Group>
@@ -55,7 +54,6 @@ const ConnectedEditInfo = props => {
           onChange={props.handleChange}
           name="description"
           type="text"
-          placeholder={description}
         />
       </Form.Group>
       <Card.Footer>

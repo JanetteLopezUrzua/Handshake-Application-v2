@@ -29,6 +29,9 @@ var CompanySignup = require("./services/company/auth/company_signup.js");
 var CompanyInfo = require("./services/company/profile/company_info");
 var CompanyUpdateBasicInfo = require("./services/company/profile/company_update_basic_info");
 var CompanyUpdateContactInfo = require("./services/company/profile/company_update_contact_info");
+var CompanyUpdatePhoto = require("./services/company/profile/company_update_photo");
+var CompanyDeletePhoto = require("./services/company/profile/company_delete_photo");
+var CompanyUpdateName = require("./services/company/profile/company_update_name");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -90,3 +93,6 @@ handleTopicRequest("company_signup", CompanySignup);
 handleTopicRequest("company_info", CompanyInfo);
 handleTopicRequest("company_update_basic_info", CompanyUpdateBasicInfo);
 handleTopicRequest("company_update_contact_info", CompanyUpdateContactInfo);
+handleTopicRequest("company_update_photo", CompanyUpdatePhoto);
+handleTopicRequest("company_delete_photo", CompanyDeletePhoto);
+handleTopicRequest("company_update_name", CompanyUpdateName);

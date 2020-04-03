@@ -3,7 +3,10 @@ import DisplayContactInfo from "./DisplayContactInfo";
 import EditContactInfo from "./EditContactInfo";
 
 import { connect } from "react-redux";
-import { updatecontactinfo } from "../../../../actions/companyprofile";
+import {
+  updatecontactinfo,
+  deleteerrors
+} from "../../../../actions/companyprofile";
 
 class ConnectedContactInformation extends React.Component {
   constructor() {
@@ -35,17 +38,14 @@ class ConnectedContactInformation extends React.Component {
     let email = "";
     let phonenumber = "";
 
-    const wspatt = new RegExp("^ *$");
-
     if (this.props.userprofile.user !== null) {
       email =
-        this.props.userprofile.user.company.email === this.state.email ||
-        wspatt.test(this.state.email)
+        this.props.userprofile.user.company.email === this.state.email
           ? this.props.userprofile.user.company.email
           : this.state.email;
       phonenumber =
         this.props.userprofile.user.company.phonenumber ===
-          this.state.phonenumber || wspatt.test(this.state.phonenumber)
+        this.state.phonenumber
           ? this.props.userprofile.user.company.phonenumber
           : this.state.phonenumber;
     }
@@ -64,9 +64,12 @@ class ConnectedContactInformation extends React.Component {
     }
   };
 
-  handleCancel = () => {
+  handleCancel = async () => {
+    await this.props.dispatch(deleteerrors());
     this.setState({
-      editWasTriggered: false
+      editWasTriggered: false,
+      email: "",
+      phonenumber: ""
     });
   };
 

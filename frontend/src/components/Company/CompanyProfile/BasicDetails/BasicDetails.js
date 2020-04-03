@@ -3,7 +3,10 @@ import DisplayInfo from "./DisplayInfo";
 import EditInfo from "./EditInfo";
 
 import { connect } from "react-redux";
-import { updatebasicinfo } from "../../../../actions/companyprofile";
+import {
+  updatebasicinfo,
+  deleteerrors
+} from "../../../../actions/companyprofile";
 
 class ConnectedBasicDetails extends React.Component {
   constructor() {
@@ -35,12 +38,9 @@ class ConnectedBasicDetails extends React.Component {
     let location = "";
     let description = "";
 
-    const wspatt = new RegExp("^ *$");
-
     if (this.props.userprofile.user !== null) {
       location =
-        this.props.userprofile.user.company.location === this.state.location ||
-        wspatt.test(this.state.location)
+        this.props.userprofile.user.company.location === this.state.location
           ? this.props.userprofile.user.company.location
           : this.state.location;
       description =
@@ -64,8 +64,9 @@ class ConnectedBasicDetails extends React.Component {
     }
   };
 
-  handleCancel = () => {
-    this.setState({ editWasTriggered: false });
+  handleCancel = async () => {
+    await this.props.dispatch(deleteerrors());
+    this.setState({ editWasTriggered: false, location: "", description: "" });
   };
 
   render() {

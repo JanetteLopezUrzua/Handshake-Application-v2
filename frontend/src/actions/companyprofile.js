@@ -4,7 +4,11 @@ import {
   AUTH_ERROR,
   COMPANY_BASIC_INFO_UPDATE,
   USER_PROFILE_UPDATE_ERROR,
-  COMPANY_CONTACT_INFO_UPDATE
+  COMPANY_CONTACT_INFO_UPDATE,
+  COMPANY_PHOTO_UPDATE,
+  COMPANY_PHOTO_DELETE,
+  COMPANY_NAME_UPDATE,
+  DELETE_ERRORS
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -107,4 +111,111 @@ export const updatecontactinfo = ({
       payload: errors
     });
   }
+};
+
+export const updatephoto = ({ id, data }) => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  try {
+    let photo = await axios.post("http://localhost:3001/upload", data);
+    photo = photo.data;
+    const body = JSON.stringify({ id, photo });
+
+    console.log(body);
+
+    const res = await axios.put(
+      "http://localhost:3001/companies/photo",
+      body,
+      config
+    );
+
+    dispatch({
+      type: COMPANY_PHOTO_UPDATE,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+export const deletephoto = id => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.delete(
+      `http://localhost:3001/companies/photo/${id}`
+    );
+
+    dispatch({
+      type: COMPANY_PHOTO_DELETE,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+export const updatecompanyname = ({ id, name }) => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const body = JSON.stringify({ id, name });
+
+  console.log(body);
+
+  try {
+    const res = await axios.put(
+      "http://localhost:3001/companies/name",
+      body,
+      config
+    );
+
+    dispatch({
+      type: COMPANY_NAME_UPDATE,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+export const deleteerrors = () => dispatch => {
+  dispatch({
+    type: DELETE_ERRORS
+  });
 };

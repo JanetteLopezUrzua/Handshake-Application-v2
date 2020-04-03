@@ -40,22 +40,12 @@ const ConnectedEditContactInfo = props => {
       </Row>
       <Form.Group controlId="email">
         <Form.Label className="labels">Email</Form.Label>
-        <Form.Control
-          onChange={props.handleChange}
-          name="email"
-          type="email"
-          placeholder={email}
-        />
+        <Form.Control onChange={props.handleChange} name="email" type="email" />
         <p className="errormessage"> {emailerrormsg}</p>
       </Form.Group>
       <Form.Group controlId="phonenumber">
         <Form.Label className="labels">Phone Number</Form.Label>
-        <Form.Control
-          onChange={props.handleChange}
-          name="phone"
-          type="tel"
-          placeholder={phonenumber}
-        />
+        <Form.Control onChange={props.handleChange} name="phone" type="tel" />
         <p className="errormessage">{phonenumerrormsg}</p>
       </Form.Group>
       <Card.Footer>

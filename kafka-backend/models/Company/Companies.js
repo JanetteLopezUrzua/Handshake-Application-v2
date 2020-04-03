@@ -26,6 +26,10 @@ const CompaniesSchema = new mongoose.Schema(
     phonenumber: {
       type: String,
       required: false
+    },
+    photo: {
+      type: String,
+      required: false
     }
   },
   {

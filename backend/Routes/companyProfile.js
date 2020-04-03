@@ -28,9 +28,9 @@ router.put(
   "/basicinfo",
   [
     check("location", "Location is required")
+      .trim()
       .not()
-      .isEmpty()
-      .trim(),
+      .isEmpty(),
     check("description").trim()
   ],
   checkAuth,
@@ -64,8 +64,8 @@ router.put(
   "/contactinfo",
   [
     check("email", "Please enter a valid email")
-      .isEmail()
-      .trim(),
+      .trim()
+      .isEmail(),
     check("phonenumber", "Phone Number must be exactly 10 numbers")
       .isNumeric()
       .isLength({ min: 10, max: 10 })
@@ -84,6 +84,73 @@ router.put(
       err,
       results
     ) {
+      try {
+        let company = results;
+        res.json({ company });
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+      }
+    });
+  }
+);
+
+// @route   PUT companies/photo
+// @desc    Update company photo
+// @access  Public
+router.put("/photo", checkAuth, async (req, res) => {
+  console.log(req.body);
+
+  kafka.make_request("company_update_photo", req.body, function(err, results) {
+    try {
+      let company = results;
+      res.json({ company });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
+// @route   DELETE companies/photo/:id
+// @desc    Delete company photo
+// @access  Public
+router.delete("/photo/:id", checkAuth, async (req, res) => {
+  let id = req.params.id;
+
+  kafka.make_request("company_delete_photo", id, function(err, results) {
+    try {
+      let company = results;
+      res.json({ company });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
+// @route   PUT companies/name
+// @desc    Update company name
+// @access  Public
+router.put(
+  "/name",
+  [
+    check("name", "Name is required")
+      .trim()
+      .not()
+      .isEmpty()
+  ],
+  checkAuth,
+  async (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors);
+    console.log(req.body);
+    //Check if there are errors
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    kafka.make_request("company_update_name", req.body, function(err, results) {
       try {
         let company = results;
         res.json({ company });
