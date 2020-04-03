@@ -22,6 +22,10 @@ const CompaniesSchema = new mongoose.Schema(
     description: {
       type: String,
       required: false
+    },
+    phonenumber: {
+      type: String,
+      required: false
     }
   },
   {

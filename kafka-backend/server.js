@@ -28,6 +28,7 @@ var CompanyLogin = require("./services/company/auth/company_login.js");
 var CompanySignup = require("./services/company/auth/company_signup.js");
 var CompanyInfo = require("./services/company/profile/company_info");
 var CompanyUpdateBasicInfo = require("./services/company/profile/company_update_basic_info");
+var CompanyUpdateContactInfo = require("./services/company/profile/company_update_contact_info");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -88,3 +89,4 @@ handleTopicRequest("company_login", CompanyLogin);
 handleTopicRequest("company_signup", CompanySignup);
 handleTopicRequest("company_info", CompanyInfo);
 handleTopicRequest("company_update_basic_info", CompanyUpdateBasicInfo);
+handleTopicRequest("company_update_contact_info", CompanyUpdateContactInfo);

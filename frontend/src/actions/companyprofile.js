@@ -3,7 +3,8 @@ import {
   USER_PROFILE_LOADED,
   AUTH_ERROR,
   COMPANY_BASIC_INFO_UPDATE,
-  USER_PROFILE_UPDATE_ERROR
+  USER_PROFILE_UPDATE_ERROR,
+  COMPANY_CONTACT_INFO_UPDATE
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -54,6 +55,47 @@ export const updatebasicinfo = ({
 
     dispatch({
       type: COMPANY_BASIC_INFO_UPDATE,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+export const updatecontactinfo = ({
+  id,
+  email,
+  phonenumber
+}) => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const body = JSON.stringify({ id, email, phonenumber });
+
+  console.log(body);
+
+  try {
+    const res = await axios.put(
+      "http://localhost:3001/companies/contactinfo",
+      body,
+      config
+    );
+
+    dispatch({
+      type: COMPANY_CONTACT_INFO_UPDATE,
       payload: res.data
     });
   } catch (err) {

@@ -16,7 +16,8 @@ import {
   STUDENT_JOB_DELETE,
   STUDENT_JOB_UPDATE,
   DELETE_ERRORS,
-  COMPANY_BASIC_INFO_UPDATE
+  COMPANY_BASIC_INFO_UPDATE,
+  COMPANY_CONTACT_INFO_UPDATE
 } from "../actions/types";
 
 const initialState = {
@@ -50,6 +51,7 @@ export default function(state = initialState, action) {
     case STUDENT_JOB_DELETE:
     case STUDENT_JOB_UPDATE:
     case COMPANY_BASIC_INFO_UPDATE:
+    case COMPANY_CONTACT_INFO_UPDATE:
       return {
         ...state,
         user: payload,
