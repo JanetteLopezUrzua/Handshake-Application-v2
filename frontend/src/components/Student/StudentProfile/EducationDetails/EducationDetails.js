@@ -8,7 +8,7 @@ import EducationContainer from "./EducationContainer";
 import NewFormEducation from "./NewFormEducation";
 
 import { connect } from "react-redux";
-import { addnewschool } from "../../../../actions/studentprofile";
+import { addnewschool, deleteschool } from "../../../../actions/studentprofile";
 
 class ConnectedEducationDetails extends React.Component {
   constructor() {
@@ -93,6 +93,11 @@ class ConnectedEducationDetails extends React.Component {
     });
   };
 
+  handleDelete = async schoolid => {
+    const id = this.state.id;
+    await this.props.dispatch(deleteschool(id, schoolid));
+  };
+
   render() {
     let schoolsList = "";
     let message = "";
@@ -101,18 +106,20 @@ class ConnectedEducationDetails extends React.Component {
       if (this.props.userprofile.user.student.schools) {
         if (this.props.userprofile.user.student.schools.length === 0) {
           schoolsList = "";
-          message =
-            "Where is somewhere you have studied? - Add your current school here so you can be found on the students list.";
+          message = "Where is somewhere you have studied?";
         } else
           schoolsList = this.props.userprofile.user.student.schools.map(
-            school => (
-              <EducationContainer
-                key={school._id}
-                schoolid={school._id}
-                id={this.state.id}
-                school={school}
-              />
-            )
+            school => {
+              return (
+                <EducationContainer
+                  key={school._id}
+                  schoolid={school._id}
+                  id={this.state.id}
+                  school={school}
+                  delete={this.handleDelete}
+                />
+              );
+            }
           );
       }
     }

@@ -8,6 +8,7 @@ async function handle_request(msg, callback) {
 
   try {
     console.log(id);
+
     let student = await Student.findById(id, {
       schools: { $elemMatch: { _id: schoolid, primaryschool: "true" } }
     });
@@ -29,14 +30,17 @@ async function handle_request(msg, callback) {
 
       let schools = await Student.findById(id).select("schools");
 
-      let school = schools.schools[0]._id;
+      if (schools.schools.length !== 0) {
+        let school = schools.schools[0]._id;
 
-      student = await Student.findOneAndUpdate(
-        { _id: id, "schools._id": school },
-        { $set: { "schools.$.primaryschool": "true" } },
-        { new: true }
-      );
+        let student = await Student.findOneAndUpdate(
+          { _id: id, "schools._id": school },
+          { $set: { "schools.$.primaryschool": "true" } },
+          { new: true }
+        );
 
+        return callback(null, student);
+      }
       callback(null, student);
     }
   } catch (err) {

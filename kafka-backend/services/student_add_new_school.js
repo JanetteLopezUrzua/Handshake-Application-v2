@@ -4,7 +4,7 @@ async function handle_request(msg, callback) {
   console.log("Inside student_add_new_school kafka backend");
   console.log(msg);
 
-  const {
+  let {
     id,
     name,
     primaryschool,
@@ -35,7 +35,11 @@ async function handle_request(msg, callback) {
 
     if (student.schools.length !== 0) return callback(null, 0);
     else {
-      let student = await Student.findByIdAndUpdate(
+      let student = await Student.findById(id).select("schools");
+      console.log("STUREDENTTTTTTTTTTTTTT", student);
+      if (student.schools.length === 0) primaryschool = "true";
+
+      student = await Student.findByIdAndUpdate(
         id,
         {
           $push: {

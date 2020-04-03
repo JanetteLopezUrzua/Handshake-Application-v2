@@ -9,7 +9,6 @@ import { MdEdit } from "react-icons/md";
 const DisplayEducation = props => {
   let {
     name,
-    primaryschool,
     location,
     degree,
     major,
@@ -34,7 +33,7 @@ const DisplayEducation = props => {
   ];
 
   let primarydisplay = "";
-  if (primaryschool === "true") {
+  if (props.primaryschool === "true") {
     primarydisplay = (
       <p
         style={{

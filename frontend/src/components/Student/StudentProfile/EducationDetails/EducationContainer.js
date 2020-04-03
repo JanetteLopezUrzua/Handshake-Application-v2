@@ -3,11 +3,7 @@ import DisplayEducation from "./DisplayEducation";
 import EditEducation from "./EditEducation";
 
 import { connect } from "react-redux";
-import {
-  deleteschool,
-  updateschool,
-  deleteerrors
-} from "../../../../actions/studentprofile";
+import { updateschool, deleteerrors } from "../../../../actions/studentprofile";
 
 class ConnectedEducationContainer extends React.Component {
   constructor(props) {
@@ -16,9 +12,9 @@ class ConnectedEducationContainer extends React.Component {
     this.state = {
       id: "",
       schoolid: "",
+      primaryschool: "",
       school: {
         name: props.school.name,
-        primaryschool: props.school.primaryschool,
         location: props.school.location,
         degree: props.school.degree,
         major: props.school.major,
@@ -32,7 +28,8 @@ class ConnectedEducationContainer extends React.Component {
 
   static getDerivedStateFromProps = props => ({
     id: props.id,
-    schoolid: props.schoolid
+    schoolid: props.schoolid,
+    primaryschool: props.school.primaryschool
   });
 
   handleClick = e => {
@@ -81,11 +78,9 @@ class ConnectedEducationContainer extends React.Component {
     });
   };
 
-  handleDelete = async e => {
+  handleDelete = e => {
     e.preventDefault();
-    const id = this.state.id;
-    const schoolid = this.state.schoolid;
-    await this.props.dispatch(deleteschool(id, schoolid));
+    this.props.delete(this.state.schoolid);
 
     this.setState({
       editWasTriggered: false
@@ -97,6 +92,7 @@ class ConnectedEducationContainer extends React.Component {
     display = (
       <DisplayEducation
         id={this.state.id}
+        primaryschool={this.state.primaryschool}
         clicked={this.handleClick}
         school={this.state.school}
       />

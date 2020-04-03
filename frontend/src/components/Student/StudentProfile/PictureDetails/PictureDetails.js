@@ -112,14 +112,19 @@ class ConnectedPictureDetails extends React.Component {
       lname = this.props.userprofile.user.student.lname
         ? this.props.userprofile.user.student.lname
         : "";
-      college = this.props.userprofile.user.student.schools
-        ? this.props.userprofile.user.student.schools.find(school => {
-            return school.primaryschool === "true";
-          })
-        : "";
+      college =
+        this.props.userprofile.user.student.schools.length !== 0
+          ? this.props.userprofile.user.student.schools.find(school => {
+              return school.primaryschool === "true";
+            })
+          : "";
       photo = this.props.userprofile.user.student.photo
         ? this.props.userprofile.user.student.photo
         : "";
+    }
+
+    if (college !== "") {
+      college = college.name;
     }
 
     if (photo === "") {
@@ -228,7 +233,7 @@ class ConnectedPictureDetails extends React.Component {
             textTransform: "capitalize"
           }}
         >
-          {college.name}
+          {college}
         </Card.Subtitle>
       </Card>
     );
