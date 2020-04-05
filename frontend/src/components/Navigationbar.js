@@ -137,7 +137,7 @@ class ConnectedNavigationbar extends React.Component {
           <Nav.Link className="navbaritem" href="#">
             <span>Q&amp;A</span>
           </Nav.Link>
-          <Link className="navbaritem" to={``}>
+          <Link className="navbaritem" to={"/student/students?page=1"}>
             <span>Students</span>
           </Link>
           <Nav.Link className="navbaritem" href="#">

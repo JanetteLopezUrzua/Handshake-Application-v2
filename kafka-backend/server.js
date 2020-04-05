@@ -22,6 +22,7 @@ var StudentUpdateSchool = require("./services/student/profile/student_update_sch
 var StudentAddNewJob = require("./services/student/profile/student_add_new_job");
 var StudentDeleteJob = require("./services/student/profile/student_delete_job");
 var StudentUpdateJob = require("./services/student/profile/student_update_job");
+var StudentsList = require("./services/student/studentslist/students_list");
 
 /************* COMPANY *************************/
 var CompanyLogin = require("./services/company/auth/company_login.js");
@@ -86,6 +87,7 @@ handleTopicRequest("student_update_school", StudentUpdateSchool);
 handleTopicRequest("student_add_new_job", StudentAddNewJob);
 handleTopicRequest("student_delete_job", StudentDeleteJob);
 handleTopicRequest("student_update_job", StudentUpdateJob);
+handleTopicRequest("students_list", StudentsList);
 
 /************* COMPANY *************************/
 handleTopicRequest("company_login", CompanyLogin);

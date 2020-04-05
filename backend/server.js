@@ -37,6 +37,7 @@ app.use(function(req, res, next) {
 // Define Routes
 app.use("/students", require("./routes/students"));
 app.use("/students", require("./routes/studentProfile"));
+app.use("/students", require("./routes/studentsList"));
 app.use("/companies", require("./routes/companies"));
 app.use("/companies", require("./routes/companyProfile"));
 

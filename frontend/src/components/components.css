@@ -674,3 +674,43 @@
   font-size: 12px;
   margin: 10px 0 0 10px;
 }
+
+/**** Next and Prev Buttons *****/
+.pagesbuttons {
+  background-color: #1569e0;
+  color: #fff;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  text-decoration: none;
+  border: 0;
+  border-radius: 3px;
+  padding: 8px 12px;
+  -webkit-transition: background-color 0.2s;
+  -o-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+
+.pagesbuttons:hover {
+  background-color: #1153b1;
+}
+
+.pagesinfo {
+  background: #fff;
+  min-width: 56px;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0 8px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
