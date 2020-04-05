@@ -5,13 +5,11 @@ const Student = require("../models/Student/Students");
 const { checkAuth } = require("../config/passport");
 var kafka = require("../kafka/client");
 
-// @route   GET students/studentslist/:page
-// @desc    Get student profile information
+// @route   GET students/studentslist
+// @desc    Get students list
 // @access  Public
-router.get("/studentslist/:page", checkAuth, async (req, res) => {
-  let page = req.params.page;
-
-  kafka.make_request("students_list", page, function(err, results) {
+router.get("/studentslist", checkAuth, async (req, res) => {
+  kafka.make_request("students_list", req.query, function (err, results) {
     try {
       let studentsList = results;
       res.json({ studentsList });

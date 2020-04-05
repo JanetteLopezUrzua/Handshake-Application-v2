@@ -23,6 +23,7 @@ var StudentAddNewJob = require("./services/student/profile/student_add_new_job")
 var StudentDeleteJob = require("./services/student/profile/student_delete_job");
 var StudentUpdateJob = require("./services/student/profile/student_update_job");
 var StudentsList = require("./services/student/studentslist/students_list");
+var StudentsListSearch = require("./services/student/studentslist/students_list_search");
 
 /************* COMPANY *************************/
 var CompanyLogin = require("./services/company/auth/company_login.js");
@@ -39,24 +40,24 @@ function handleTopicRequest(topic_name, fname) {
   var consumer = connection.getConsumer(topic_name);
   var producer = connection.getProducer();
   console.log("server is running ");
-  consumer.on("message", function(message) {
+  consumer.on("message", function (message) {
     console.log("message received for " + topic_name + " ", fname);
     console.log(JSON.stringify(message.value));
     var data = JSON.parse(message.value);
 
-    fname.handle_request(data.data, function(err, res) {
+    fname.handle_request(data.data, function (err, res) {
       console.log("after handle" + res);
       var payloads = [
         {
           topic: data.replyTo,
           messages: JSON.stringify({
             correlationId: data.correlationId,
-            data: res
+            data: res,
           }),
-          partition: 0
-        }
+          partition: 0,
+        },
       ];
-      producer.send(payloads, function(err, data) {
+      producer.send(payloads, function (err, data) {
         console.log(data);
       });
       return;
@@ -88,6 +89,7 @@ handleTopicRequest("student_add_new_job", StudentAddNewJob);
 handleTopicRequest("student_delete_job", StudentDeleteJob);
 handleTopicRequest("student_update_job", StudentUpdateJob);
 handleTopicRequest("students_list", StudentsList);
+handleTopicRequest("students_list_search", StudentsListSearch);
 
 /************* COMPANY *************************/
 handleTopicRequest("company_login", CompanyLogin);

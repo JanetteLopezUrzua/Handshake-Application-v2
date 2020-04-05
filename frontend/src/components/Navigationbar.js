@@ -137,7 +137,10 @@ class ConnectedNavigationbar extends React.Component {
           <Nav.Link className="navbaritem" href="#">
             <span>Q&amp;A</span>
           </Nav.Link>
-          <Link className="navbaritem" to={"/student/students?page=1"}>
+          <Link
+            className="navbaritem"
+            to={"/student/students?page=1&nameorcollege=''&major=''"}
+          >
             <span>Students</span>
           </Link>
           <Nav.Link className="navbaritem" href="#">
@@ -165,7 +168,7 @@ class ConnectedNavigationbar extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { userprofile: state.userprofile };
 };
 const Navigationbar = connect(mapStateToProps)(ConnectedNavigationbar);

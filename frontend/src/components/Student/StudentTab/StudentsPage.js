@@ -20,12 +20,35 @@ class ConnectedStudentTab extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: "",
-      college: "",
+      nameorcollege: "",
       major: "",
       redirect: "",
       page: 0,
     };
+  }
+
+  async componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.nameorcollege !== this.state.nameorcollege ||
+      prevState.major !== this.state.major
+    ) {
+      await this.props.dispatch(
+        loadstudentslist(
+          this.state.page,
+          this.state.nameorcollege,
+          this.state.major
+        )
+      );
+      window.scrollTo(0, 0);
+      this.setState({
+        page: 1,
+        redirect: (
+          <Redirect
+            to={`/student/students?page=1&nameorcollege=${this.state.nameorcollege}&major=${this.state.major}`}
+          />
+        ),
+      });
+    }
   }
 
   async componentDidMount() {
@@ -33,14 +56,12 @@ class ConnectedStudentTab extends React.Component {
       setAuthToken(localStorage.token);
     }
 
-    const query = new URLSearchParams(this.props.location.search);
-    const page = query.get("page");
     const id = localStorage.getItem("id");
     await this.props.dispatch(loadstudentprofile(id));
-    await this.props.dispatch(loadstudentslist(page));
+    await this.props.dispatch(loadstudentslist(1, "", ""));
 
     this.setState({
-      page: parseInt(page),
+      page: 1,
     });
   }
 
@@ -50,21 +71,33 @@ class ConnectedStudentTab extends React.Component {
 
   nextPage = async () => {
     let nextpage = this.state.page + 1;
-    await this.props.dispatch(loadstudentslist(nextpage));
+    await this.props.dispatch(
+      loadstudentslist(nextpage, this.state.nameorcollege, this.state.major)
+    );
     window.scrollTo(0, 0);
     this.setState({
       page: nextpage,
-      redirect: <Redirect to={`/student/students?page=${nextpage}`} />,
+      redirect: (
+        <Redirect
+          to={`/student/students?page=${nextpage}&nameorcollege=${this.state.nameorcollege}&major=${this.state.major}`}
+        />
+      ),
     });
   };
 
   prevPage = async () => {
     let prevpage = this.state.page - 1;
-    await this.props.dispatch(loadstudentslist(prevpage));
+    await this.props.dispatch(
+      loadstudentslist(prevpage, this.state.nameorcollege, this.state.major)
+    );
     window.scrollTo(0, 0);
     this.setState({
       page: prevpage,
-      redirect: <Redirect to={`/student/students?page=${prevpage}`} />,
+      redirect: (
+        <Redirect
+          to={`/student/students?page=${prevpage}&nameorcollege=${this.state.nameorcollege}&major=${this.state.major}`}
+        />
+      ),
     });
   };
 
@@ -109,7 +142,7 @@ class ConnectedStudentTab extends React.Component {
           totalStudents = this.props.studentslist.students.studentsList.total;
           pageRedirect = this.state.redirect;
 
-          if (currPage === 1) {
+          if (this.state.page === 1) {
             pagesArrows = (
               <Container style={{ display: "flex", justifyContent: "center" }}>
                 <Row>
@@ -121,7 +154,7 @@ class ConnectedStudentTab extends React.Component {
                   >
                     <FaChevronLeft />
                   </Button>
-                  <div className="pagesinfo">{`${currPage} / ${totalStudents}`}</div>
+                  <div className="pagesinfo">{`${this.state.page} / ${totalStudents}`}</div>
                   <Button className="pagesbuttons" onClick={this.nextPage}>
                     <FaChevronRight />
                   </Button>
@@ -192,24 +225,16 @@ class ConnectedStudentTab extends React.Component {
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <Card.Text className="studentslistsubtitle">Name</Card.Text>
-                    <Form.Control
-                      onChange={this.handleName}
-                      name="name"
-                      type="search"
-                      value={this.state.name}
-                    />
-                  </ListGroup.Item>
-                  <ListGroup.Item>
                     <Card.Text className="studentslistsubtitle">
-                      College
+                      Name or College
                     </Card.Text>
-                    <Form.Control
-                      onChange={this.handleCollege}
-                      name="college"
-                      type="search"
-                      value={this.state.college}
-                    />
+                    <Form.Group controlId="nameorcollege">
+                      <Form.Control
+                        onChange={this.handleChange}
+                        name="name"
+                        type="search"
+                      />
+                    </Form.Group>
                   </ListGroup.Item>
                   <ListGroup.Item className="studentslisttitle">
                     Filter
@@ -218,12 +243,13 @@ class ConnectedStudentTab extends React.Component {
                     <Card.Text className="studentslistsubtitle">
                       Major
                     </Card.Text>
-                    <Form.Control
-                      onChange={this.handleMajor}
-                      name="major"
-                      type="search"
-                      value={this.state.major}
-                    />
+                    <Form.Group controlId="major">
+                      <Form.Control
+                        onChange={this.handleChange}
+                        name="major"
+                        type="search"
+                      />
+                    </Form.Group>
                   </ListGroup.Item>
                 </ListGroup>
               </Card>

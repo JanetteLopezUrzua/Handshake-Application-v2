@@ -67,6 +67,10 @@ const DisplayStudent = (props) => {
     major = "No Major Listed";
   }
 
+  if (degree === "" || degree === undefined) {
+    degree = "No Degree Listed";
+  }
+
   return (
     <Card style={{ padding: "16px" }}>
       <Row>
