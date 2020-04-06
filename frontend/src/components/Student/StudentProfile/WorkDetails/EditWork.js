@@ -7,13 +7,13 @@ import Button from "react-bootstrap/Button";
 
 import { connect } from "react-redux";
 
-const ConnectedEditWork = props => {
+const ConnectedEditWork = (props) => {
   let companynameerrormsg = "";
   let titleerrormsg = "";
   let othererrormsg = "";
 
-  if (props.userprofile.payload) {
-    props.userprofile.payload.forEach(err => {
+  if (props.currentuser.payload) {
+    props.currentuser.payload.forEach((err) => {
       if (err.param === "companyname") companynameerrormsg = err.update.msg;
       else if (err.param === "title") titleerrormsg = err.update.msg;
       else othererrormsg = err.updatejobmsg;
@@ -27,7 +27,7 @@ const ConnectedEditWork = props => {
     startdateyear,
     enddatemonth,
     enddateyear,
-    description
+    description,
   } = props.job;
 
   const months = [
@@ -42,7 +42,7 @@ const ConnectedEditWork = props => {
     "September",
     "October",
     "November",
-    "December"
+    "December",
   ];
 
   return (
@@ -51,7 +51,7 @@ const ConnectedEditWork = props => {
         paddingRight: "0",
         paddingLeft: "10px",
         marginBottom: "30px",
-        cursor: "pointer"
+        cursor: "pointer",
       }}
     >
       <Form.Group controlId="companyname">
@@ -318,8 +318,8 @@ const ConnectedEditWork = props => {
     </Container>
   );
 };
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const EditWork = connect(mapStateToProps)(ConnectedEditWork);
 export default EditWork;

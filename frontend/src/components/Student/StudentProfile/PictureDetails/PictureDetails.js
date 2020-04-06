@@ -7,7 +7,11 @@ import { FaCamera } from "react-icons/fa";
 import ModalPicture from "./Modal";
 
 import { connect } from "react-redux";
-import { updatephoto, deletephoto } from "../../../../actions/studentprofile";
+import {
+  updatephoto,
+  deletephoto,
+  loadstudentprofile,
+} from "../../../../actions/studentprofile";
 
 class ConnectedPictureDetails extends React.Component {
   constructor() {
@@ -18,13 +22,13 @@ class ConnectedPictureDetails extends React.Component {
       show: false,
       data: "",
       validimage: "",
-      errormessage: ""
+      errormessage: "",
     };
   }
 
-  static getDerivedStateFromProps = props => ({ id: props.id });
+  static getDerivedStateFromProps = (props) => ({ id: props.id });
 
-  photoHandler = e => {
+  photoHandler = (e) => {
     e.preventDefault();
     const file = e.target.files[0];
 
@@ -32,7 +36,7 @@ class ConnectedPictureDetails extends React.Component {
     this.getImage(file);
   };
 
-  getImage = file => {
+  getImage = (file) => {
     const data = new FormData();
 
     if (file && file.type.match("image.*")) {
@@ -41,17 +45,17 @@ class ConnectedPictureDetails extends React.Component {
       this.setState({
         data,
         validimage: true,
-        errormessage: ""
+        errormessage: "",
       });
     } else {
       this.setState({
         validimage: false,
-        errormessage: "File not accepted. Choose an Image."
+        errormessage: "File not accepted. Choose an Image.",
       });
     }
   };
 
-  onUpload = async e => {
+  onUpload = async (e) => {
     console.log(this.state.validimage);
     e.preventDefault();
     if (this.state.validimage === true) {
@@ -59,14 +63,22 @@ class ConnectedPictureDetails extends React.Component {
       await this.props.dispatch(
         updatephoto({
           id,
-          data
+          data,
         })
       );
 
-      if (this.props.userprofile.payload) {
+      if (
+        localStorage.getItem("id") === this.state.id &&
+        localStorage.getItem("type") === "student"
+      )
+        await this.props.dispatch(
+          loadstudentprofile(localStorage.getItem("id"))
+        );
+
+      if (this.props.currentuser.payload) {
       } else {
         this.setState({
-          show: false
+          show: false,
         });
       }
     }
@@ -75,25 +87,25 @@ class ConnectedPictureDetails extends React.Component {
   handleClose = () => {
     this.setState({
       show: false,
-      errormessage: ""
+      errormessage: "",
     });
   };
 
   handleShow = () => {
     this.setState({
-      show: true
+      show: true,
     });
   };
 
-  onDelete = async e => {
+  onDelete = async (e) => {
     e.preventDefault();
     const id = this.state.id;
     await this.props.dispatch(deletephoto(id));
 
-    if (this.props.userprofile.payload) {
+    if (this.props.currentuser.payload) {
     } else {
       this.setState({
-        show: false
+        show: false,
       });
     }
   };
@@ -105,21 +117,21 @@ class ConnectedPictureDetails extends React.Component {
     let photo = "";
     let has_image = "";
 
-    if (this.props.userprofile.user !== null) {
-      fname = this.props.userprofile.user.student.fname
-        ? this.props.userprofile.user.student.fname
+    if (this.props.currentuser.user !== null) {
+      fname = this.props.currentuser.user.student.fname
+        ? this.props.currentuser.user.student.fname
         : "";
-      lname = this.props.userprofile.user.student.lname
-        ? this.props.userprofile.user.student.lname
+      lname = this.props.currentuser.user.student.lname
+        ? this.props.currentuser.user.student.lname
         : "";
       college =
-        this.props.userprofile.user.student.schools.length !== 0
-          ? this.props.userprofile.user.student.schools.find(school => {
+        this.props.currentuser.user.student.schools.length !== 0
+          ? this.props.currentuser.user.student.schools.find((school) => {
               return school.primaryschool === "true";
             })
           : "";
-      photo = this.props.userprofile.user.student.photo
-        ? this.props.userprofile.user.student.photo
+      photo = this.props.currentuser.user.student.photo
+        ? this.props.currentuser.user.student.photo
         : "";
     }
 
@@ -219,7 +231,7 @@ class ConnectedPictureDetails extends React.Component {
             fontSize: "34px",
             fontWeight: "500",
             textAlign: "center",
-            textTransform: "capitalize"
+            textTransform: "capitalize",
           }}
         >
           {fname}
@@ -230,7 +242,7 @@ class ConnectedPictureDetails extends React.Component {
           style={{
             fontSize: "18px",
             textAlign: "center",
-            textTransform: "capitalize"
+            textTransform: "capitalize",
           }}
         >
           {college}
@@ -239,8 +251,8 @@ class ConnectedPictureDetails extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const PictureDetails = connect(mapStateToProps)(ConnectedPictureDetails);
 export default PictureDetails;

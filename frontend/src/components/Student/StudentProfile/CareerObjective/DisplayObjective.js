@@ -8,7 +8,7 @@ import { MdEdit } from "react-icons/md";
 
 import { connect } from "react-redux";
 
-const ConnectedDisplayObjective = props => {
+const ConnectedDisplayObjective = (props) => {
   let obj = "";
   let button = "";
 
@@ -24,18 +24,18 @@ const ConnectedDisplayObjective = props => {
       </Col>
     );
 
-    if (props.userprofile.user !== null) {
-      obj = props.userprofile.user.student.objective ? (
+    if (props.currentuser.user !== null) {
+      obj = props.currentuser.user.student.objective ? (
         <Card.Text
           style={{
             fontSize: "24px",
             lineHeight: "32px",
             color: "black",
-            cursor: "pointer"
+            cursor: "pointer",
           }}
           onClick={props.clicked}
         >
-          {props.userprofile.user.student.objective}
+          {props.currentuser.user.student.objective}
         </Card.Text>
       ) : (
         <Form.Label
@@ -49,23 +49,23 @@ const ConnectedDisplayObjective = props => {
   } else {
     button = "";
 
-    if (props.userprofile.user !== null) {
-      obj = props.userprofile.user.student.objective ? (
+    if (props.currentuser.user !== null) {
+      obj = props.currentuser.user.student.objective ? (
         <Card.Text
           style={{
             fontSize: "24px",
             lineHeight: "32px",
-            color: "black"
+            color: "black",
           }}
         >
-          {props.userprofile.user.student.objective}
+          {props.currentuser.user.student.objective}
         </Card.Text>
       ) : (
         <Card.Text
           style={{
             fontSize: "24px",
             lineHeight: "32px",
-            color: "black"
+            color: "black",
           }}
         ></Card.Text>
       );
@@ -85,8 +85,8 @@ const ConnectedDisplayObjective = props => {
     </Card>
   );
 };
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const DisplayObjective = connect(mapStateToProps)(ConnectedDisplayObjective);
 export default DisplayObjective;

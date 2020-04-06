@@ -7,12 +7,12 @@ import Button from "react-bootstrap/Button";
 
 import { connect } from "react-redux";
 
-const ConnectedEditContactInfo = props => {
+const ConnectedEditContactInfo = (props) => {
   let emailerrormsg = "";
   let phonenumerrormsg = "";
 
-  if (props.userprofile.payload) {
-    props.userprofile.payload.forEach(err => {
+  if (props.currentuser.payload) {
+    props.currentuser.payload.forEach((err) => {
       if (err.param === "email") emailerrormsg = err.msg;
       else if (err.param === "phonenumber") phonenumerrormsg = err.msg;
     });
@@ -21,12 +21,12 @@ const ConnectedEditContactInfo = props => {
   let email = "";
   let phonenumber = "";
 
-  if (props.userprofile.user !== null) {
-    email = props.userprofile.user.student.email
-      ? props.userprofile.user.student.email
+  if (props.currentuser.user !== null) {
+    email = props.currentuser.user.student.email
+      ? props.currentuser.user.student.email
       : "";
-    phonenumber = props.userprofile.user.student.phonenumber
-      ? props.userprofile.user.student.phonenumber
+    phonenumber = props.currentuser.user.student.phonenumber
+      ? props.currentuser.user.student.phonenumber
       : "";
   }
 
@@ -75,8 +75,8 @@ const ConnectedEditContactInfo = props => {
     </Card>
   );
 };
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const EditContactInfo = connect(mapStateToProps)(ConnectedEditContactInfo);
 export default EditContactInfo;

@@ -16,19 +16,13 @@ auth();
 router.post(
   "/signup",
   [
-    check("name", "Name is required")
-      .not()
-      .isEmpty()
-      .trim(),
+    check("name", "Name is required").not().isEmpty().trim(),
     check("email", "Please enter a valid email").isEmail(),
     check(
       "password",
       "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 }),
-    check("location", "Location is required")
-      .not()
-      .isEmpty()
-      .trim()
+    check("location", "Location is required").not().isEmpty().trim(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -38,7 +32,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("company_signup", req.body, function(err, results) {
+    kafka.make_request("company_signup", req.body, function (err, results) {
       try {
         //Check if company email exists
         //let company = await Company.findOne({ email });
@@ -47,15 +41,15 @@ router.post(
 
         if (company === 0) {
           return res.status(400).json({
-            errors: [{ msg: "An account with that email already exists" }]
+            errors: [{ msg: "An account with that email already exists" }],
           });
         }
 
         payload = {
           user: {
             id: company._id,
-            type: "company"
-          }
+            type: "company",
+          },
         };
 
         //Change to 3600 in production
@@ -83,10 +77,8 @@ router.post(
   "/login",
   [
     check("email", "Please enter a valid email").isEmail(),
-    check("password", "Password is required")
-      .not()
-      .isEmpty(),
-    check("password", "Password is required").exists()
+    check("password", "Password is required").not().isEmpty(),
+    check("password", "Password is required").exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -98,7 +90,10 @@ router.post(
 
     const { password } = req.body;
 
-    kafka.make_request("company_login", req.body, async function(err, results) {
+    kafka.make_request("company_login", req.body, async function (
+      err,
+      results
+    ) {
       try {
         //Check if company email exists
         //let company = await Company.findOne({ email });
@@ -107,7 +102,7 @@ router.post(
 
         if (!company) {
           return res.status(400).json({
-            errors: [{ msg: "Invalid Credentials" }]
+            errors: [{ msg: "Invalid Credentials" }],
           });
         }
 
@@ -118,15 +113,15 @@ router.post(
 
         if (!isPasswordAMatch) {
           return res.status(400).json({
-            errors: [{ msg: "Invalid Credentials" }]
+            errors: [{ msg: "Invalid Credentials" }],
           });
         }
 
         payload = {
           user: {
             id: company._id,
-            type: "company"
-          }
+            type: "company",
+          },
         };
 
         //Change to 3600 in production

@@ -3,17 +3,17 @@ import {
   USER_PROFILE_LOADED,
   AUTH_ERROR,
   COMPANY_BASIC_INFO_UPDATE,
-  USER_PROFILE_UPDATE_ERROR,
+  COMPANY_USER_PROFILE_UPDATE_ERROR,
   COMPANY_CONTACT_INFO_UPDATE,
   COMPANY_PHOTO_UPDATE,
   COMPANY_PHOTO_DELETE,
   COMPANY_NAME_UPDATE,
-  DELETE_ERRORS
+  DELETE_ERRORS,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
 // Company Profile
-export const loadcompanyprofile = id => async dispatch => {
+export const loadcompanyprofile = (id) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
@@ -22,28 +22,26 @@ export const loadcompanyprofile = id => async dispatch => {
     const res = await axios.get(`http://localhost:3001/companies/info/${id}`);
     dispatch({
       type: USER_PROFILE_LOADED,
-      payload: res.data
+      payload: res.data,
     });
   } catch (error) {
     dispatch({
-      type: AUTH_ERROR
+      type: AUTH_ERROR,
     });
   }
 };
 
-export const updatebasicinfo = ({
-  id,
-  location,
-  description
-}) => async dispatch => {
+export const updatebasicinfo = ({ id, location, description }) => async (
+  dispatch
+) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   const body = JSON.stringify({ id, location, description });
@@ -59,32 +57,30 @@ export const updatebasicinfo = ({
 
     dispatch({
       type: COMPANY_BASIC_INFO_UPDATE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
     const errors = err.response.data.errors;
 
     dispatch({
-      type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      type: COMPANY_USER_PROFILE_UPDATE_ERROR,
+      payload: errors,
     });
   }
 };
 
-export const updatecontactinfo = ({
-  id,
-  email,
-  phonenumber
-}) => async dispatch => {
+export const updatecontactinfo = ({ id, email, phonenumber }) => async (
+  dispatch
+) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   const body = JSON.stringify({ id, email, phonenumber });
@@ -100,28 +96,28 @@ export const updatecontactinfo = ({
 
     dispatch({
       type: COMPANY_CONTACT_INFO_UPDATE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
     const errors = err.response.data.errors;
 
     dispatch({
-      type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      type: COMPANY_USER_PROFILE_UPDATE_ERROR,
+      payload: errors,
     });
   }
 };
 
-export const updatephoto = ({ id, data }) => async dispatch => {
+export const updatephoto = ({ id, data }) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   try {
@@ -139,20 +135,20 @@ export const updatephoto = ({ id, data }) => async dispatch => {
 
     dispatch({
       type: COMPANY_PHOTO_UPDATE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
     const errors = err.response.data.errors;
 
     dispatch({
-      type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      type: COMPANY_USER_PROFILE_UPDATE_ERROR,
+      payload: errors,
     });
   }
 };
 
-export const deletephoto = id => async dispatch => {
+export const deletephoto = (id) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
@@ -164,28 +160,28 @@ export const deletephoto = id => async dispatch => {
 
     dispatch({
       type: COMPANY_PHOTO_DELETE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
     const errors = err.response.data.errors;
 
     dispatch({
-      type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      type: COMPANY_USER_PROFILE_UPDATE_ERROR,
+      payload: errors,
     });
   }
 };
 
-export const updatecompanyname = ({ id, name }) => async dispatch => {
+export const updatecompanyname = ({ id, name }) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   const body = JSON.stringify({ id, name });
@@ -201,21 +197,21 @@ export const updatecompanyname = ({ id, name }) => async dispatch => {
 
     dispatch({
       type: COMPANY_NAME_UPDATE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
     const errors = err.response.data.errors;
 
     dispatch({
-      type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      type: COMPANY_USER_PROFILE_UPDATE_ERROR,
+      payload: errors,
     });
   }
 };
 
-export const deleteerrors = () => dispatch => {
+export const deleteerrors = () => (dispatch) => {
   dispatch({
-    type: DELETE_ERRORS
+    type: DELETE_ERRORS,
   });
 };

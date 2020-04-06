@@ -5,7 +5,11 @@ import DisplaySkills from "./DisplaySkills";
 import EditSkills from "./EditSkills";
 
 import { connect } from "react-redux";
-import { updateskills, deleteskill } from "../../../../actions/studentprofile";
+import {
+  updateskills,
+  deleteskill,
+  loadstudentprofile,
+} from "../../../../actions/studentprofile";
 
 class ConnectedSkillset extends React.Component {
   constructor() {
@@ -13,19 +17,19 @@ class ConnectedSkillset extends React.Component {
 
     this.state = {
       id: "",
-      skill: ""
+      skill: "",
     };
   }
 
-  static getDerivedStateFromProps = props => ({ id: props.id });
+  static getDerivedStateFromProps = (props) => ({ id: props.id });
 
-  skillsChangeHandler = e => {
+  skillsChangeHandler = (e) => {
     this.setState({
-      skill: e.target.value
+      skill: e.target.value,
     });
   };
 
-  handleSave = async e => {
+  handleSave = async (e) => {
     e.preventDefault();
 
     const { id, skill } = this.state;
@@ -33,26 +37,38 @@ class ConnectedSkillset extends React.Component {
     await this.props.dispatch(
       updateskills({
         id,
-        skill
+        skill,
       })
     );
+
+    if (
+      localStorage.getItem("id") === this.state.id &&
+      localStorage.getItem("type") === "student"
+    )
+      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
   };
 
   handleDelete = async (skill, e) => {
     e.preventDefault();
     const id = this.state.id;
     await this.props.dispatch(deleteskill(id, skill));
+
+    if (
+      localStorage.getItem("id") === this.state.id &&
+      localStorage.getItem("type") === "student"
+    )
+      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
   };
 
   render() {
     let skillsList = "";
-    if (this.props.userprofile.user !== null) {
-      if (this.props.userprofile.user.student.skillset) {
-        if (this.props.userprofile.user.student.skillset.length === 0)
+    if (this.props.currentuser.user !== null) {
+      if (this.props.currentuser.user.student.skillset) {
+        if (this.props.currentuser.user.student.skillset.length === 0)
           skillsList = "";
         else
-          skillsList = this.props.userprofile.user.student.skillset.map(
-            skill => (
+          skillsList = this.props.currentuser.user.student.skillset.map(
+            (skill) => (
               <DisplaySkills
                 key={skill._id}
                 id={this.state.id}
@@ -66,8 +82,8 @@ class ConnectedSkillset extends React.Component {
 
     let skillerrormsg = "";
 
-    if (this.props.userprofile.payload) {
-      this.props.userprofile.payload.forEach(err => {
+    if (this.props.currentuser.payload) {
+      this.props.currentuser.payload.forEach((err) => {
         if (err.param === "skill") skillerrormsg = err.msg;
         else skillerrormsg = err.skillmsg;
       });
@@ -89,8 +105,8 @@ class ConnectedSkillset extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const Skillset = connect(mapStateToProps)(ConnectedSkillset);
 export default Skillset;

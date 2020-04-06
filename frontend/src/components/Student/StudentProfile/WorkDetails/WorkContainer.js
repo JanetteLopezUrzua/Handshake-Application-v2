@@ -6,7 +6,8 @@ import { connect } from "react-redux";
 import {
   deletejob,
   updatejob,
-  deleteerrors
+  deleteerrors,
+  loadstudentprofile,
 } from "../../../../actions/studentprofile";
 
 class ConnectedWorkContainer extends React.Component {
@@ -23,32 +24,32 @@ class ConnectedWorkContainer extends React.Component {
         startdateyear: props.job.startdateyear,
         enddatemonth: props.job.enddatemonth,
         enddateyear: props.job.enddateyear,
-        description: props.job.description
+        description: props.job.description,
       },
-      editWasTriggered: false
+      editWasTriggered: false,
     };
   }
 
-  static getDerivedStateFromProps = props => ({
+  static getDerivedStateFromProps = (props) => ({
     id: props.id,
-    jobid: props.jobid
+    jobid: props.jobid,
   });
 
-  handleClick = e => {
+  handleClick = (e) => {
     e.preventDefault();
     this.setState({ editWasTriggered: true });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
       job: {
         ...this.state.job,
-        [e.target.id]: e.target.value
-      }
+        [e.target.id]: e.target.value,
+      },
     });
   };
 
-  handleSave = async e => {
+  handleSave = async (e) => {
     e.preventDefault();
 
     const id = this.state.id;
@@ -58,15 +59,21 @@ class ConnectedWorkContainer extends React.Component {
       startdateyear: this.state.job.startdateyear,
       enddatemonth: this.state.job.enddatemonth,
       enddateyear: this.state.job.enddateyear,
-      description: this.state.job.description
+      description: this.state.job.description,
     };
 
     await this.props.dispatch(updatejob(id, job, jobid));
 
-    if (this.props.userprofile.payload) {
+    if (
+      localStorage.getItem("id") === this.state.id &&
+      localStorage.getItem("type") === "student"
+    )
+      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+
+    if (this.props.currentuser.payload) {
     } else {
       this.setState({
-        editWasTriggered: false
+        editWasTriggered: false,
       });
     }
   };
@@ -75,18 +82,24 @@ class ConnectedWorkContainer extends React.Component {
     await this.props.dispatch(deleteerrors());
     this.setState({
       job: this.props.job,
-      editWasTriggered: false
+      editWasTriggered: false,
     });
   };
 
-  handleDelete = async e => {
+  handleDelete = async (e) => {
     e.preventDefault();
     const id = this.state.id;
     const jobid = this.state.jobid;
     await this.props.dispatch(deletejob(id, jobid));
 
+    if (
+      localStorage.getItem("id") === this.state.id &&
+      localStorage.getItem("type") === "student"
+    )
+      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+
     this.setState({
-      editWasTriggered: false
+      editWasTriggered: false,
     });
   };
 
@@ -115,8 +128,8 @@ class ConnectedWorkContainer extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const WorkContainer = connect(mapStateToProps)(ConnectedWorkContainer);
 export default WorkContainer;

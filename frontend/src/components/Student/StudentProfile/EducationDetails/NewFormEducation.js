@@ -7,13 +7,13 @@ import Button from "react-bootstrap/Button";
 
 import { connect } from "react-redux";
 
-const ConnectedNewFormEducation = props => {
+const ConnectedNewFormEducation = (props) => {
   let schoolnameerrormsg = "";
   let gpaerrormsg = "";
   let othererrormsg = "";
 
-  if (props.userprofile.payload) {
-    props.userprofile.payload.forEach(err => {
+  if (props.currentuser.payload) {
+    props.currentuser.payload.forEach((err) => {
       if (err.param === "name") schoolnameerrormsg = err.msg;
       else if (err.param === "gpa") gpaerrormsg = err.msg;
       else othererrormsg = err.schoolmsg;
@@ -26,7 +26,7 @@ const ConnectedNewFormEducation = props => {
         paddingRight: "0",
         paddingLeft: "10px",
         marginBottom: "30px",
-        cursor: "pointer"
+        cursor: "pointer",
       }}
     >
       <Form.Label className="labels">Add New School</Form.Label>
@@ -219,8 +219,8 @@ const ConnectedNewFormEducation = props => {
     </Container>
   );
 };
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const NewFormEducation = connect(mapStateToProps)(ConnectedNewFormEducation);
 export default NewFormEducation;

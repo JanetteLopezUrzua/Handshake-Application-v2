@@ -3,7 +3,10 @@ import DisplayObjective from "./DisplayObjective";
 import EditObjective from "./EditObjective";
 
 import { connect } from "react-redux";
-import { updatecareerobjective } from "../../../../actions/studentprofile";
+import {
+  updatecareerobjective,
+  loadstudentprofile,
+} from "../../../../actions/studentprofile";
 
 class ConnectedCareerObjective extends React.Component {
   constructor(props) {
@@ -12,39 +15,45 @@ class ConnectedCareerObjective extends React.Component {
     this.state = {
       id: "",
       objective: "",
-      editWasTriggered: false
+      editWasTriggered: false,
     };
   }
 
-  static getDerivedStateFromProps = props => ({ id: props.id });
+  static getDerivedStateFromProps = (props) => ({ id: props.id });
 
-  handleClick = e => {
+  handleClick = (e) => {
     e.preventDefault();
     this.setState({ editWasTriggered: true });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  handleSave = async e => {
+  handleSave = async (e) => {
     e.preventDefault();
 
     const { id } = this.state;
     let objective = "";
-    if (this.props.userprofile.user !== null) {
+    if (this.props.currentuser.user !== null) {
       objective =
-        this.props.userprofile.user.student.objective === this.state.objective
-          ? this.props.userprofile.user.student.objective
+        this.props.currentuser.user.student.objective === this.state.objective
+          ? this.props.currentuser.user.student.objective
           : this.state.objective;
     }
 
     await this.props.dispatch(
       updatecareerobjective({
         id,
-        objective
+        objective,
       })
     );
+
+    if (
+      localStorage.getItem("id") === this.state.id &&
+      localStorage.getItem("type") === "student"
+    )
+      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
 
     this.setState({ editWasTriggered: false });
   };
@@ -74,8 +83,8 @@ class ConnectedCareerObjective extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const CareerObjective = connect(mapStateToProps)(ConnectedCareerObjective);
 export default CareerObjective;

@@ -16,25 +16,48 @@ import {
   STUDENT_ADD_NEW_JOB,
   STUDENT_JOB_DELETE,
   STUDENT_JOB_UPDATE,
-  DELETE_ERRORS
+  DELETE_ERRORS,
+  CURRENT_USER_PROFILE_LOADED,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
 // Student Profile
-export const loadstudentprofile = id => async dispatch => {
+export const loadstudentprofile = (id) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
-
+  console.log("call student");
   try {
     const res = await axios.get(`http://localhost:3001/students/info/${id}`);
     dispatch({
       type: USER_PROFILE_LOADED,
-      payload: res.data
+      payload: res.data,
     });
   } catch (error) {
     dispatch({
-      type: AUTH_ERROR
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+export const loadcurrentstudent = (id) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+  console.log("call student");
+  try {
+    const res = await axios.get(`http://localhost:3001/students/info/${id}`);
+    dispatch({
+      type: CURRENT_USER_PROFILE_LOADED,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log("ERR", error);
+    const errors = error.response.data.errors;
+
+    dispatch({
+      type: USER_PROFILE_UPDATE_ERROR,
+      payload: errors,
     });
   }
 };
@@ -46,16 +69,16 @@ export const updatebasicinfo = ({
   dob,
   city,
   state,
-  country
-}) => async dispatch => {
+  country,
+}) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   const body = JSON.stringify({ id, fname, lname, dob, city, state, country });
@@ -71,7 +94,7 @@ export const updatebasicinfo = ({
 
     dispatch({
       type: STUDENT_BASIC_INFO_UPDATE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
@@ -79,20 +102,22 @@ export const updatebasicinfo = ({
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      payload: errors,
     });
   }
 };
 
-export const updatecareerobjective = ({ id, objective }) => async dispatch => {
+export const updatecareerobjective = ({ id, objective }) => async (
+  dispatch
+) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   const body = JSON.stringify({ id, objective });
@@ -108,7 +133,7 @@ export const updatecareerobjective = ({ id, objective }) => async dispatch => {
 
     dispatch({
       type: STUDENT_CAREER_OBJECTIVE_UPDATE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
@@ -116,20 +141,20 @@ export const updatecareerobjective = ({ id, objective }) => async dispatch => {
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      payload: errors,
     });
   }
 };
 
-export const updatephoto = ({ id, data }) => async dispatch => {
+export const updatephoto = ({ id, data }) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   try {
@@ -147,7 +172,7 @@ export const updatephoto = ({ id, data }) => async dispatch => {
 
     dispatch({
       type: STUDENT_PHOTO_UPDATE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
@@ -155,12 +180,12 @@ export const updatephoto = ({ id, data }) => async dispatch => {
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      payload: errors,
     });
   }
 };
 
-export const deletephoto = id => async dispatch => {
+export const deletephoto = (id) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
@@ -172,7 +197,7 @@ export const deletephoto = id => async dispatch => {
 
     dispatch({
       type: STUDENT_PHOTO_DELETE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
@@ -180,24 +205,22 @@ export const deletephoto = id => async dispatch => {
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      payload: errors,
     });
   }
 };
 
-export const updatecontactinfo = ({
-  id,
-  email,
-  phonenumber
-}) => async dispatch => {
+export const updatecontactinfo = ({ id, email, phonenumber }) => async (
+  dispatch
+) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   const body = JSON.stringify({ id, email, phonenumber });
@@ -213,7 +236,7 @@ export const updatecontactinfo = ({
 
     dispatch({
       type: STUDENT_CONTACT_INFO_UPDATE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
@@ -221,20 +244,20 @@ export const updatecontactinfo = ({
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      payload: errors,
     });
   }
 };
 
-export const updateskills = ({ id, skill }) => async dispatch => {
+export const updateskills = ({ id, skill }) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   const body = JSON.stringify({ id, skill });
@@ -250,7 +273,7 @@ export const updateskills = ({ id, skill }) => async dispatch => {
 
     dispatch({
       type: STUDENT_SKILLSET_UPDATE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
@@ -258,12 +281,12 @@ export const updateskills = ({ id, skill }) => async dispatch => {
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      payload: errors,
     });
   }
 };
 
-export const deleteskill = (id, skill) => async dispatch => {
+export const deleteskill = (id, skill) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
@@ -275,7 +298,7 @@ export const deleteskill = (id, skill) => async dispatch => {
 
     dispatch({
       type: STUDENT_SKILL_DELETE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
@@ -283,20 +306,20 @@ export const deleteskill = (id, skill) => async dispatch => {
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      payload: errors,
     });
   }
 };
 
-export const addnewschool = ({ id, school }) => async dispatch => {
+export const addnewschool = ({ id, school }) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   let {
@@ -307,7 +330,7 @@ export const addnewschool = ({ id, school }) => async dispatch => {
     major,
     passingmonth,
     passingyear,
-    gpa
+    gpa,
   } = school;
 
   const body = JSON.stringify({
@@ -319,7 +342,7 @@ export const addnewschool = ({ id, school }) => async dispatch => {
     major,
     passingmonth,
     passingyear,
-    gpa
+    gpa,
   });
 
   console.log(body);
@@ -333,7 +356,7 @@ export const addnewschool = ({ id, school }) => async dispatch => {
 
     dispatch({
       type: STUDENT_ADD_NEW_SCHOOL,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
@@ -341,12 +364,12 @@ export const addnewschool = ({ id, school }) => async dispatch => {
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      payload: errors,
     });
   }
 };
 
-export const deleteschool = (id, schoolid) => async dispatch => {
+export const deleteschool = (id, schoolid) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
@@ -358,7 +381,7 @@ export const deleteschool = (id, schoolid) => async dispatch => {
 
     dispatch({
       type: STUDENT_SCHOOL_DELETE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
@@ -366,20 +389,20 @@ export const deleteschool = (id, schoolid) => async dispatch => {
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      payload: errors,
     });
   }
 };
 
-export const updateschool = (id, school, schoolid) => async dispatch => {
+export const updateschool = (id, school, schoolid) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   let { location, degree, major, passingmonth, passingyear, gpa } = school;
@@ -392,7 +415,7 @@ export const updateschool = (id, school, schoolid) => async dispatch => {
     major,
     passingmonth,
     passingyear,
-    gpa
+    gpa,
   });
 
   console.log(body);
@@ -406,7 +429,7 @@ export const updateschool = (id, school, schoolid) => async dispatch => {
 
     dispatch({
       type: STUDENT_SCHOOL_UPDATE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
@@ -414,20 +437,20 @@ export const updateschool = (id, school, schoolid) => async dispatch => {
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      payload: errors,
     });
   }
 };
 
-export const addnewjob = ({ id, job }) => async dispatch => {
+export const addnewjob = ({ id, job }) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   let {
@@ -437,7 +460,7 @@ export const addnewjob = ({ id, job }) => async dispatch => {
     startdateyear,
     enddatemonth,
     enddateyear,
-    description
+    description,
   } = job;
 
   const body = JSON.stringify({
@@ -448,7 +471,7 @@ export const addnewjob = ({ id, job }) => async dispatch => {
     startdateyear,
     enddatemonth,
     enddateyear,
-    description
+    description,
   });
 
   console.log(body);
@@ -462,7 +485,7 @@ export const addnewjob = ({ id, job }) => async dispatch => {
 
     dispatch({
       type: STUDENT_ADD_NEW_JOB,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
@@ -470,12 +493,12 @@ export const addnewjob = ({ id, job }) => async dispatch => {
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      payload: errors,
     });
   }
 };
 
-export const deletejob = (id, jobid) => async dispatch => {
+export const deletejob = (id, jobid) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
@@ -487,7 +510,7 @@ export const deletejob = (id, jobid) => async dispatch => {
 
     dispatch({
       type: STUDENT_JOB_DELETE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
@@ -495,20 +518,20 @@ export const deletejob = (id, jobid) => async dispatch => {
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      payload: errors,
     });
   }
 };
 
-export const updatejob = (id, job, jobid) => async dispatch => {
+export const updatejob = (id, job, jobid) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   let {
@@ -516,7 +539,7 @@ export const updatejob = (id, job, jobid) => async dispatch => {
     startdateyear,
     enddatemonth,
     enddateyear,
-    description
+    description,
   } = job;
 
   const body = JSON.stringify({
@@ -526,7 +549,7 @@ export const updatejob = (id, job, jobid) => async dispatch => {
     startdateyear,
     enddatemonth,
     enddateyear,
-    description
+    description,
   });
 
   console.log(body);
@@ -540,7 +563,7 @@ export const updatejob = (id, job, jobid) => async dispatch => {
 
     dispatch({
       type: STUDENT_JOB_UPDATE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log("ERR", err);
@@ -548,13 +571,13 @@ export const updatejob = (id, job, jobid) => async dispatch => {
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
-      payload: errors
+      payload: errors,
     });
   }
 };
 
-export const deleteerrors = () => dispatch => {
+export const deleteerrors = () => (dispatch) => {
   dispatch({
-    type: DELETE_ERRORS
+    type: DELETE_ERRORS,
   });
 };

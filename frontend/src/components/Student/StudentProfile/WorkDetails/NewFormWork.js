@@ -7,13 +7,13 @@ import Button from "react-bootstrap/Button";
 
 import { connect } from "react-redux";
 
-const ConnectedNewFormWork = props => {
+const ConnectedNewFormWork = (props) => {
   let companynameerrormsg = "";
   let titleerrormsg = "";
   let othererrormsg = "";
 
-  if (props.userprofile.payload) {
-    props.userprofile.payload.forEach(err => {
+  if (props.currentuser.payload) {
+    props.currentuser.payload.forEach((err) => {
       if (err.param === "companyname") companynameerrormsg = err.msg;
       else if (err.param === "title") titleerrormsg = err.msg;
       else othererrormsg = err.jobmsg;
@@ -26,7 +26,7 @@ const ConnectedNewFormWork = props => {
         paddingRight: "0",
         paddingLeft: "10px",
         marginBottom: "30px",
-        cursor: "pointer"
+        cursor: "pointer",
       }}
     >
       <Form.Label className="labels">Add New Work Experience</Form.Label>
@@ -266,8 +266,8 @@ const ConnectedNewFormWork = props => {
     </Container>
   );
 };
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const NewFormWork = connect(mapStateToProps)(ConnectedNewFormWork);
 export default NewFormWork;

@@ -3,7 +3,10 @@ import DisplayInfo from "./DisplayInfo";
 import EditInfo from "./EditInfo";
 
 import { connect } from "react-redux";
-import { updatebasicinfo } from "../../../../actions/studentprofile";
+import {
+  updatebasicinfo,
+  loadstudentprofile,
+} from "../../../../actions/studentprofile";
 
 class ConnectedBasicDetails extends React.Component {
   constructor(props) {
@@ -17,22 +20,22 @@ class ConnectedBasicDetails extends React.Component {
       city: "",
       state: "",
       country: "",
-      editWasTriggered: false
+      editWasTriggered: false,
     };
   }
 
-  static getDerivedStateFromProps = props => ({ id: props.id });
+  static getDerivedStateFromProps = (props) => ({ id: props.id });
 
-  handleClick = e => {
+  handleClick = (e) => {
     e.preventDefault();
     this.setState({ editWasTriggered: true });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  handleSave = async e => {
+  handleSave = async (e) => {
     e.preventDefault();
 
     const { id } = this.state;
@@ -45,32 +48,32 @@ class ConnectedBasicDetails extends React.Component {
 
     const wspatt = new RegExp("^ *$");
 
-    if (this.props.userprofile.user !== null) {
+    if (this.props.currentuser.user !== null) {
       fname =
-        this.props.userprofile.user.student.fname === this.state.fname ||
+        this.props.currentuser.user.student.fname === this.state.fname ||
         wspatt.test(this.state.fname)
-          ? this.props.userprofile.user.student.fname
+          ? this.props.currentuser.user.student.fname
           : this.state.fname;
       lname =
-        this.props.userprofile.user.student.lname === this.state.lname ||
+        this.props.currentuser.user.student.lname === this.state.lname ||
         wspatt.test(this.state.lname)
-          ? this.props.userprofile.user.student.lname
+          ? this.props.currentuser.user.student.lname
           : this.state.lname;
       dob =
-        this.props.userprofile.user.student.dob === this.state.dob
-          ? this.props.userprofile.user.student.dob
+        this.props.currentuser.user.student.dob === this.state.dob
+          ? this.props.currentuser.user.student.dob
           : this.state.dob;
       city =
-        this.props.userprofile.user.student.city === this.state.city
-          ? this.props.userprofile.user.student.city
+        this.props.currentuser.user.student.city === this.state.city
+          ? this.props.currentuser.user.student.city
           : this.state.city;
       state =
-        this.props.userprofile.user.student.state === this.state.state
-          ? this.props.userprofile.user.student.state
+        this.props.currentuser.user.student.state === this.state.state
+          ? this.props.currentuser.user.student.state
           : this.state.state;
       country =
-        this.props.userprofile.user.student.country === this.state.country
-          ? this.props.userprofile.user.student.country
+        this.props.currentuseruser.student.country === this.state.country
+          ? this.props.currentuser.user.student.country
           : this.state.country;
     }
 
@@ -82,11 +85,17 @@ class ConnectedBasicDetails extends React.Component {
         dob,
         city,
         state,
-        country
+        country,
       })
     );
 
-    if (this.props.userprofile.payload) {
+    if (
+      localStorage.getItem("id") === this.state.id &&
+      localStorage.getItem("type") === "student"
+    )
+      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+
+    if (this.props.currentuser.payload) {
     } else {
       this.setState({ editWasTriggered: false });
     }
@@ -115,8 +124,8 @@ class ConnectedBasicDetails extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const BasicDetails = connect(mapStateToProps)(ConnectedBasicDetails);
 export default BasicDetails;

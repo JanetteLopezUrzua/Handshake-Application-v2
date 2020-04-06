@@ -7,12 +7,12 @@ import Button from "react-bootstrap/Button";
 
 import { connect } from "react-redux";
 
-const ConnectedEditInfo = props => {
+const ConnectedEditInfo = (props) => {
   let fnameerrormsg = "";
   let lnameerrormsg = "";
 
-  if (props.userprofile.payload) {
-    props.userprofile.payload.forEach(err => {
+  if (props.currentuser.payload) {
+    props.currentuser.payload.forEach((err) => {
       if (err.param === "fname") fnameerrormsg = err.msg;
       else if (err.param === "lname") lnameerrormsg = err.msg;
     });
@@ -25,24 +25,24 @@ const ConnectedEditInfo = props => {
   let state = "";
   let country = "";
 
-  if (props.userprofile.user !== null) {
-    fname = props.userprofile.user.student.fname
-      ? props.userprofile.user.student.fname
+  if (props.currentuser.user !== null) {
+    fname = props.currentuser.user.student.fname
+      ? props.currentuser.user.student.fname
       : "";
-    lname = props.userprofile.user.student.lname
-      ? props.userprofile.user.student.lname
+    lname = props.currentuser.user.student.lname
+      ? props.currentuser.user.student.lname
       : "";
-    dob = props.userprofile.user.student.dob
-      ? props.userprofile.user.student.dob
+    dob = props.currentuser.user.student.dob
+      ? props.currentuser.user.student.dob
       : "";
-    city = props.userprofile.user.student.city
-      ? props.userprofile.user.student.city
+    city = props.currentuser.user.student.city
+      ? props.currentuser.user.student.city
       : "";
-    state = props.userprofile.user.student.state
-      ? props.userprofile.user.student.state
+    state = props.currentuser.user.student.state
+      ? props.currentuser.user.student.state
       : "";
-    country = props.userprofile.user.student.country
-      ? props.userprofile.user.student.country
+    country = props.currentuser.user.student.country
+      ? props.currentuser.user.student.country
       : "";
   }
 
@@ -126,8 +126,8 @@ const ConnectedEditInfo = props => {
     </Card>
   );
 };
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const EditInfo = connect(mapStateToProps)(ConnectedEditInfo);
 export default EditInfo;

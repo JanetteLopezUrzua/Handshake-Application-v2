@@ -15,23 +15,14 @@ auth();
 router.post(
   "/signup",
   [
-    check("fname", "First name is required")
-      .not()
-      .isEmpty()
-      .trim(),
-    check("lname", "Last name is required")
-      .not()
-      .isEmpty()
-      .trim(),
+    check("fname", "First name is required").not().isEmpty().trim(),
+    check("lname", "Last name is required").not().isEmpty().trim(),
     check("email", "Please enter a valid email").isEmail(),
     check(
       "password",
       "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 }),
-    check("college", "College name is required")
-      .not()
-      .isEmpty()
-      .trim()
+    check("college", "College name is required").not().isEmpty().trim(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -42,7 +33,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("student_signup", req.body, function(err, results) {
+    kafka.make_request("student_signup", req.body, function (err, results) {
       try {
         //Check if student email exists
         //let student = await Student.findOne({ email });
@@ -52,15 +43,15 @@ router.post(
 
         if (student === 0) {
           return res.status(400).json({
-            errors: [{ msg: "An account with that email already exists" }]
+            errors: [{ msg: "An account with that email already exists" }],
           });
         }
 
         payload = {
           user: {
             id: student._id,
-            type: "student"
-          }
+            type: "student",
+          },
         };
 
         //Change to 3600 in production
@@ -88,10 +79,8 @@ router.post(
   "/login",
   [
     check("email", "Please enter a valid email").isEmail(),
-    check("password", "Password is required")
-      .not()
-      .isEmpty(),
-    check("password", "Password is required").exists()
+    check("password", "Password is required").not().isEmpty(),
+    check("password", "Password is required").exists(),
   ],
   (req, res) => {
     const errors = validationResult(req);
@@ -103,7 +92,10 @@ router.post(
 
     const { password } = req.body;
 
-    kafka.make_request("student_login", req.body, async function(err, results) {
+    kafka.make_request("student_login", req.body, async function (
+      err,
+      results
+    ) {
       try {
         //Check if student email exists
         // let student = await Student.findOne({ email });
@@ -112,7 +104,7 @@ router.post(
 
         if (!student) {
           return res.status(400).json({
-            errors: [{ msg: "Invalid Credentials" }]
+            errors: [{ msg: "Invalid Credentials" }],
           });
         }
 
@@ -123,15 +115,15 @@ router.post(
 
         if (!isPasswordAMatch) {
           return res.status(400).json({
-            errors: [{ msg: "Invalid Credentials" }]
+            errors: [{ msg: "Invalid Credentials" }],
           });
         }
 
         payload = {
           user: {
             id: student._id,
-            type: "student"
-          }
+            type: "student",
+          },
         };
 
         //Change to 3600 in production

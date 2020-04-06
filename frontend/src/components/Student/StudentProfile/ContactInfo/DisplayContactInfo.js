@@ -7,22 +7,22 @@ import { MdEdit } from "react-icons/md";
 
 import { connect } from "react-redux";
 
-const ConnectedDisplayContactInfo = props => {
+const ConnectedDisplayContactInfo = (props) => {
   let email = "";
   let phonenumber = "";
 
-  if (props.userprofile.user !== null) {
-    email = props.userprofile.user.student.email
-      ? props.userprofile.user.student.email
+  if (props.currentuser.user !== null) {
+    email = props.currentuser.user.student.email
+      ? props.currentuser.user.student.email
       : "No Email Entered";
-    phonenumber = props.userprofile.user.student.phonenumber
-      ? `(${props.userprofile.user.student.phonenumber.substring(
+    phonenumber = props.currentuser.user.student.phonenumber
+      ? `(${props.currentuser.user.student.phonenumber.substring(
           0,
           3
-        )})${props.userprofile.user.student.phonenumber.substring(
+        )})${props.currentuser.user.student.phonenumber.substring(
           3,
           6
-        )}-${props.userprofile.user.student.phonenumber.substring(6)}`
+        )}-${props.currentuser.user.student.phonenumber.substring(6)}`
       : "No Phone Number Entered";
   }
 
@@ -61,8 +61,8 @@ const ConnectedDisplayContactInfo = props => {
     </Card>
   );
 };
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const DisplayContactInfo = connect(mapStateToProps)(
   ConnectedDisplayContactInfo

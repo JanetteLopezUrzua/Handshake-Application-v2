@@ -44,7 +44,7 @@ async function handle_request(msg, callback) {
             },
           ],
         },
-        { "schools.major": { $regex: ".*" + major + ".*" } },
+        { "schools.major": { $regex: ".*" + major + ".*", $options: "i" } },
       ],
     });
   }

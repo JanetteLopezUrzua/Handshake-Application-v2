@@ -7,7 +7,7 @@ import { MdEdit } from "react-icons/md";
 
 import { connect } from "react-redux";
 
-const ConnectedDisplayInfo = props => {
+const ConnectedDisplayInfo = (props) => {
   let fname = "";
   let lname = "";
   let dob = "";
@@ -15,24 +15,24 @@ const ConnectedDisplayInfo = props => {
   let state = "";
   let country = "";
 
-  if (props.userprofile.user !== null) {
-    fname = props.userprofile.user.student.fname
-      ? props.userprofile.user.student.fname
+  if (props.currentuser.user !== null) {
+    fname = props.currentuser.user.student.fname
+      ? props.currentuser.user.student.fname
       : "No First Name Entered";
-    lname = props.userprofile.user.student.lname
-      ? props.userprofile.user.student.lname
+    lname = props.currentuser.user.student.lname
+      ? props.currentuser.user.student.lname
       : "No Last Name Entered";
-    dob = props.userprofile.user.student.dob
-      ? props.userprofile.user.student.dob
+    dob = props.currentuser.user.student.dob
+      ? props.currentuser.user.student.dob
       : "No Date of Birth Entered";
-    city = props.userprofile.user.student.city
-      ? props.userprofile.user.student.city
+    city = props.currentuser.user.student.city
+      ? props.currentuser.user.student.city
       : "No City Entered";
-    state = props.userprofile.user.student.state
-      ? props.userprofile.user.student.state
+    state = props.currentuser.user.student.state
+      ? props.currentuser.user.student.state
       : "No State Entered";
-    country = props.userprofile.user.student.country
-      ? props.userprofile.user.student.country
+    country = props.currentuser.user.student.country
+      ? props.currentuser.user.student.country
       : "No Country Entered";
   }
 
@@ -73,8 +73,8 @@ const ConnectedDisplayInfo = props => {
     </Card>
   );
 };
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const DisplayInfo = connect(mapStateToProps)(ConnectedDisplayInfo);
 export default DisplayInfo;

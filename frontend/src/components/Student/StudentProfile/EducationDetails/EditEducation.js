@@ -7,13 +7,13 @@ import Button from "react-bootstrap/Button";
 
 import { connect } from "react-redux";
 
-const ConnectedEditEducation = props => {
+const ConnectedEditEducation = (props) => {
   let schoolnameerrormsg = "";
   let gpaerrormsg = "";
   let othererrormsg = "";
 
-  if (props.userprofile.payload) {
-    props.userprofile.payload.forEach(err => {
+  if (props.currentuser.payload) {
+    props.currentuser.payload.forEach((err) => {
       if (err.param === "name") schoolnameerrormsg = err.update.msg;
       else if (err.param === "gpa") gpaerrormsg = err.update.msg;
       else othererrormsg = err.updateschoolmsg;
@@ -27,7 +27,7 @@ const ConnectedEditEducation = props => {
     major,
     passingmonth,
     passingyear,
-    gpa
+    gpa,
   } = props.school;
 
   const months = [
@@ -42,7 +42,7 @@ const ConnectedEditEducation = props => {
     "September",
     "October",
     "November",
-    "December"
+    "December",
   ];
 
   return (
@@ -51,7 +51,7 @@ const ConnectedEditEducation = props => {
         paddingRight: "0",
         paddingLeft: "10px",
         marginBottom: "30px",
-        cursor: "pointer"
+        cursor: "pointer",
       }}
     >
       <Form.Group controlId="name">
@@ -271,8 +271,8 @@ const ConnectedEditEducation = props => {
     </Container>
   );
 };
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const EditEducation = connect(mapStateToProps)(ConnectedEditEducation);
 export default EditEducation;

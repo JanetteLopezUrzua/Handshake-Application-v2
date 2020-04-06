@@ -3,7 +3,11 @@ import DisplayEducation from "./DisplayEducation";
 import EditEducation from "./EditEducation";
 
 import { connect } from "react-redux";
-import { updateschool, deleteerrors } from "../../../../actions/studentprofile";
+import {
+  updateschool,
+  deleteerrors,
+  loadstudentprofile,
+} from "../../../../actions/studentprofile";
 
 class ConnectedEducationContainer extends React.Component {
   constructor(props) {
@@ -20,33 +24,33 @@ class ConnectedEducationContainer extends React.Component {
         major: props.school.major,
         passingmonth: props.school.passingmonth,
         passingyear: props.school.passingyear,
-        gpa: props.school.gpa
+        gpa: props.school.gpa,
       },
-      editWasTriggered: false
+      editWasTriggered: false,
     };
   }
 
-  static getDerivedStateFromProps = props => ({
+  static getDerivedStateFromProps = (props) => ({
     id: props.id,
     schoolid: props.schoolid,
-    primaryschool: props.school.primaryschool
+    primaryschool: props.school.primaryschool,
   });
 
-  handleClick = e => {
+  handleClick = (e) => {
     e.preventDefault();
     this.setState({ editWasTriggered: true });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
       school: {
         ...this.state.school,
-        [e.target.id]: e.target.value
-      }
+        [e.target.id]: e.target.value,
+      },
     });
   };
 
-  handleSave = async e => {
+  handleSave = async (e) => {
     e.preventDefault();
 
     const id = this.state.id;
@@ -57,15 +61,21 @@ class ConnectedEducationContainer extends React.Component {
       major: this.state.school.major,
       passingmonth: this.state.school.passingmonth,
       passingyear: this.state.school.passingyear,
-      gpa: this.state.school.gpa
+      gpa: this.state.school.gpa,
     };
 
     await this.props.dispatch(updateschool(id, school, schoolid));
 
-    if (this.props.userprofile.payload) {
+    if (
+      localStorage.getItem("id") === this.state.id &&
+      localStorage.getItem("type") === "student"
+    )
+      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+
+    if (this.props.currentuser.payload) {
     } else {
       this.setState({
-        editWasTriggered: false
+        editWasTriggered: false,
       });
     }
   };
@@ -74,16 +84,16 @@ class ConnectedEducationContainer extends React.Component {
     await this.props.dispatch(deleteerrors());
     this.setState({
       school: this.props.school,
-      editWasTriggered: false
+      editWasTriggered: false,
     });
   };
 
-  handleDelete = e => {
+  handleDelete = (e) => {
     e.preventDefault();
     this.props.delete(this.state.schoolid);
 
     this.setState({
-      editWasTriggered: false
+      editWasTriggered: false,
     });
   };
 
@@ -113,8 +123,8 @@ class ConnectedEducationContainer extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const EducationContainer = connect(mapStateToProps)(
   ConnectedEducationContainer

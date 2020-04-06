@@ -8,7 +8,10 @@ import WorkContainer from "./WorkContainer";
 import NewFormWork from "./NewFormWork";
 
 import { connect } from "react-redux";
-import { addnewjob } from "../../../../actions/studentprofile";
+import {
+  addnewjob,
+  loadstudentprofile,
+} from "../../../../actions/studentprofile";
 
 class ConnectedWorkDetails extends React.Component {
   constructor() {
@@ -24,42 +27,48 @@ class ConnectedWorkDetails extends React.Component {
         startdateyear: "",
         enddatemonth: "",
         enddateyear: "",
-        description: ""
-      }
+        description: "",
+      },
     };
   }
 
-  static getDerivedStateFromProps = props => ({ id: props.id });
+  static getDerivedStateFromProps = (props) => ({ id: props.id });
 
-  addWork = e => {
+  addWork = (e) => {
     e.preventDefault();
 
     this.setState({
-      newform: true
+      newform: true,
     });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
       job: {
         ...this.state.job,
-        [e.target.id]: e.target.value
-      }
+        [e.target.id]: e.target.value,
+      },
     });
   };
 
-  handleSave = async e => {
+  handleSave = async (e) => {
     e.preventDefault();
     const { id, job } = this.state;
 
     await this.props.dispatch(
       addnewjob({
         id,
-        job
+        job,
       })
     );
 
-    if (this.props.userprofile.payload) {
+    if (
+      localStorage.getItem("id") === this.state.id &&
+      localStorage.getItem("type") === "student"
+    )
+      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+
+    if (this.props.currentuser.payload) {
     } else {
       this.setState({
         newform: false,
@@ -70,8 +79,8 @@ class ConnectedWorkDetails extends React.Component {
           startdateyear: "",
           enddatemonth: "",
           enddateyear: "",
-          description: ""
-        }
+          description: "",
+        },
       });
     }
   };
@@ -85,9 +94,9 @@ class ConnectedWorkDetails extends React.Component {
         startdateyear: "",
         enddatemonth: "",
         enddateyear: "",
-        description: ""
+        description: "",
       },
-      newform: false
+      newform: false,
     });
   };
 
@@ -95,13 +104,13 @@ class ConnectedWorkDetails extends React.Component {
     let jobsList = "";
     let message = "";
 
-    if (this.props.userprofile.user !== null) {
-      if (this.props.userprofile.user.student.jobs) {
-        if (this.props.userprofile.user.student.jobs.length === 0) {
+    if (this.props.currentuser.user !== null) {
+      if (this.props.currentuser.user.student.jobs) {
+        if (this.props.currentuser.user.student.jobs.length === 0) {
           jobsList = "";
           message = "Where is somewhere you have worked?";
         } else
-          jobsList = this.props.userprofile.user.student.jobs.map(job => (
+          jobsList = this.props.currentuser.user.student.jobs.map((job) => (
             <WorkContainer
               key={job._id}
               jobid={job._id}
@@ -154,8 +163,8 @@ class ConnectedWorkDetails extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const WorkDetails = connect(mapStateToProps)(ConnectedWorkDetails);
 export default WorkDetails;

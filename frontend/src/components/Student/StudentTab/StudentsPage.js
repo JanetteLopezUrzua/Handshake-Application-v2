@@ -102,13 +102,7 @@ class ConnectedStudentTab extends React.Component {
   };
 
   async componentWillUnmount() {
-    await this.props.dispatch(
-      loadstudentslist(
-        1,
-        "",
-        ""
-      )
-    );
+    await this.props.dispatch(loadstudentslist(1, "", ""));
   }
 
   render() {

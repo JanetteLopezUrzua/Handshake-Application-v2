@@ -5,10 +5,10 @@ const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
   loading: true,
-  user: null
+  user: null,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
         ...state,
         ...payload,
         isAuthenticated: true,
-        loading: false
+        loading: false,
       };
 
     case SIGNUP_FAIL:
@@ -34,7 +34,7 @@ export default function(state = initialState, action) {
         payload,
         token: null,
         isAuthenticated: false,
-        loading: false
+        loading: false,
       };
 
     default:

@@ -15,6 +15,7 @@ import WorkDetails from "./WorkDetails/WorkDetails";
 import setAuthToken from "../../../utils/setAuthToken";
 import { connect } from "react-redux";
 import { loadstudentprofile } from "../../../actions/studentprofile";
+import { loadcurrentstudent } from "../../../actions/studentprofile";
 
 class ConnectedProfilePage extends React.Component {
   constructor(props) {
@@ -25,10 +26,16 @@ class ConnectedProfilePage extends React.Component {
   async componentDidMount() {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
+
+      const id = this.props.match.params.id;
+      console.log("compoent did mount");
+      if (localStorage.getItem("type") === "student")
+        await this.props.dispatch(
+          loadstudentprofile(localStorage.getItem("id"))
+        );
+
+      await this.props.dispatch(loadcurrentstudent(id));
     }
-    const id = this.props.match.params.id;
-    console.log("compoent did mount");
-    await this.props.dispatch(loadstudentprofile(id));
   }
 
   render() {
@@ -39,20 +46,30 @@ class ConnectedProfilePage extends React.Component {
       redirectVar = <Redirect to="/" />;
     }
 
+    let id = "";
+    if (
+      localStorage.getItem("id") === this.props.match.params.id &&
+      localStorage.getItem("type") === "student"
+    ) {
+      id = localStorage.getItem("id");
+    } else {
+      id = this.props.match.params.id;
+    }
+
     return (
       <Container>
         {redirectVar}
         <Row>
           <Col sm={4}>
-            <PictureDetails id={this.props.match.params.id} />
-            <Skillset id={this.props.match.params.id} />
-            <BasicDetails id={this.props.match.params.id} />
+            <PictureDetails id={id} />
+            <Skillset id={id} />
+            <BasicDetails id={id} />
           </Col>
           <Col sm={8}>
-            <CareerObjective id={this.props.match.params.id} />
-            <EducationDetails id={this.props.match.params.id} />
-            <WorkDetails id={this.props.match.params.id} />
-            <ContactInformation id={this.props.match.params.id} />
+            <CareerObjective id={id} />
+            <EducationDetails id={id} />
+            <WorkDetails id={id} />
+            <ContactInformation id={id} />
           </Col>
         </Row>
       </Container>
@@ -60,7 +77,7 @@ class ConnectedProfilePage extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-  return { userprofile: state.userprofile };
+  return { userprofile: state.userprofile, currentuser: state.currentuser };
 };
 const ProfilePage = connect(mapStateToProps)(ConnectedProfilePage);
 export default ProfilePage;

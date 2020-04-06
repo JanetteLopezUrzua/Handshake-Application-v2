@@ -110,7 +110,7 @@ class ConnectedNavigationbar extends React.Component {
     //   jobspath = "/company/jobs";
     // }
 
-    if( localStorage.getItem("type") === "student") {
+    if (localStorage.getItem("type") === "student") {
       studentspath = "/student/students?page=1&nameorcollege=''&major=''";
     } else {
       studentspath = "/company/students?page=1&nameorcollegeorskillset=''";
@@ -144,10 +144,7 @@ class ConnectedNavigationbar extends React.Component {
           <Nav.Link className="navbaritem" href="#">
             <span>Q&amp;A</span>
           </Nav.Link>
-          <Link
-            className="navbaritem"
-            to={studentspath}
-          >
+          <Link className="navbaritem" to={studentspath}>
             <span>Students</span>
           </Link>
           <Nav.Link className="navbaritem" href="#">
