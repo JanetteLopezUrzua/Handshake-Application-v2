@@ -1,4 +1,4 @@
-const express = require("../node_modules/express");
+const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const Student = require("../models/Student/Students");

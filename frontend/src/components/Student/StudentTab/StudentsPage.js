@@ -101,6 +101,16 @@ class ConnectedStudentTab extends React.Component {
     });
   };
 
+  async componentWillUnmount() {
+    await this.props.dispatch(
+      loadstudentslist(
+        1,
+        "",
+        ""
+      )
+    );
+  }
+
   render() {
     // if not logged in go to login page
     let redirectVar = null;

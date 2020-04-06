@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server",
     "server": "nodemon server",
-    "client": "cd C:\\Users\\lilo2\\Documents\\SJSU-Masters\\CMPE 273 - Distributed Systems\\Labs\\Lab2\\Handshake-Application\\frontend && npm start",
+    "client": "cd /home/janette/Documents/Lab2/lab2-cmpe273/frontend && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Janette Lopez",
