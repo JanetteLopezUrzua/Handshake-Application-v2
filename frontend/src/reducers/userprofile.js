@@ -20,24 +20,35 @@ import {
   COMPANY_CONTACT_INFO_UPDATE,
   COMPANY_PHOTO_UPDATE,
   COMPANY_PHOTO_DELETE,
-  COMPANY_NAME_UPDATE
+  COMPANY_NAME_UPDATE,
+  LOG_OUT,
+  LOGIN_SUCCESS,
+  SIGNUP_SUCCESS,
 } from "../actions/types";
 
 const initialState = {
   isAuthenticated: null,
-  user: null
+  user: null,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case LOGIN_SUCCESS:
+    case SIGNUP_SUCCESS:
+      return {
+        user: null,
+        isAuthenticated: true,
+        laoding: false,
+      };
+
     case USER_PROFILE_LOADED:
       return {
         ...state,
         isAuthenticated: true,
         laoding: false,
-        user: payload
+        user: payload,
       };
 
     case STUDENT_BASIC_INFO_UPDATE:
@@ -61,29 +72,30 @@ export default function(state = initialState, action) {
       return {
         ...state,
         user: payload,
-        payload: null
+        payload: null,
       };
 
     case USER_PROFILE_UPDATE_ERROR:
       return {
         ...state,
-        payload
+        payload,
       };
 
     case DELETE_ERRORS:
       return {
         ...state,
-        payload: null
+        payload: null,
       };
 
+    case LOG_OUT:
     case AUTH_ERROR:
       localStorage.removeItem("token");
       return {
-        ...state,
+        user: null,
         payload,
         token: null,
         isAuthenticated: false,
-        loading: false
+        loading: false,
       };
 
     default:

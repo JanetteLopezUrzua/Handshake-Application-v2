@@ -40,6 +40,7 @@ const DisplayStudent = (props) => {
   let passingyear = "";
   let passingdate = "";
   let major = "";
+  let skillset = "";
 
   if (props.student.schools)
     if (props.student.schools.length !== 0) {
@@ -48,6 +49,14 @@ const DisplayStudent = (props) => {
       passingmonth = props.student.schools[0].passingmonth;
       passingyear = props.student.schools[0].passingyear;
       major = props.student.schools[0].major;
+    }
+
+  if (props.student.skillset)
+    if (props.student.skillset.length !== 0) {
+      skillset = "Skills: ";
+      props.student.skillset.forEach(
+        (skill) => (skillset = skillset + `${skill.skill} `)
+      );
     }
 
   if (
@@ -71,8 +80,12 @@ const DisplayStudent = (props) => {
     degree = "No Degree Listed";
   }
 
-  if(collegename === "" || collegename === undefined){
+  if (collegename === "" || collegename === undefined) {
     collegename = "No College Listed";
+  }
+
+  if (skillset === "" || skillset === undefined) {
+    skillset = "No Skills Listed";
   }
 
   return (
@@ -88,6 +101,7 @@ const DisplayStudent = (props) => {
           <Card.Title className="studentslistcollege">{collegename}</Card.Title>
           <Card.Title className="studentslistinfo">{degree}</Card.Title>
           <Card.Title className="studentslistinfo">{passingdate}</Card.Title>
+          <Card.Title className="studentslistinfo">{skillset}</Card.Title>
         </Col>
         <Col sm={5} style={{ paddingTop: "38px" }}>
           <Card.Title className="studentslistinfo">{major}</Card.Title>

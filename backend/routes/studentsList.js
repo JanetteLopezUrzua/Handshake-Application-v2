@@ -20,4 +20,20 @@ router.get("/studentslist", checkAuth, async (req, res) => {
   });
 });
 
-module.exports = router;
+// @route   GET students/studentslist/company
+// @desc    Get students list for companies
+// @access  Public
+router.get("/studentslist/company", checkAuth, async (req, res) => {
+
+  kafka.make_request("company_students_list", req.query, function (err, results) {
+    try {
+      let studentsList = results;
+      res.json({ studentsList });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
+module.exports = router;  

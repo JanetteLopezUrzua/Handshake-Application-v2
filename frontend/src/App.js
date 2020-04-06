@@ -9,7 +9,7 @@ import CompanyLogin from "./components/Company/Login";
 import StudentProfile from "./components/Student/StudentProfile/ProfilePage";
 import CompanyProfile from "./components/Company/CompanyProfile/ProfilePage";
 import StudentStudentsList from "./components/Student/StudentTab/StudentsPage";
-// import CompanyStudentsList from "./components/Company/StudentTab/StudentsPage";
+import CompanyStudentsList from "./components/Company/StudentTab/StudentsPage";
 // import NewEvent from "./components/Company/Events/NewEvent/NewEventInfo";
 // import CompanyEvents from "./components/Company/Events/EventPage";
 // import Event from "./components/Company/Events/EventContainer/EventContainer";
@@ -64,7 +64,7 @@ class App extends Component {
             path="/student/students"
             component={StudentStudentsList}
           />
-          {/* <Route exact path="/company/students" component={CompanyStudentsList} /> */}
+          <Route exact path="/company/students" component={CompanyStudentsList} />
           <Route exact path="/student/:id" component={StudentProfile} />
           <Route excat path="/company/:id" component={CompanyProfile} />
           {/* <Route path="/student/jobs/" component={JobsContainer} />

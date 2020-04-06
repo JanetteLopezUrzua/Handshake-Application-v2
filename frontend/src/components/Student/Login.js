@@ -15,15 +15,15 @@ class ConnectedLogin extends React.Component {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
     };
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  login = async e => {
+  login = async (e) => {
     e.preventDefault();
 
     const { email, password } = this.state;
@@ -48,7 +48,7 @@ class ConnectedLogin extends React.Component {
     }
 
     if (login.token === null && login.payload) {
-      login.payload.forEach(err => {
+      login.payload.forEach((err) => {
         if (err.param === "email") emailerrormsg = err.msg;
         else if (err.param === "password") passerrormsg = err.msg;
         else accounterrormsg = err.msg;
@@ -99,7 +99,7 @@ class ConnectedLogin extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { login: state.login };
 };
 const LogIn = connect(mapStateToProps)(ConnectedLogin);

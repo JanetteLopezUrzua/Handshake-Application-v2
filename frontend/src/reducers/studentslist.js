@@ -1,14 +1,15 @@
 import {
   STUDENTS_LIST_LOADED,
   STUDENTS_LIST_ERROR,
-  DELETE_ERRORS
+  DELETE_ERRORS,
+  LOG_OUT,
 } from "../actions/types";
 
 const initialState = {
-  students: null
+  students: null,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
@@ -16,7 +17,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         students: payload,
-        payload: null
+        payload: null,
       };
 
     // case STUDENT_BASIC_INFO_UPDATE:
@@ -29,13 +30,14 @@ export default function(state = initialState, action) {
     case STUDENTS_LIST_ERROR:
       return {
         ...state,
-        payload
+        payload,
       };
 
+    case LOG_OUT:
     case DELETE_ERRORS:
       return {
         ...state,
-        payload: null
+        payload: null,
       };
 
     default:

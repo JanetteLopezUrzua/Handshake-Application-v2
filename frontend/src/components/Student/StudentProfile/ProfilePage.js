@@ -27,10 +27,12 @@ class ConnectedProfilePage extends React.Component {
       setAuthToken(localStorage.token);
     }
     const id = this.props.match.params.id;
+    console.log("compoent did mount");
     await this.props.dispatch(loadstudentprofile(id));
   }
 
   render() {
+    console.log("rendering");
     // if not logged in redirect to first page
     let redirectVar = null;
     if (this.props.userprofile.isAuthenticated === false) {
@@ -57,7 +59,7 @@ class ConnectedProfilePage extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { userprofile: state.userprofile };
 };
 const ProfilePage = connect(mapStateToProps)(ConnectedProfilePage);

@@ -101,6 +101,7 @@ class ConnectedNavigationbar extends React.Component {
 
     let eventspath = "";
     let jobspath = "";
+    let studentspath = "";
     // if (cookie.load("user") === "student") {
     //   eventspath = "/student/events/upcoming";
     //   jobspath = "/student/jobs/search";
@@ -108,6 +109,12 @@ class ConnectedNavigationbar extends React.Component {
     //   eventspath = "/company/events";
     //   jobspath = "/company/jobs";
     // }
+
+    if( localStorage.getItem("type") === "student") {
+      studentspath = "/student/students?page=1&nameorcollege=''&major=''";
+    } else {
+      studentspath = "/company/students?page=1&nameorcollegeorskillset=''";
+    }
 
     return (
       <Navbar id="navbar" expand="lg">
@@ -139,7 +146,7 @@ class ConnectedNavigationbar extends React.Component {
           </Nav.Link>
           <Link
             className="navbaritem"
-            to={"/student/students?page=1&nameorcollege=''&major=''"}
+            to={studentspath}
           >
             <span>Students</span>
           </Link>
