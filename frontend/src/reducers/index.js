@@ -4,6 +4,7 @@ import login from "./login";
 import userprofile from "./userprofile";
 import studentslist from "./studentslist";
 import currentuser from "./currentuser";
+import event from "./event";
 
 export default combineReducers({
   signup,
@@ -11,4 +12,5 @@ export default combineReducers({
   userprofile,
   currentuser,
   studentslist,
+  event,
 });

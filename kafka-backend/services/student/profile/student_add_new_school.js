@@ -13,7 +13,7 @@ async function handle_request(msg, callback) {
     major,
     passingmonth,
     passingyear,
-    gpa
+    gpa,
   } = msg;
 
   try {
@@ -28,15 +28,15 @@ async function handle_request(msg, callback) {
           major,
           passingmonth,
           passingyear,
-          gpa
-        }
-      }
+          gpa,
+        },
+      },
     });
 
     if (student.schools.length !== 0) return callback(null, 0);
     else {
       let student = await Student.findById(id).select("schools");
-      console.log("STUREDENTTTTTTTTTTTTTT", student);
+
       if (student.schools.length === 0) primaryschool = "true";
 
       student = await Student.findByIdAndUpdate(
@@ -51,9 +51,9 @@ async function handle_request(msg, callback) {
               major,
               passingmonth,
               passingyear,
-              gpa
-            }
-          }
+              gpa,
+            },
+          },
         },
         { new: true }
       );

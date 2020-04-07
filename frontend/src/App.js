@@ -10,9 +10,9 @@ import StudentProfile from "./components/Student/StudentProfile/ProfilePage";
 import CompanyProfile from "./components/Company/CompanyProfile/ProfilePage";
 import StudentStudentsList from "./components/Student/StudentTab/StudentsPage";
 import CompanyStudentsList from "./components/Company/StudentTab/StudentsPage";
-// import NewEvent from "./components/Company/Events/NewEvent/NewEventInfo";
-// import CompanyEvents from "./components/Company/Events/EventPage";
-// import Event from "./components/Company/Events/EventContainer/EventContainer";
+import NewEvent from "./components/Company/Events/NewEvent/NewEventInfo";
+import CompanyEvents from "./components/Company/Events/EventPage";
+import Event from "./components/Company/Events/EventContainer/EventContainer";
 // import EventsSearch from "./components/Student/StudentEvents/EventsSearch/EventsSearchPage";
 // import RegisteredEvents from "./components/Student/StudentEvents/RegisteredEvents/RegisteredEventsPage";
 // import UpcomingEvents from "./components/Student/StudentEvents/UpcomingEvents/UpcomingEventsPage";
@@ -53,18 +53,22 @@ class App extends Component {
       <div>
         <Navbar />
         <Switch>
-          {/* <Route exact path="/job/:job_id" component={Job} />
+          {/* <Route exact path="/job/:job_id" component={Job} /> */}
           <Route exact path="/event/:event_id" component={Event} />
           <Route exact path="/company/events/new" component={NewEvent} />
           <Route exact path="/company/events" component={CompanyEvents} />
-          <Route exact path="/company/jobs/new" component={NewJob} />
+          {/* <Route exact path="/company/jobs/new" component={NewJob} />
           <Route exact path="/company/jobs" component={CompanyJobs} /> */}
           <Route
             exact
             path="/student/students"
             component={StudentStudentsList}
           />
-          <Route exact path="/company/students" component={CompanyStudentsList} />
+          <Route
+            exact
+            path="/company/students"
+            component={CompanyStudentsList}
+          />
           <Route exact path="/student/:id" component={StudentProfile} />
           <Route excat path="/company/:id" component={CompanyProfile} />
           {/* <Route path="/student/jobs/" component={JobsContainer} />

@@ -19,7 +19,7 @@ app.use(express.json({ extended: false }));
 app.use(cors({ origin: frontendURL, credentials: true }));
 
 //Allow Access Control
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", frontendURL);
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
@@ -40,6 +40,7 @@ app.use("/students", require("./routes/studentProfile"));
 app.use("/students", require("./routes/studentsList"));
 app.use("/companies", require("./routes/companies"));
 app.use("/companies", require("./routes/companyProfile"));
+app.use("/companies", require("./routes/companyEvents"));
 
 // Photos and Resumes
 const storage = multer.diskStorage({
@@ -51,7 +52,7 @@ const storage = multer.diskStorage({
         file.mimetype.split("/")[1]
       }`
     );
-  }
+  },
 });
 
 const upload = multer({ storage });
@@ -61,7 +62,7 @@ app.post("/upload", upload.single("file"), (req, res) => {
   console.log("file", req.file.filename);
 
   res.writeHead(200, {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   });
 
   res.end(req.file.filename);
