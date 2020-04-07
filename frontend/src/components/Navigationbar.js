@@ -115,7 +115,7 @@ class ConnectedNavigationbar extends React.Component {
       //eventspath = "/student/events/upcoming";
     } else {
       studentspath = "/company/students?page=1&nameorcollegeorskillset=''";
-      eventspath = "/company/events";
+      eventspath = "/company/events?page=1";
     }
 
     return (

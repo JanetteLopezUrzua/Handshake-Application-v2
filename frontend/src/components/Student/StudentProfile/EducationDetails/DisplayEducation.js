@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import { MdEdit } from "react-icons/md";
 
-const DisplayEducation = props => {
+const DisplayEducation = (props) => {
   let {
     name,
     location,
@@ -14,7 +14,7 @@ const DisplayEducation = props => {
     major,
     passingmonth,
     passingyear,
-    gpa
+    gpa,
   } = props.school;
 
   const months = [
@@ -29,7 +29,7 @@ const DisplayEducation = props => {
     "September",
     "October",
     "November",
-    "December"
+    "December",
   ];
 
   let primarydisplay = "";
@@ -42,7 +42,7 @@ const DisplayEducation = props => {
           display: "inline",
           padding: "2px",
           borderRadius: "5px",
-          fontSize: "10px"
+          fontSize: "10px",
         }}
       >
         Primary School
@@ -74,7 +74,7 @@ const DisplayEducation = props => {
           paddingRight: "0",
           paddingLeft: "10px",
           marginBottom: "30px",
-          cursor: "pointer"
+          cursor: "pointer",
         }}
       >
         <Row>
@@ -111,7 +111,7 @@ const DisplayEducation = props => {
         style={{
           paddingRight: "0",
           paddingLeft: "10px",
-          marginBottom: "30px"
+          marginBottom: "30px",
         }}
       >
         <Row>
@@ -121,7 +121,7 @@ const DisplayEducation = props => {
         </Row>
         <Card.Subtitle className="schooldegree">{degree}</Card.Subtitle>
         <Card.Text className="schooldate">
-          {passingmonth} {passingyear}
+          {months[passingmonth - 1]} {passingyear}
         </Card.Text>
         <Card.Text className="schooldata">
           <span style={{ fontWeight: "bold" }}>{majordisplay}</span> {major}

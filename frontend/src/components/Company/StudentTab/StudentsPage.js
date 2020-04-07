@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import "../../components.css";
 import axios from "axios";
 import Container from "react-bootstrap/Container";
@@ -34,7 +34,7 @@ class ConnectedStudentTab extends React.Component {
       await this.props.dispatch(
         companyloadstudentslist(
           this.state.page,
-          this.state.nameorcollegeorskillset,
+          this.state.nameorcollegeorskillset
         )
       );
       window.scrollTo(0, 0);
@@ -67,7 +67,7 @@ class ConnectedStudentTab extends React.Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
- nextPage = async () => {
+  nextPage = async () => {
     let nextpage = this.state.page + 1;
     await this.props.dispatch(
       companyloadstudentslist(nextpage, this.state.nameorcollegeorskillset)
@@ -100,16 +100,11 @@ class ConnectedStudentTab extends React.Component {
   };
 
   async componentWillUnmount() {
-    await this.props.dispatch(
-      companyloadstudentslist(
-        1,
-        "",
-      )
-    );
+    await this.props.dispatch(companyloadstudentslist(1, ""));
   }
 
   render() {
-     // if not logged in go to login page
+    // if not logged in go to login page
     let redirectVar = null;
     if (this.props.userprofile.isAuthenticated === false) {
       redirectVar = <Redirect to="/" />;
@@ -149,7 +144,7 @@ class ConnectedStudentTab extends React.Component {
           totalStudents = this.props.studentslist.students.studentsList.total;
           pageRedirect = this.state.redirect;
 
-          if (this.state.page === 1) {
+          if (this.state.page === 1 && currPage !== numOfPages) {
             pagesArrows = (
               <Container style={{ display: "flex", justifyContent: "center" }}>
                 <Row>
@@ -163,6 +158,30 @@ class ConnectedStudentTab extends React.Component {
                   </Button>
                   <div className="pagesinfo">{`${this.state.page} / ${totalStudents}`}</div>
                   <Button className="pagesbuttons" onClick={this.nextPage}>
+                    <FaChevronRight />
+                  </Button>
+                </Row>
+              </Container>
+            );
+          } else if (this.state.page === 1 && currPage === numOfPages) {
+            pagesArrows = (
+              <Container style={{ display: "flex", justifyContent: "center" }}>
+                <Row>
+                  <Button
+                    className="pagesbuttons"
+                    style={{ cursor: "not-allowed" }}
+                    onClick={this.prevPage}
+                    disabled
+                  >
+                    <FaChevronLeft />
+                  </Button>
+                  <div className="pagesinfo">{`${this.state.page} / ${totalStudents}`}</div>
+                  <Button
+                    className="pagesbuttons"
+                    style={{ cursor: "not-allowed" }}
+                    onClick={this.nextPage}
+                    disabled
+                  >
                     <FaChevronRight />
                   </Button>
                 </Row>
@@ -214,7 +233,9 @@ class ConnectedStudentTab extends React.Component {
           <Container>
             <Row>
               <Col sm={4}>
-                <Card.Title className="studentslistbar"><h2>Explore Students</h2></Card.Title>
+                <Card.Title className="studentslistbar">
+                  <h2>Explore Students</h2>
+                </Card.Title>
               </Col>
             </Row>
           </Container>
@@ -226,15 +247,19 @@ class ConnectedStudentTab extends React.Component {
                 <ListGroup variant="flush">
                   <ListGroup.Item className="studentslisttitle">
                     <Row>
-                      <Col>
-                      Search
-                      </Col>
+                      <Col>Search</Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <Card.Text className="studentslistsubtitle">Name, College or Skill</Card.Text>
+                    <Card.Text className="studentslistsubtitle">
+                      Name, College or Skill
+                    </Card.Text>
                     <Form.Group controlId="nameorcollegeorskillset">
-                    <Form.Control onChange={this.handleChange} name="name" type="search" />
+                      <Form.Control
+                        onChange={this.handleChange}
+                        name="name"
+                        type="search"
+                      />
                     </Form.Group>
                   </ListGroup.Item>
                 </ListGroup>

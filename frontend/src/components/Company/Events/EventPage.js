@@ -1,23 +1,24 @@
 import React from "react";
 import "../../components.css";
-import axios from "axios";
 import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
 import { Redirect } from "react-router";
-// import cookie from "react-cookies";
 import { Link } from "react-router-dom";
 import EventListContainer from "./EventListContainer/EventListContainer";
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 
 import setAuthToken from "../../../utils/setAuthToken";
 import { connect } from "react-redux";
 import { loadcompanyprofile } from "../../../actions/companyprofile";
+import { companyloadeventslist } from "../../../actions/events";
 
 class ConnectedEventPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      // company_id: cookie.load("id"),
-      // events: [],
-      // message: "",
+      page: 0,
+      redirect: "",
     };
   }
 
@@ -28,60 +29,170 @@ class ConnectedEventPage extends React.Component {
 
     const id = localStorage.getItem("id");
     await this.props.dispatch(loadcompanyprofile(id));
+    await this.props.dispatch(companyloadeventslist(1, id));
+
+    this.setState({
+      page: 1,
+    });
   }
 
-  componentWillUnmount() {
-    console.log("event will unmount");
-  }
+  nextPage = async () => {
+    let nextpage = this.state.page + 1;
+    await this.props.dispatch(
+      companyloadeventslist(nextpage, localStorage.getItem("id"))
+    );
+    window.scrollTo(0, 0);
+    this.setState({
+      page: nextpage,
+      redirect: <Redirect to={`/company/events?page=${nextpage}`} />,
+    });
+  };
 
-  getInfo = () => {
-    axios
-      .get(`http://localhost:3001/company/events/${this.state.company_id}`)
-      .then((response) => {
-        const info = response.data;
-
-        this.setState({
-          events: info.events,
-        });
-
-        if (this.state.events === undefined || this.state.events.length === 0) {
-          this.setState({
-            message: "You Have 0 Events.",
-          });
-        } else {
-          this.setState({
-            message: "",
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  prevPage = async () => {
+    let prevpage = this.state.page - 1;
+    await this.props.dispatch(
+      companyloadeventslist(prevpage, localStorage.getItem("id"))
+    );
+    window.scrollTo(0, 0);
+    this.setState({
+      page: prevpage,
+      redirect: <Redirect to={`/company/events?page=${prevpage}`} />,
+    });
   };
 
   render() {
     // if not logged in go to login page
     let redirectVar = null;
-    // if (!cookie.load('id')) {
-    //   redirectVar = <Redirect to="/" />;
-    // }
+    if (this.props.userprofile.isAuthenticated === false) {
+      redirectVar = <Redirect to="/" />;
+    } else if (localStorage.getItem("type") === "student") {
+      redirectVar = <Redirect to={`/student/${localStorage.getItem("id")}`} />;
+    }
 
     let eventsList = "";
+    let message = "";
+    let currPage = "";
+    let numOfPages = "";
+    let limit = "";
+    let totalEvents = "";
+    let pageRedirect = null;
+    let pagesArrows = "";
 
-    // if (this.state.events === undefined || this.state.events.length === 0) eventsList = "";
-    // else eventsList = this.state.events.map((event) => <EventListContainer key={event.event_id} event={event} />);
+    if (this.props.event.event !== null) {
+      if (this.props.event.event.eventsList.docs) {
+        if (this.props.event.event.eventsList.docs.length === 0) {
+          eventsList = "";
+          message = "You have 0 events";
+        } else {
+          eventsList = this.props.event.event.eventsList.docs.map((event) => {
+            return (
+              <EventListContainer
+                key={event._id}
+                eventid={event._id}
+                event={event}
+              />
+            );
+          });
+          currPage = this.props.event.event.eventsList.page;
+          numOfPages = this.props.event.event.eventsList.pages;
+          limit = this.props.event.event.eventsList.limit;
+          totalEvents = this.props.event.event.eventsList.total;
+          pageRedirect = this.state.redirect;
+
+          if (this.state.page === 1 && currPage !== numOfPages) {
+            pagesArrows = (
+              <Container style={{ display: "flex", justifyContent: "center" }}>
+                <Row>
+                  <Button
+                    className="pagesbuttons"
+                    style={{ cursor: "not-allowed" }}
+                    onClick={this.prevPage}
+                    disabled
+                  >
+                    <FaChevronLeft />
+                  </Button>
+                  <div className="pagesinfo">{`${this.state.page} / ${totalEvents}`}</div>
+                  <Button className="pagesbuttons" onClick={this.nextPage}>
+                    <FaChevronRight />
+                  </Button>
+                </Row>
+              </Container>
+            );
+          } else if (this.state.page === 1 && currPage === numOfPages) {
+            pagesArrows = (
+              <Container style={{ display: "flex", justifyContent: "center" }}>
+                <Row>
+                  <Button
+                    className="pagesbuttons"
+                    style={{ cursor: "not-allowed" }}
+                    onClick={this.prevPage}
+                    disabled
+                  >
+                    <FaChevronLeft />
+                  </Button>
+                  <div className="pagesinfo">{`${this.state.page} / ${totalEvents}`}</div>
+                  <Button
+                    className="pagesbuttons"
+                    style={{ cursor: "not-allowed" }}
+                    onClick={this.nextPage}
+                    disabled
+                  >
+                    <FaChevronRight />
+                  </Button>
+                </Row>
+              </Container>
+            );
+          } else if (currPage === numOfPages) {
+            pagesArrows = (
+              <Container style={{ display: "flex", justifyContent: "center" }}>
+                <Row>
+                  <Button className="pagesbuttons" onClick={this.prevPage}>
+                    <FaChevronLeft />
+                  </Button>
+                  <div className="pagesinfo">{`${currPage} / ${totalEvents}`}</div>
+                  <Button
+                    className="pagesbuttons"
+                    style={{ cursor: "not-allowed" }}
+                    onClick={this.nextPage}
+                    disabled
+                  >
+                    <FaChevronRight />
+                  </Button>
+                </Row>
+              </Container>
+            );
+          } else {
+            pagesArrows = (
+              <Container style={{ display: "flex", justifyContent: "center" }}>
+                <Row>
+                  <Button className="pagesbuttons" onClick={this.prevPage}>
+                    <FaChevronLeft />
+                  </Button>
+                  <div className="pagesinfo">{`${currPage} / ${totalEvents}`}</div>
+                  <Button className="pagesbuttons" onClick={this.nextPage}>
+                    <FaChevronRight />
+                  </Button>
+                </Row>
+              </Container>
+            );
+          }
+        }
+      }
+    }
 
     return (
       <Container style={{ width: "60%" }}>
         {redirectVar}
+        {pageRedirect}
         <Link
           style={{ margin: "15px", display: "block" }}
           to="/company/events/new"
         >
           Create New Event
         </Link>
-        <p className="errormessage">{this.state.message}</p>
         {eventsList}
+        {pagesArrows}
+        <p className="errormessage">{message}</p>
       </Container>
     );
   }
@@ -89,6 +200,7 @@ class ConnectedEventPage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userprofile: state.userprofile,
+    event: state.event,
   };
 };
 const EventPage = connect(mapStateToProps)(ConnectedEventPage);

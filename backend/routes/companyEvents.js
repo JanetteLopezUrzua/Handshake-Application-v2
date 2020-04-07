@@ -44,9 +44,6 @@ router.post(
       err,
       results
     ) {
-      console.log(
-        "YYYYYYYYYYYYYYYYYYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-      );
       try {
         let event = results;
         if (event === 0) {
@@ -65,5 +62,20 @@ router.post(
     });
   }
 );
+
+// @route   GET companies/eventslist
+// @desc    Get events list
+// @access  Public
+router.get("/eventslist", checkAuth, async (req, res) => {
+  kafka.make_request("company_events_list", req.query, function (err, results) {
+    try {
+      let eventsList = results;
+      res.json({ eventsList });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
 
 module.exports = router;

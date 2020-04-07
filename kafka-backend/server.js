@@ -35,6 +35,7 @@ var CompanyDeletePhoto = require("./services/company/profile/company_delete_phot
 var CompanyUpdateName = require("./services/company/profile/company_update_name");
 var CompanyStudentsList = require("./services/company/studentslist/company_students_list");
 var CompanyAddNewEvent = require("./services/company/events/company_add_new_event");
+var CompanyEventsList = require("./services/company/events/company_events_list");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -102,3 +103,4 @@ handleTopicRequest("company_delete_photo", CompanyDeletePhoto);
 handleTopicRequest("company_update_name", CompanyUpdateName);
 handleTopicRequest("company_students_list", CompanyStudentsList);
 handleTopicRequest("company_add_new_event", CompanyAddNewEvent);
+handleTopicRequest("company_events_list", CompanyEventsList);

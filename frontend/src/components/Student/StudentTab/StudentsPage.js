@@ -146,7 +146,7 @@ class ConnectedStudentTab extends React.Component {
           totalStudents = this.props.studentslist.students.studentsList.total;
           pageRedirect = this.state.redirect;
 
-          if (this.state.page === 1) {
+          if (this.state.page === 1 && currPage !== numOfPages) {
             pagesArrows = (
               <Container style={{ display: "flex", justifyContent: "center" }}>
                 <Row>
@@ -160,6 +160,30 @@ class ConnectedStudentTab extends React.Component {
                   </Button>
                   <div className="pagesinfo">{`${this.state.page} / ${totalStudents}`}</div>
                   <Button className="pagesbuttons" onClick={this.nextPage}>
+                    <FaChevronRight />
+                  </Button>
+                </Row>
+              </Container>
+            );
+          } else if (this.state.page === 1 && currPage === numOfPages) {
+            pagesArrows = (
+              <Container style={{ display: "flex", justifyContent: "center" }}>
+                <Row>
+                  <Button
+                    className="pagesbuttons"
+                    style={{ cursor: "not-allowed" }}
+                    onClick={this.prevPage}
+                    disabled
+                  >
+                    <FaChevronLeft />
+                  </Button>
+                  <div className="pagesinfo">{`${this.state.page} / ${totalStudents}`}</div>
+                  <Button
+                    className="pagesbuttons"
+                    style={{ cursor: "not-allowed" }}
+                    onClick={this.nextPage}
+                    disabled
+                  >
                     <FaChevronRight />
                   </Button>
                 </Row>

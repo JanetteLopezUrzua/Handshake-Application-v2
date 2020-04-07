@@ -4,6 +4,7 @@ import {
   COMPANY_EVENT_UPDATE,
   EVENT_UPDATE_ERROR,
   EVENT_LOADED,
+  EVENTS_LIST_LOADED,
   DELETE_ERRORS,
   LOG_OUT,
   LOGIN_SUCCESS,
@@ -25,6 +26,7 @@ export default function (state = initialState, action) {
       };
 
     case EVENT_LOADED:
+    case EVENTS_LIST_LOADED:
       return {
         ...state,
         event: payload,

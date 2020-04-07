@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import { MdEdit } from "react-icons/md";
 
-const DisplayWork = props => {
+const DisplayWork = (props) => {
   let {
     companyname,
     title,
@@ -14,7 +14,7 @@ const DisplayWork = props => {
     startdateyear,
     enddatemonth,
     enddateyear,
-    description
+    description,
   } = props.job;
 
   const months = [
@@ -29,7 +29,7 @@ const DisplayWork = props => {
     "September",
     "October",
     "November",
-    "December"
+    "December",
   ];
 
   let hyphen = "";
@@ -62,7 +62,7 @@ const DisplayWork = props => {
           paddingRight: "0",
           paddingLeft: "10px",
           marginBottom: "30px",
-          cursor: "pointer"
+          cursor: "pointer",
         }}
       >
         <Row>
@@ -89,7 +89,7 @@ const DisplayWork = props => {
         style={{
           paddingRight: "0",
           paddingLeft: "10px",
-          marginBottom: "30px"
+          marginBottom: "30px",
         }}
       >
         <Row>
@@ -99,7 +99,7 @@ const DisplayWork = props => {
         </Row>
         <Card.Subtitle className="schooldegree">{title}</Card.Subtitle>
         <Card.Text className="schooldate">
-          {months[startdatemonth - 1]} {startdateyear} -{" "}
+          {months[startdatemonth - 1]} {startdateyear} {hyphen}
           {months[enddatemonth - 1]} {enddateyear} {noenddate}
         </Card.Text>
         <Card.Text className="schooldata">{description}</Card.Text>

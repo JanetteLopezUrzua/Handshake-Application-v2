@@ -4,6 +4,7 @@ import {
   COMPANY_EVENT_DELETE,
   COMPANY_EVENT_UPDATE,
   EVENT_UPDATE_ERROR,
+  EVENTS_LIST_LOADED,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -81,6 +82,29 @@ export const addnewevent = ({ company_id, event }) => async (dispatch) => {
     console.log("ERR", err);
     const errors = err.response.data.errors;
 
+    dispatch({
+      type: EVENT_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+// Events List
+export const companyloadeventslist = (page, id) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.get(
+      `http://localhost:3001/companies/eventslist?page=${page}&&id=${id}`
+    );
+    dispatch({
+      type: EVENTS_LIST_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
     dispatch({
       type: EVENT_UPDATE_ERROR,
       payload: errors,
