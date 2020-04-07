@@ -1,11 +1,12 @@
 import axios from "axios";
 import {
   COMPANY_ADD_NEW_EVENT,
+  DELETE_ERRORS,
   COMPANY_EVENT_DELETE,
-  COMPANY_EVENT_UPDATE,
   EVENT_LOADED,
   EVENT_UPDATE_ERROR,
   EVENTS_LIST_LOADED,
+  EVENT_DESCRIPTION_UPDATE,
   EVENT_BANNER_PHOTO_UPDATE,
   EVENT_BANNER_PHOTO_DELETE,
 } from "./types";
@@ -190,6 +191,51 @@ export const deletebannerphoto = (eventid) => async (dispatch) => {
 
     dispatch({
       type: EVENT_BANNER_PHOTO_DELETE,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: EVENT_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+export const deleteerrors = () => (dispatch) => {
+  dispatch({
+    type: DELETE_ERRORS,
+  });
+};
+
+export const updateeventdescription = (event_id, description) => async (
+  dispatch
+) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ event_id, description });
+
+  console.log(body);
+
+  try {
+    const res = await axios.put(
+      "http://localhost:3001/companies/event/description",
+      body,
+      config
+    );
+
+    dispatch({
+      type: EVENT_DESCRIPTION_UPDATE,
       payload: res.data,
     });
   } catch (err) {

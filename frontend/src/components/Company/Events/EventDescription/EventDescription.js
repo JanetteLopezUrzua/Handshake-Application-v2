@@ -1,11 +1,14 @@
 import React from "react";
-import axios from "axios";
-// import cookie from 'react-cookies';
 import EventDisplayDescription from "./EventDisplayDescription";
 import EventEditDescription from "./EventEditDescription";
 
+import { connect } from "react-redux";
+import {
+  updateeventdescription,
+  deleteerrors,
+} from "../../../../actions/events";
 
-class EventDescription extends React.Component {
+class ConnectedEventDescription extends React.Component {
   constructor(props) {
     super(props);
 
@@ -13,101 +16,49 @@ class EventDescription extends React.Component {
       event_id: "",
       description: "",
       editWasTriggered: false,
-      company_id: ""
     };
   }
 
-  static getDerivedStateFromProps = (props) => ({ event_id: props.event_id })
-
-  componentDidMount() {
-    this.getInfo();
-  }
-
-  getInfo = () => {
-    axios.get(`http://localhost:3001/company/eventdescription/${this.state.event_id}`)
-      .then(response => {
-        const info = response.data;
-
-        // description has whitespace only
-        const wspatt = new RegExp("^ *$");
-
-        if (info.description === undefined || wspatt.test(info.description)) {
-          this.setState({
-            description: "",
-            company_id: info.company_id.toString()
-          });
-        } else {
-          this.setState({
-            description: info.description,
-            company_id: info.company_id.toString()
-          });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+  static getDerivedStateFromProps = (props) => ({ event_id: props.event_id });
 
   handleClick = (e) => {
     e.preventDefault();
-    console.log("button was pressed!!!!");
     this.setState({ editWasTriggered: true });
   };
 
-  descriptionChangeHandler = e => {
+  descriptionChangeHandler = (e) => {
     this.setState({
-      description: e.target.value
+      description: e.target.value,
     });
   };
 
-  handleSave = (e) => {
+  handleSave = async (e) => {
     e.preventDefault();
-    // description has whitespace only
-    const wspatt = new RegExp("^ *$");
 
-    if (this.state.description === undefined || wspatt.test(this.state.description)) {
-      this.setState({
-        description: "",
-      });
+    let eventid = this.state.event_id;
+    let description = this.state.description;
+
+    await this.props.dispatch(updateeventdescription(eventid, description));
+
+    if (this.props.event.payload) {
+    } else {
+      this.setState({ editWasTriggered: false });
     }
-
-    const data = {
-      event_id: this.state.event_id,
-      description: this.state.description,
-    };
-
-    axios.post("http://localhost:3001/company/eventdescription", data)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
-    this.setState({ editWasTriggered: false });
   };
 
-  handleCancel = (e) => {
-    e.preventDefault();
+  handleCancel = async (e) => {
+    await this.props.dispatch(deleteerrors());
     this.setState({
       description: "",
-      editWasTriggered: false
+      editWasTriggered: false,
     });
   };
 
   render() {
-    const {
-      description, editWasTriggered,
-    } = this.state;
+    const { editWasTriggered } = this.state;
 
     let display = "";
-    display = (
-      <EventDisplayDescription
-        clicked={this.handleClick}
-        description={description}
-        company_id={this.state.company_id}
-      />
-    );
+    display = <EventDisplayDescription clicked={this.handleClick} />;
 
     if (editWasTriggered) {
       display = (
@@ -115,7 +66,6 @@ class EventDescription extends React.Component {
           descriptionchange={this.descriptionChangeHandler}
           save={this.handleSave}
           cancel={this.handleCancel}
-          data={this.state}
         />
       );
     }
@@ -123,5 +73,8 @@ class EventDescription extends React.Component {
     return <>{display}</>;
   }
 }
-
+const mapStateToProps = (state) => {
+  return { event: state.event };
+};
+const EventDescription = connect(mapStateToProps)(ConnectedEventDescription);
 export default EventDescription;

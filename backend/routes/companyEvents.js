@@ -134,4 +134,35 @@ router.get("/event/:eventid", checkAuth, async (req, res) => {
   });
 });
 
+// @route   PUT companies/event/description
+// @desc    Update event description
+// @access  Public
+router.put(
+  "/event/description",
+  [check("description", "Required. Enter Description").trim().not().isEmpty()],
+  checkAuth,
+  async (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors);
+    console.log(req.body);
+    //Check if there are errors
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    kafka.make_request("company_update_event_description", req.body, function (
+      err,
+      results
+    ) {
+      try {
+        let event = results;
+        res.json({ event });
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+      }
+    });
+  }
+);
+
 module.exports = router;

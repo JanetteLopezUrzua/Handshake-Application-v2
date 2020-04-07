@@ -7,26 +7,26 @@ import Button from "react-bootstrap/Button";
 
 import { connect } from "react-redux";
 
-const ConnectedEditInfo = props => {
+const ConnectedEditInfo = (props) => {
   let locationerrormsg = "";
 
   if (props.userprofile.payload) {
-    props.userprofile.payload.forEach(err => {
+    props.userprofile.payload.forEach((err) => {
       if (err.param === "location") locationerrormsg = err.msg;
     });
   }
 
-  let location = "";
-  let description = "";
+  // let location = "";
+  // let description = "";
 
-  if (props.userprofile.user !== null) {
-    location = props.userprofile.user.company.location
-      ? props.userprofile.user.company.location
-      : "";
-    description = props.userprofile.user.company.description
-      ? props.userprofile.user.company.description
-      : "";
-  }
+  // if (props.userprofile.user !== null) {
+  //   location = props.userprofile.user.company.location
+  //     ? props.userprofile.user.company.location
+  //     : "";
+  //   description = props.userprofile.user.company.description
+  //     ? props.userprofile.user.company.description
+  //     : "";
+  // }
 
   return (
     <Card>
@@ -67,7 +67,7 @@ const ConnectedEditInfo = props => {
     </Card>
   );
 };
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { userprofile: state.userprofile };
 };
 const EditInfo = connect(mapStateToProps)(ConnectedEditInfo);

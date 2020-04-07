@@ -1,16 +1,31 @@
 import React from "react";
-// import cookie from 'react-cookies';
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { MdEdit } from "react-icons/md";
 
-const EventDisplayDescription = (props) => {
+import { connect } from "react-redux";
+
+const ConnectedEventDisplayDescription = (props) => {
+  let company_id = "";
+  let description = "";
+
+  if (props.event.event !== null) {
+    company_id = props.event.event.event.companyid._id
+      ? props.event.event.event.companyid._id
+      : "";
+    description = props.event.event.event.description
+      ? props.event.event.event.description
+      : "";
+  }
+
   let button = "";
 
-  // if (cookie.load('id') === props.company_id && cookie.load('user') === "company") {
-  if (true) {
+  if (
+    localStorage.getItem("id") === company_id &&
+    localStorage.getItem("type") === "company"
+  ) {
     button = (
       <Col style={{ textAlign: "right" }}>
         <Button className="editbutton" onClick={props.clicked}>
@@ -19,11 +34,6 @@ const EventDisplayDescription = (props) => {
       </Col>
     );
   }
-
-  let description = "";
-  if (props.description === "") {
-    description = "No Description Entered.";
-  } else description = props.description;
 
   return (
     <Card>
@@ -34,5 +44,10 @@ const EventDisplayDescription = (props) => {
     </Card>
   );
 };
-
+const mapStateToProps = (state) => {
+  return { event: state.event };
+};
+const EventDisplayDescription = connect(mapStateToProps)(
+  ConnectedEventDisplayDescription
+);
 export default EventDisplayDescription;

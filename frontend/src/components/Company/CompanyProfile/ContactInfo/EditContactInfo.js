@@ -7,28 +7,28 @@ import Button from "react-bootstrap/Button";
 
 import { connect } from "react-redux";
 
-const ConnectedEditContactInfo = props => {
+const ConnectedEditContactInfo = (props) => {
   let emailerrormsg = "";
   let phonenumerrormsg = "";
 
   if (props.userprofile.payload) {
-    props.userprofile.payload.forEach(err => {
+    props.userprofile.payload.forEach((err) => {
       if (err.param === "email") emailerrormsg = err.msg;
       else if (err.param === "phonenumber") phonenumerrormsg = err.msg;
     });
   }
 
-  let email = "";
-  let phonenumber = "";
+  // let email = "";
+  // let phonenumber = "";
 
-  if (props.userprofile.user !== null) {
-    email = props.userprofile.user.company.email
-      ? props.userprofile.user.company.email
-      : "";
-    phonenumber = props.userprofile.user.company.phonenumber
-      ? props.userprofile.user.company.phonenumber
-      : "";
-  }
+  // if (props.userprofile.user !== null) {
+  //   email = props.userprofile.user.company.email
+  //     ? props.userprofile.user.company.email
+  //     : "";
+  //   phonenumber = props.userprofile.user.company.phonenumber
+  //     ? props.userprofile.user.company.phonenumber
+  //     : "";
+  // }
 
   return (
     <Card>
@@ -59,7 +59,7 @@ const ConnectedEditContactInfo = props => {
     </Card>
   );
 };
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { userprofile: state.userprofile };
 };
 const EditContactInfo = connect(mapStateToProps)(ConnectedEditContactInfo);
