@@ -1,11 +1,6 @@
 import {
-  COMPANY_ADD_NEW_EVENT,
-  COMPANY_EVENT_DELETE,
-  COMPANY_EVENT_UPDATE,
-  EVENT_BANNER_PHOTO_UPDATE,
-  EVENT_BANNER_PHOTO_DELETE,
   EVENT_UPDATE_ERROR,
-  EVENT_LOADED,
+  EVENTS_LIST_LOADED,
   DELETE_ERRORS,
   LOG_OUT,
   LOGIN_SUCCESS,
@@ -13,7 +8,7 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  event: null,
+  events: null,
 };
 
 export default function (state = initialState, action) {
@@ -23,24 +18,13 @@ export default function (state = initialState, action) {
     case LOGIN_SUCCESS:
     case SIGNUP_SUCCESS:
       return {
-        event: null,
+        events: null,
       };
 
-    case EVENT_LOADED:
+    case EVENTS_LIST_LOADED:
       return {
         ...state,
-        event: payload,
-      };
-
-    case COMPANY_ADD_NEW_EVENT:
-    case COMPANY_EVENT_DELETE:
-    case COMPANY_EVENT_UPDATE:
-    case EVENT_BANNER_PHOTO_UPDATE:
-    case EVENT_BANNER_PHOTO_DELETE:
-      return {
-        ...state,
-        event: payload,
-        payload: null,
+        events: payload,
       };
 
     case EVENT_UPDATE_ERROR:
@@ -57,7 +41,7 @@ export default function (state = initialState, action) {
 
     case LOG_OUT:
       return {
-        event: null,
+        events: null,
       };
 
     default:

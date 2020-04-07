@@ -6,41 +6,32 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Redirect } from "react-router";
 import axios from "axios";
-// import cookie from "react-cookies";
 import Banner from "../Banner/DisplayBanner";
 import EventInfo from "../EventInfo/EventInfo";
 import EventDescription from "../EventDescription/EventDescription";
 import EventRSVP from "../EventRSVP/EventRSVP";
 
-class EventContainer extends React.Component {
+import setAuthToken from "../../../../utils/setAuthToken";
+import { connect } from "react-redux";
+import { companyloadevent } from "../../../../actions/events";
+
+class ConnectedEventContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       redirect: false,
-      company_id: "",
     };
   }
 
-  componentDidMount() {
-    this.getInfo();
+  async componentDidMount() {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+
+      const event_id = this.props.match.params.event_id;
+
+      await this.props.dispatch(companyloadevent(event_id));
+    }
   }
-
-  getInfo = () => {
-    axios
-      .get(
-        `http://localhost:3001/company/companytoevent/${this.props.match.params.event_id}`
-      )
-      .then((response) => {
-        const info = response.data;
-
-        this.setState({
-          company_id: info.company_id.toString(),
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   handleDelete = () => {
     axios
@@ -101,5 +92,8 @@ class EventContainer extends React.Component {
     );
   }
 }
-
+const mapStateToProps = (state) => {
+  return { event: state.event };
+};
+const EventContainer = connect(mapStateToProps)(ConnectedEventContainer);
 export default EventContainer;

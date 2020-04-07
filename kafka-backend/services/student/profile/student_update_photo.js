@@ -8,7 +8,7 @@ async function handle_request(msg, callback) {
 
   try {
     data = {
-      photo
+      photo,
     };
     console.log(id);
     let student = await Student.findByIdAndUpdate(id, data, { new: true });

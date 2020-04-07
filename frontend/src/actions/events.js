@@ -3,12 +3,39 @@ import {
   COMPANY_ADD_NEW_EVENT,
   COMPANY_EVENT_DELETE,
   COMPANY_EVENT_UPDATE,
+  EVENT_LOADED,
   EVENT_UPDATE_ERROR,
   EVENTS_LIST_LOADED,
+  EVENT_BANNER_PHOTO_UPDATE,
+  EVENT_BANNER_PHOTO_DELETE,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
 // Events
+export const companyloadevent = (eventid) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.get(
+      `http://localhost:3001/companies/event/${eventid}`
+    );
+    dispatch({
+      type: EVENT_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: EVENT_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
 export const addnewevent = ({ company_id, event }) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -105,6 +132,70 @@ export const companyloadeventslist = (page, id) => async (dispatch) => {
     });
   } catch (err) {
     const errors = err.response.data.errors;
+    dispatch({
+      type: EVENT_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+export const updatebannerphoto = (eventid, data) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    let photo = await axios.post("http://localhost:3001/upload", data);
+    photo = photo.data;
+    const body = JSON.stringify({ eventid, photo });
+
+    console.log(body);
+
+    const res = await axios.put(
+      "http://localhost:3001/companies/event/bannerphoto",
+      body,
+      config
+    );
+
+    dispatch({
+      type: EVENT_BANNER_PHOTO_UPDATE,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: EVENT_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+export const deletebannerphoto = (eventid) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.delete(
+      `http://localhost:3001/companies/event/bannerphoto/${eventid}`
+    );
+
+    dispatch({
+      type: EVENT_BANNER_PHOTO_DELETE,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
     dispatch({
       type: EVENT_UPDATE_ERROR,
       payload: errors,

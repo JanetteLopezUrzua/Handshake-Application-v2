@@ -36,6 +36,9 @@ var CompanyUpdateName = require("./services/company/profile/company_update_name"
 var CompanyStudentsList = require("./services/company/studentslist/company_students_list");
 var CompanyAddNewEvent = require("./services/company/events/company_add_new_event");
 var CompanyEventsList = require("./services/company/events/company_events_list");
+var CompanyUpdateBannerPhoto = require("./services/company/events/company_update_banner_photo");
+var CompanyDeleteBannerPhoto = require("./services/company/events/company_delete_banner_photo");
+var EventInfo = require("./services/company/events/event_info");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -104,3 +107,6 @@ handleTopicRequest("company_update_name", CompanyUpdateName);
 handleTopicRequest("company_students_list", CompanyStudentsList);
 handleTopicRequest("company_add_new_event", CompanyAddNewEvent);
 handleTopicRequest("company_events_list", CompanyEventsList);
+handleTopicRequest("company_update_banner_photo", CompanyUpdateBannerPhoto);
+handleTopicRequest("company_delete_banner_photo", CompanyDeleteBannerPhoto);
+handleTopicRequest("event_info", EventInfo);

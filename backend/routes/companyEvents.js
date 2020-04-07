@@ -78,4 +78,60 @@ router.get("/eventslist", checkAuth, async (req, res) => {
   });
 });
 
+// @route   PUT companies/event/bannerphoto
+// @desc    Update event banner photo
+// @access  Public
+router.put("/event/bannerphoto", checkAuth, async (req, res) => {
+  console.log(req.body);
+
+  kafka.make_request("company_update_banner_photo", req.body, function (
+    err,
+    results
+  ) {
+    try {
+      let event = results;
+      res.json({ event });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
+// @route   DELETE companies/event/bannerphoto/:eventid
+// @desc    Delete event banner photo
+// @access  Public
+router.delete("/event/bannerphoto/:eventid", checkAuth, async (req, res) => {
+  let eventid = req.params.eventid;
+
+  kafka.make_request("company_delete_banner_photo", eventid, function (
+    err,
+    results
+  ) {
+    try {
+      let event = results;
+      res.json({ event });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
+// @route   GET companies/event/:eventid
+// @desc    Get event information
+// @access  Public
+router.get("/event/:eventid", checkAuth, async (req, res) => {
+  let eventid = req.params.eventid;
+  kafka.make_request("event_info", eventid, function (err, results) {
+    try {
+      let event = results;
+      res.json({ event });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
 module.exports = router;

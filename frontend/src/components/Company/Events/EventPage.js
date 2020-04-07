@@ -78,25 +78,27 @@ class ConnectedEventPage extends React.Component {
     let pageRedirect = null;
     let pagesArrows = "";
 
-    if (this.props.event.event !== null) {
-      if (this.props.event.event.eventsList.docs) {
-        if (this.props.event.event.eventsList.docs.length === 0) {
+    if (this.props.eventslist.events !== null) {
+      if (this.props.eventslist.events.eventsList.docs) {
+        if (this.props.eventslist.events.eventsList.docs.length === 0) {
           eventsList = "";
           message = "You have 0 events";
         } else {
-          eventsList = this.props.event.event.eventsList.docs.map((event) => {
-            return (
-              <EventListContainer
-                key={event._id}
-                eventid={event._id}
-                event={event}
-              />
-            );
-          });
-          currPage = this.props.event.event.eventsList.page;
-          numOfPages = this.props.event.event.eventsList.pages;
-          limit = this.props.event.event.eventsList.limit;
-          totalEvents = this.props.event.event.eventsList.total;
+          eventsList = this.props.eventslist.events.eventsList.docs.map(
+            (event) => {
+              return (
+                <EventListContainer
+                  key={event._id}
+                  eventid={event._id}
+                  event={event}
+                />
+              );
+            }
+          );
+          currPage = this.props.eventslist.events.eventsList.page;
+          numOfPages = this.props.eventslist.events.eventsList.pages;
+          limit = this.props.eventslist.events.eventsList.limit;
+          totalEvents = this.props.eventslist.events.eventsList.total;
           pageRedirect = this.state.redirect;
 
           if (this.state.page === 1 && currPage !== numOfPages) {
@@ -200,7 +202,7 @@ class ConnectedEventPage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userprofile: state.userprofile,
-    event: state.event,
+    eventslist: state.eventslist,
   };
 };
 const EventPage = connect(mapStateToProps)(ConnectedEventPage);
