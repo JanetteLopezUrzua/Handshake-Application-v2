@@ -7,6 +7,7 @@ import {
   EVENT_LOADED,
   DELETE_ERRORS,
   EVENT_DESCRIPTION_UPDATE,
+  EVENT_INFO_UPDATE,
   LOG_OUT,
   LOGIN_SUCCESS,
   SIGNUP_SUCCESS,
@@ -37,6 +38,7 @@ export default function (state = initialState, action) {
     case EVENT_BANNER_PHOTO_UPDATE:
     case EVENT_BANNER_PHOTO_DELETE:
     case EVENT_DESCRIPTION_UPDATE:
+    case EVENT_INFO_UPDATE:
       return {
         ...state,
         event: payload,

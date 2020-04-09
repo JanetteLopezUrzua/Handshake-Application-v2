@@ -14,6 +14,14 @@ const ConnectedEventEditDescription = (props) => {
     });
   }
 
+  let description = "";
+
+  if (props.event.event !== null) {
+    description = props.event.event.event.description
+      ? props.event.event.event.description
+      : "";
+  }
+
   return (
     <Card>
       <Form.Group controlId="description">
@@ -24,6 +32,7 @@ const ConnectedEventEditDescription = (props) => {
           onChange={props.descriptionchange}
           name="description"
           type="text"
+          placeholder={description}
           autoFocus
         />
         <p className="errormessage"> {descriptionerrormsg}</p>

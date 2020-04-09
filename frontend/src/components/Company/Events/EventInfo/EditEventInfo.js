@@ -1,17 +1,120 @@
-import React from 'react';
+import React from "react";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
-const EditEventInfo = (props) => {
+import { connect } from "react-redux";
+
+const ConnectedEditEventInfo = (props) => {
+  let titleerrormsg = "";
+  let dayofweekerrormsg = "";
+  let montherrormsg = "";
+  let dayerrormsg = "";
+  let yearerrormsg = "";
+  let starttimeerrormsg = "";
+  let startdaytimeerrormsg = "";
+  let endtimeerrormsg = "";
+  let enddaytimeerrormsg = "";
+  let timezoneerrormsg = "";
+  let locationerrormsg = "";
+  let eligibilityerrormsg = "";
+
+  if (props.event.payload) {
+    props.event.payload.forEach((err) => {
+      if (err.param === "title") titleerrormsg = err.msg;
+      else if (err.param === "dayofweek") dayofweekerrormsg = err.msg;
+      else if (err.param === "month") montherrormsg = err.msg;
+      else if (err.param === "day") dayerrormsg = err.msg;
+      else if (err.param === "year") yearerrormsg = err.msg;
+      else if (err.param === "starttime") starttimeerrormsg = err.msg;
+      else if (err.param === "startdaytime") startdaytimeerrormsg = err.msg;
+      else if (err.param === "endtime") endtimeerrormsg = err.msg;
+      else if (err.param === "enddaytime") enddaytimeerrormsg = err.msg;
+      else if (err.param === "timezone") timezoneerrormsg = err.msg;
+      else if (err.param === "location") locationerrormsg = err.msg;
+      else if (err.param === "eligibility") eligibilityerrormsg = err.msg;
+    });
+  }
+
+  let title = "";
+  let dayofweek = "";
+  let month = "";
+  let day = "";
+  let year = "";
+  let starttime = "";
+  let startdaytime = "";
+  let endtime = "";
+  let enddaytime = "";
+  let timezone = "";
+  let location = "";
+  let eligibility = "";
+
+  if (props.event.event !== null) {
+    title = props.event.event.event.title ? props.event.event.event.title : "";
+    dayofweek = props.event.event.event.dayofweek
+      ? props.event.event.event.dayofweek
+      : "";
+    month = props.event.event.event.month ? props.event.event.event.month : "";
+    day = props.event.event.event.day ? props.event.event.event.day : "";
+    year = props.event.event.event.year ? props.event.event.event.year : "";
+    starttime = props.event.event.event.starttime
+      ? props.event.event.event.starttime
+      : "";
+    startdaytime = props.event.event.event.startdaytime
+      ? props.event.event.event.startdaytime
+      : "";
+    endtime = props.event.event.event.endtime
+      ? props.event.event.event.endtime
+      : "";
+    enddaytime = props.event.event.event.enddaytime
+      ? props.event.event.event.enddaytime
+      : "";
+    timezone = props.event.event.event.timezone
+      ? props.event.event.event.timezone
+      : "";
+    location = props.event.event.event.location
+      ? props.event.event.event.location
+      : "";
+    eligibility = props.event.event.event.eligibility
+      ? props.event.event.event.eligibility
+      : "";
+  }
+
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "November",
+    "December",
+  ];
+
   let inputfield = "";
   if (props.eligibilityoption === "other") {
     inputfield = (
       <Form.Group controlId="eligibility">
         <Form.Label className="labels">Enter Eligibility Major</Form.Label>
-        <Form.Control onChange={props.eligibilitychange} name="eligibility" type="text" />
+        <Form.Control
+          onChange={props.handleChange}
+          name="eligibility"
+          type="text"
+        />
       </Form.Group>
     );
   }
@@ -20,12 +123,24 @@ const EditEventInfo = (props) => {
     <Card>
       <Form.Group controlId="title">
         <Form.Label className="labels">Title</Form.Label>
-        <Form.Control onChange={props.titlechange} name="title" type="text" value={props.data.title} />
+        <Form.Control
+          onChange={props.handleChange}
+          name="title"
+          type="text"
+          placeholder={title}
+        />
+        <p className="errormessage">{titleerrormsg}</p>
       </Form.Group>
       <Form.Group controlId="dayofweek">
         <Form.Label className="labels">Day Of The Week</Form.Label>
-        <Form.Control as="select" onChange={props.dayofweekchange} name="dayofweek" value={props.data.dayofweek}>
-          <option value="" hidden> </option>
+        <Form.Control
+          as="select"
+          onChange={props.handleChange}
+          name="dayofweek"
+        >
+          <option value="" hidden>
+            {days[dayofweek - 1]}
+          </option>
           <option value="1">Monday</option>
           <option value="2">Tuesday</option>
           <option value="3">Wednesday</option>
@@ -34,13 +149,20 @@ const EditEventInfo = (props) => {
           <option value="6">Saturday</option>
           <option value="7">Sunday</option>
         </Form.Control>
+        <p className="errormessage">{dayofweekerrormsg}</p>
       </Form.Group>
-      <Form.Group controlId="date">
-        <Form.Label className="labels">Date</Form.Label>
-        <Row>
-          <Col>
-            <Form.Control as="select" onChange={props.monthchange} name="month" value={props.data.month}>
-              <option value="" hidden> </option>
+      <Row>
+        <Col>
+          <Form.Group controlId="month">
+            <Form.Label className="labels">Date</Form.Label>
+            <Form.Control
+              as="select"
+              onChange={props.handleChange}
+              name="month"
+            >
+              <option value="" hidden>
+                {months[month - 1]}
+              </option>
               <option value="1">January</option>
               <option value="2">February</option>
               <option value="3">March</option>
@@ -54,10 +176,16 @@ const EditEventInfo = (props) => {
               <option value="11">November</option>
               <option value="12">December</option>
             </Form.Control>
-          </Col>
-          <Col>
-            <Form.Control as="select" onChange={props.daychange} name="day" value={props.data.day}>
-              <option value="" hidden> </option>
+            <p className="errormessage">{montherrormsg}</p>
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group controlId="day">
+            <Form.Label className="labels"></Form.Label>
+            <Form.Control as="select" onChange={props.handleChange} name="day">
+              <option value="" hidden>
+                {day}
+              </option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -90,10 +218,16 @@ const EditEventInfo = (props) => {
               <option value="30">30</option>
               <option value="31">31</option>
             </Form.Control>
-          </Col>
-          <Col>
-            <Form.Control as="select" onChange={props.yearchange} name="year" value={props.data.year}>
-              <option value="" hidden> </option>
+            <p className="errormessage">{dayerrormsg}</p>
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group controlId="year">
+            <Form.Label className="labels"></Form.Label>
+            <Form.Control as="select" onChange={props.handleChange} name="year">
+              <option value="" hidden>
+                {year}
+              </option>
               <option value="2030">2030</option>
               <option value="2029">2029</option>
               <option value="2028">2028</option>
@@ -106,15 +240,22 @@ const EditEventInfo = (props) => {
               <option value="2021">2021</option>
               <option value="2020">2020</option>
             </Form.Control>
-          </Col>
-        </Row>
-      </Form.Group>
-      <Form.Group controlId="starttime">
-        <Form.Label className="labels">Start Time</Form.Label>
-        <Row>
-          <Col>
-            <Form.Control as="select" onChange={props.starttimechange} name="starttime" value={props.data.starttime}>
-              <option value="" hidden> </option>
+            <p className="errormessage">{yearerrormsg}</p>
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form.Group controlId="starttime">
+            <Form.Label className="labels">Start Time</Form.Label>
+            <Form.Control
+              as="select"
+              onChange={props.handleChange}
+              name="starttime"
+            >
+              <option value="" hidden>
+                {starttime}
+              </option>
               <option value="12:00">12:00</option>
               <option value="12:15">12:15</option>
               <option value="12:30">12:30</option>
@@ -164,22 +305,39 @@ const EditEventInfo = (props) => {
               <option value="11:30">11:30</option>
               <option value="11:45">11:45</option>
             </Form.Control>
-          </Col>
-          <Col>
-            <Form.Control as="select" onChange={props.startdaytimechange} name="startdaytime" value={props.data.startdaytime}>
-              <option value="" hidden> </option>
+            <p className="errormessage">{starttimeerrormsg}</p>
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group controlId="startdaytime">
+            <Form.Label className="labels"></Form.Label>
+            <Form.Control
+              as="select"
+              onChange={props.handleChange}
+              name="startdaytime"
+            >
+              <option value="" hidden>
+                {startdaytime}
+              </option>
               <option value="AM">AM</option>
               <option value="PM">PM</option>
             </Form.Control>
-          </Col>
-        </Row>
-      </Form.Group>
-      <Form.Group controlId="endtime">
-        <Form.Label className="labels">End Time</Form.Label>
-        <Row>
-          <Col>
-            <Form.Control as="select" onChange={props.endtimechange} name="endtime" value={props.data.endtime}>
-              <option value="" hidden> </option>
+            <p className="errormessage">{startdaytimeerrormsg}</p>
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form.Group controlId="endtime">
+            <Form.Label className="labels">End Time</Form.Label>
+            <Form.Control
+              as="select"
+              onChange={props.handleChange}
+              name="endtime"
+            >
+              <option value="" hidden>
+                {endtime}
+              </option>
               <option value="12:00">12:00</option>
               <option value="12:15">12:15</option>
               <option value="12:30">12:30</option>
@@ -229,46 +387,79 @@ const EditEventInfo = (props) => {
               <option value="11:30">11:30</option>
               <option value="11:45">11:45</option>
             </Form.Control>
-          </Col>
-          <Col>
-            <Form.Control as="select" onChange={props.enddaytimechange} name="enddaytime" value={props.data.enddaytime}>
-              <option value="" hidden> </option>
+            <p className="errormessage">{endtimeerrormsg}</p>
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group controlId="enddaytime">
+            <Form.Label className="labels"></Form.Label>
+            <Form.Control
+              as="select"
+              onChange={props.handleChange}
+              name="enddaytime"
+            >
+              <option value="" hidden>
+                {enddaytime}
+              </option>
               <option value="AM">AM</option>
               <option value="PM">PM</option>
             </Form.Control>
-          </Col>
-        </Row>
-      </Form.Group>
+            <p className="errormessage">{enddaytimeerrormsg}</p>
+          </Form.Group>
+        </Col>
+      </Row>
       <Form.Group controlId="timezone">
         <Form.Label className="labels">Time Zone</Form.Label>
-        <Form.Control as="select" onChange={props.timezonechange} name="timezone" value={props.data.timezone}>
-          <option value="" hidden> </option>
+        <Form.Control as="select" onChange={props.handleChange} name="timezone">
+          <option value="" hidden>
+            {timezone}
+          </option>
           <option value="PST">PDT</option>
           <option value="EDT">EDT</option>
         </Form.Control>
+        <p className="errormessage">{timezoneerrormsg}</p>
       </Form.Group>
 
       <Form.Group controlId="location">
         <Form.Label className="labels">Location</Form.Label>
-        <Form.Control onChange={props.locationchange} name="location" type="text" value={props.data.location} />
+        <Form.Control
+          onChange={props.handleChange}
+          name="location"
+          type="text"
+          placeholder={location}
+        />
+        <p className="errormessage">{locationerrormsg}</p>
       </Form.Group>
 
       <Form.Group controlId="eligibility">
         <Form.Label className="labels">Eligibility</Form.Label>
-        <Form.Control as="select" onChange={props.eligibilityoptionchange} name="eligibility" value={props.data.eligibility}>
-          <option value="" hidden> </option>
+        <Form.Control
+          as="select"
+          onChange={props.eligibilityoptionchange}
+          name="eligibility"
+        >
+          <option value="" hidden>
+            {eligibility}
+          </option>
           <option value="all">All</option>
           <option value="other">Other</option>
         </Form.Control>
         {inputfield}
       </Form.Group>
-      <p className="errormessage">{props.errormessage}</p>
+      <p className="errormessage">{eligibilityerrormsg}</p>
       <Card.Footer>
-        <Button className="cancel" onClick={props.cancel}>Cancel</Button>
-        <Button className="save" onClick={props.save}>Save</Button>
+        <Button className="cancel" onClick={props.cancel}>
+          Cancel
+        </Button>
+        <Button className="save" onClick={props.save}>
+          Save
+        </Button>
       </Card.Footer>
     </Card>
   );
 };
-
+const mapStateToProps = (state) => {
+  return { event: state.event };
+};
+const EditEventInfo = connect(mapStateToProps)(ConnectedEditEventInfo);
 export default EditEventInfo;

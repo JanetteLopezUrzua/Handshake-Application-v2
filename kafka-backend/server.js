@@ -40,6 +40,7 @@ var CompanyUpdateBannerPhoto = require("./services/company/events/company_update
 var CompanyDeleteBannerPhoto = require("./services/company/events/company_delete_banner_photo");
 var EventInfo = require("./services/company/events/event_info");
 var CompanyUpdateEventDescription = require("./services/company/events/company_update_event_description");
+var CompanyUpdateEventInfo = require("./services/company/events/company_update_event_info");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -115,3 +116,4 @@ handleTopicRequest(
   "company_update_event_description",
   CompanyUpdateEventDescription
 );
+handleTopicRequest("company_update_event_info", CompanyUpdateEventInfo);

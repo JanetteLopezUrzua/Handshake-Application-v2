@@ -9,6 +9,7 @@ import {
   EVENT_DESCRIPTION_UPDATE,
   EVENT_BANNER_PHOTO_UPDATE,
   EVENT_BANNER_PHOTO_DELETE,
+  EVENT_INFO_UPDATE,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -236,6 +237,72 @@ export const updateeventdescription = (event_id, description) => async (
 
     dispatch({
       type: EVENT_DESCRIPTION_UPDATE,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: EVENT_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+export const updateeventinfo = (event_id, event) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const {
+    title,
+    dayofweek,
+    month,
+    day,
+    year,
+    starttime,
+    startdaytime,
+    endtime,
+    enddaytime,
+    timezone,
+    location,
+    eligibility,
+  } = event;
+
+  const body = JSON.stringify({
+    event_id,
+    title,
+    dayofweek,
+    month,
+    day,
+    year,
+    starttime,
+    startdaytime,
+    endtime,
+    enddaytime,
+    timezone,
+    location,
+    eligibility,
+  });
+
+  console.log(body);
+
+  try {
+    const res = await axios.put(
+      "http://localhost:3001/companies/event/info",
+      body,
+      config
+    );
+
+    dispatch({
+      type: EVENT_INFO_UPDATE,
       payload: res.data,
     });
   } catch (err) {

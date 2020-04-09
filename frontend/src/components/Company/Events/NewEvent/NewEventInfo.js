@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import { loadcompanyprofile } from "../../../../actions/companyprofile";
 import { addnewevent } from "../../../../actions/events";
 
-class ConnectedEventInfo extends React.Component {
+class ConnectedNewEventInfo extends React.Component {
   constructor() {
     super();
 
@@ -527,5 +527,5 @@ const mapStateToProps = (state) => {
     event: state.event,
   };
 };
-const EventInfo = connect(mapStateToProps)(ConnectedEventInfo);
-export default EventInfo;
+const NewEventInfo = connect(mapStateToProps)(ConnectedNewEventInfo);
+export default NewEventInfo;

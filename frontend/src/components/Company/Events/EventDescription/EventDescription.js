@@ -36,13 +36,20 @@ class ConnectedEventDescription extends React.Component {
     e.preventDefault();
 
     let eventid = this.state.event_id;
-    let description = this.state.description;
+    let description = "";
+
+    if (this.props.event.event !== null) {
+      description =
+        this.state.description !== ""
+          ? this.state.description
+          : this.props.event.event.event.description;
+    }
 
     await this.props.dispatch(updateeventdescription(eventid, description));
 
     if (this.props.event.payload) {
     } else {
-      this.setState({ editWasTriggered: false });
+      this.setState({ editWasTriggered: false, description: "" });
     }
   };
 
