@@ -316,75 +316,27 @@ export const updateeventinfo = (event_id, event) => async (dispatch) => {
   }
 };
 
-// export const deleteschool = (id, schoolid) => async (dispatch) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
+export const companydeleteevent = (eventid) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
 
-//   try {
-//     const res = await axios.delete(
-//       `http://localhost:3001/students/school/${id}/${schoolid}`
-//     );
+  try {
+    const res = await axios.delete(
+      `http://localhost:3001/companies/event/${eventid}`
+    );
 
-//     dispatch({
-//       type: STUDENT_SCHOOL_DELETE,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     console.log("ERR", err);
-//     const errors = err.response.data.errors;
+    dispatch({
+      type: COMPANY_EVENT_DELETE,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
 
-//     dispatch({
-//       type: USER_PROFILE_UPDATE_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };
-
-// export const updateevent = (id, school, schoolid) => async (dispatch) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
-
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   };
-
-//   let { location, degree, major, passingmonth, passingyear, gpa } = school;
-
-//   const body = JSON.stringify({
-//     id,
-//     schoolid,
-//     location,
-//     degree,
-//     major,
-//     passingmonth,
-//     passingyear,
-//     gpa,
-//   });
-
-//   console.log(body);
-
-//   try {
-//     const res = await axios.put(
-//       "http://localhost:3001/students/school",
-//       body,
-//       config
-//     );
-
-//     dispatch({
-//       type: STUDENT_SCHOOL_UPDATE,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     console.log("ERR", err);
-//     const errors = err.response.data.errors;
-
-//     dispatch({
-//       type: USER_PROFILE_UPDATE_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };
+    dispatch({
+      type: EVENT_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};

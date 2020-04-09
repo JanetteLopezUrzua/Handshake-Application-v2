@@ -5,7 +5,6 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Redirect } from "react-router";
-import axios from "axios";
 import Banner from "../Banner/DisplayBanner";
 import EventInfo from "../EventInfo/EventInfo";
 import EventDescription from "../EventDescription/EventDescription";
@@ -13,12 +12,16 @@ import EventRSVP from "../EventRSVP/EventRSVP";
 
 import setAuthToken from "../../../../utils/setAuthToken";
 import { connect } from "react-redux";
-import { companyloadevent } from "../../../../actions/events";
+import {
+  companyloadevent,
+  companydeleteevent,
+} from "../../../../actions/events";
 
 class ConnectedEventContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      event_id: this.props.match.params.event_id,
       redirect: false,
     };
   }
@@ -27,42 +30,44 @@ class ConnectedEventContainer extends React.Component {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
 
-      const event_id = this.props.match.params.event_id;
-
-      await this.props.dispatch(companyloadevent(event_id));
+      await this.props.dispatch(companyloadevent(this.state.event_id));
     }
   }
 
-  handleDelete = () => {
-    axios
-      .delete("http://localhost:3001/company/event/delete", {
-        data: { event_id: this.props.match.params.event_id },
-      })
-      .then((response) => {
-        console.log(response);
-        this.setState({
-          redirect: true,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  handleDelete = async () => {
+    await this.props.dispatch(companydeleteevent(this.state.event_id));
+    this.setState({
+      redirect: true,
+    });
   };
 
   render() {
     // if not logged in go to login page
     let redirectVar = null;
-    // if (!cookie.load('id')) {
-    //   redirectVar = <Redirect to="/" />;
-    // }
+    if (this.props.userprofile.isAuthenticated === false) {
+      redirectVar = <Redirect to="/" />;
+    } else if (localStorage.getItem("type") === "student") {
+      redirectVar = <Redirect to={`/student/${localStorage.getItem("id")}`} />;
+    }
 
     if (this.state.redirect === true) {
       redirectVar = <Redirect to="/company/events" />;
     }
 
+    let company_id = "";
+
+    if (this.props.event.event !== null) {
+      company_id = this.props.event.event.event.companyid._id
+        ? this.props.event.event.event.companyid._id
+        : "";
+    }
+
     let del = "";
-    // if (cookie.load('id') === this.state.company_id && cookie.load('user') === "company") {
-    if (true) {
+
+    if (
+      localStorage.getItem("id") === company_id &&
+      localStorage.getItem("type") === "company"
+    ) {
       del = (
         <Button
           className="delete"
@@ -93,7 +98,7 @@ class ConnectedEventContainer extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-  return { event: state.event };
+  return { userprofile: state.userprofile, event: state.event };
 };
 const EventContainer = connect(mapStateToProps)(ConnectedEventContainer);
 export default EventContainer;

@@ -41,6 +41,7 @@ var CompanyDeleteBannerPhoto = require("./services/company/events/company_delete
 var EventInfo = require("./services/company/events/event_info");
 var CompanyUpdateEventDescription = require("./services/company/events/company_update_event_description");
 var CompanyUpdateEventInfo = require("./services/company/events/company_update_event_info");
+var CompanyDeleteEvent = require("./services/company/events/company_delete_event");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -117,3 +118,4 @@ handleTopicRequest(
   CompanyUpdateEventDescription
 );
 handleTopicRequest("company_update_event_info", CompanyUpdateEventInfo);
+handleTopicRequest("company_delete_event", CompanyDeleteEvent);

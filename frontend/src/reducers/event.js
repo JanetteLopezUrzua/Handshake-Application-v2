@@ -34,7 +34,6 @@ export default function (state = initialState, action) {
       };
 
     case COMPANY_ADD_NEW_EVENT:
-    case COMPANY_EVENT_DELETE:
     case EVENT_BANNER_PHOTO_UPDATE:
     case EVENT_BANNER_PHOTO_DELETE:
     case EVENT_DESCRIPTION_UPDATE:
@@ -57,6 +56,7 @@ export default function (state = initialState, action) {
         payload: null,
       };
 
+    case COMPANY_EVENT_DELETE:
     case LOG_OUT:
       return {
         event: null,

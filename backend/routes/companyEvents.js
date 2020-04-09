@@ -215,4 +215,21 @@ router.put(
   }
 );
 
+// @route   DELETE companies/event/:eventid
+// @desc    Delete event
+// @access  Public
+router.delete("/event/:eventid", checkAuth, async (req, res) => {
+  let eventid = req.params.eventid;
+
+  kafka.make_request("company_delete_event", eventid, function (err, results) {
+    try {
+      let event = results;
+      res.json({ event });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
 module.exports = router;
