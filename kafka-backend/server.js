@@ -48,6 +48,8 @@ var CompanyDeleteEvent = require("./services/company/events/company_delete_event
 var CompanyRSVPList = require("./services/company/events/company_event_rsvp_list");
 var CompanyRSVPStudent = require("./services/company/events/company_rsvp_student");
 var CompanyUnregisterStudent = require("./services/company/events/company_unregister_student");
+var CompanyAddNewJob = require("./services/company/jobs/company_add_new_job");
+var CompanyJobsList = require("./services/company/jobs/company_jobs_list");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -134,3 +136,5 @@ handleTopicRequest("company_delete_event", CompanyDeleteEvent);
 handleTopicRequest("company_event_rsvp_list", CompanyRSVPList);
 handleTopicRequest("company_rsvp_student", CompanyRSVPStudent);
 handleTopicRequest("company_unregister_student", CompanyUnregisterStudent);
+handleTopicRequest("company_add_new_job", CompanyAddNewJob);
+handleTopicRequest("company_jobs_list", CompanyJobsList);

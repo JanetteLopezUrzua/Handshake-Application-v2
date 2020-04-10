@@ -42,6 +42,7 @@ app.use("/students", require("./routes/studentEvents"));
 app.use("/companies", require("./routes/companies"));
 app.use("/companies", require("./routes/companyProfile"));
 app.use("/companies", require("./routes/companyEvents"));
+app.use("/companies", require("./routes/companyJobs"));
 
 // Photos and Resumes
 const storage = multer.diskStorage({

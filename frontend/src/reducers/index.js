@@ -9,6 +9,8 @@ import eventslist from "./eventslist";
 import registeredeventslist from "./registeredeventslist";
 import upcomingeventslist from "./upcomingeventslist";
 import rsvplist from "./rsvplist";
+import job from "./job";
+import jobslist from "./jobslist";
 
 export default combineReducers({
   signup,
@@ -21,4 +23,6 @@ export default combineReducers({
   registeredeventslist,
   upcomingeventslist,
   rsvplist,
+  job,
+  jobslist,
 });
