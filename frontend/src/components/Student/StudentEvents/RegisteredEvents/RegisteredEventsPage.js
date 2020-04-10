@@ -87,8 +87,8 @@ class ConnectedRegisteredEventsPage extends React.Component {
             (event) => {
               return (
                 <EventListContainer
-                  key={event._id}
-                  eventid={event._id}
+                  key={event.eventid._id}
+                  eventid={event.eventid._id}
                   event={event}
                 />
               );
@@ -195,7 +195,7 @@ class ConnectedRegisteredEventsPage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userprofile: state.userprofile,
-    eventslist: state.eventslist,
+    eventslist: state.registeredeventslist,
   };
 };
 const RegisteredEventsPage = connect(mapStateToProps)(

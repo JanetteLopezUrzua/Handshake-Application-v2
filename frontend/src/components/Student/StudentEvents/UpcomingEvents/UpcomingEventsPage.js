@@ -195,7 +195,7 @@ class ConnectedUpcomingEventsPage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userprofile: state.userprofile,
-    eventslist: state.eventslist,
+    eventslist: state.upcomingeventslist,
   };
 };
 const UpcomingEventsPage = connect(mapStateToProps)(

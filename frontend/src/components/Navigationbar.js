@@ -11,11 +11,22 @@ import hslogo from "../assets/logo.jpg";
 
 import { connect } from "react-redux";
 import { logout } from "../actions/logout";
+import { loadstudentprofile } from "../actions/studentprofile";
+import { loadcompanyprofile } from "../actions/companyprofile";
 
 class ConnectedNavigationbar extends React.Component {
   handleLogout = () => {
     this.props.dispatch(logout());
   };
+
+  async componentDidMount() {
+    let id = localStorage.getItem("id");
+    if (localStorage.getItem("type") === "student") {
+      await this.props.dispatch(loadstudentprofile(id));
+    } else {
+      await this.props.dispatch(loadcompanyprofile(id));
+    }
+  }
 
   render() {
     let userprofile = this.props.userprofile;

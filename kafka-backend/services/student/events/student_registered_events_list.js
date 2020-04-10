@@ -9,7 +9,12 @@ async function handle_request(msg, callback) {
 
   const options = {
     select: "-password",
-    populate: ["eventid", "eventid.companyid"],
+    populate: {
+      path: "eventid",
+      populate: {
+        path: "companyid",
+      },
+    },
     page: parseInt(page, 10) || 1,
     limit: parseInt(25) || 25,
   };

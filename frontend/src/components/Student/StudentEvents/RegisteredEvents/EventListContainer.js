@@ -8,9 +8,12 @@ import { FaCalendar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const EventListContainer = (props) => {
-  let name = props.event.companyid.name;
+  console.log("EVEEENTTTTT", props.event);
+
+  let name = props.event.eventid.companyid.name;
   let photo = "";
-  if (props.event.companyid.photo) photo = props.event.companyid.photo;
+  if (props.event.eventid.companyid.photo)
+    photo = props.event.eventid.companyid.photo;
 
   const path = `/event/${props.eventid}`;
   let img = "";
@@ -46,8 +49,8 @@ const EventListContainer = (props) => {
     "December",
   ];
   const month =
-    months[props.event.month - 1].charAt(0).toUpperCase() +
-    months[props.event.month - 1].slice(1);
+    months[props.event.eventid.month - 1].charAt(0).toUpperCase() +
+    months[props.event.eventid.month - 1].slice(1);
 
   return (
     <Card style={{ padding: "16px" }}>
@@ -61,7 +64,7 @@ const EventListContainer = (props) => {
         <Col sm={5} style={{ paddingLeft: "0" }}>
           <Card.Title className="studentslistname">
             <Link to={path} style={{ color: "black" }}>
-              {props.event.title}
+              {props.event.eventid.title}
             </Link>
           </Card.Title>
           <Card.Title
@@ -69,13 +72,15 @@ const EventListContainer = (props) => {
             style={{ textTransform: "none" }}
           >
             <FaCalendar style={{ color: "black" }} />
-            {month} {props.event.day}, {props.event.year} from{" "}
-            {props.event.starttime} {props.event.startdaytime.toLowerCase()} to{" "}
-            {props.event.endtime} {props.event.enddaytime.toLowerCase()}
+            {month} {props.event.eventid.day}, {props.event.eventid.year} from{" "}
+            {props.event.eventid.starttime}{" "}
+            {props.event.eventid.startdaytime.toLowerCase()} to{" "}
+            {props.event.eventid.endtime}{" "}
+            {props.event.eventid.enddaytime.toLowerCase()}
           </Card.Title>
           <Card.Title className="studentslistinfo">
             <MdLocationOn style={{ color: "black" }} />
-            {props.event.location}
+            {props.event.eventid.location}
           </Card.Title>
         </Col>
         <Col sm={5} style={{ paddingTop: "38px", textAlign: "right" }}>

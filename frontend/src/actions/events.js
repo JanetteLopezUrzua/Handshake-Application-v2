@@ -12,6 +12,8 @@ import {
   EVENT_INFO_UPDATE,
   RSVP_LIST_LOADED,
   RSVP_LIST_ERROR,
+  REGISTERED_EVENTS_LIST_LOADED,
+  UPCOMING_EVENTS_LIST_LOADED,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -467,7 +469,7 @@ export const studentloadregisteredeventslist = (page, id) => async (
       `http://localhost:3001/students/registered/eventslist?page=${page}&id=${id}`
     );
     dispatch({
-      type: EVENTS_LIST_LOADED,
+      type: REGISTERED_EVENTS_LIST_LOADED,
       payload: res.data,
     });
   } catch (err) {
@@ -489,7 +491,7 @@ export const studentloadupcomingeventslist = (page, id) => async (dispatch) => {
       `http://localhost:3001/students/upcoming/eventslist?page=${page}&id=${id}`
     );
     dispatch({
-      type: EVENTS_LIST_LOADED,
+      type: UPCOMING_EVENTS_LIST_LOADED,
       payload: res.data,
     });
   } catch (err) {

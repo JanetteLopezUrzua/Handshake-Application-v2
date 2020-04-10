@@ -89,14 +89,34 @@ class ConnectedEventRSVP extends React.Component {
 
     if (localStorage.getItem("type") === "student") {
       if (alreadyrsvp === false) {
-        rsvpbutton = (
-          <div>
-            <Button className="save" onClick={this.handleRSVP}>
-              <FaPlus /> RSVP for Event
-            </Button>
-            <br />
-          </div>
-        );
+        if (
+          this.props.eligibility === "all" ||
+          this.props.eligibility.toLowerCase() ===
+            this.props.major.toLowerCase()
+        ) {
+          rsvpbutton = (
+            <div>
+              <Button className="save" onClick={this.handleRSVP}>
+                <FaPlus /> RSVP for Event
+              </Button>
+              <br />
+            </div>
+          );
+        } else {
+          rsvpbutton = (
+            <div>
+              <Button
+                className="save"
+                onClick={this.handleRSVP}
+                style={{ cursor: "not-allowed" }}
+                disabled
+              >
+                <FaPlus /> Not Eligible for this Event
+              </Button>
+              <br />
+            </div>
+          );
+        }
       } else {
         rsvpbutton = (
           <div>

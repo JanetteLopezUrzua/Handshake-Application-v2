@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate");
 
 const RSVPSchema = new mongoose.Schema(
   {
@@ -17,4 +18,5 @@ const RSVPSchema = new mongoose.Schema(
     versionKey: false,
   }
 );
+RSVPSchema.plugin(mongoosePaginate);
 module.exports = RSVP = mongoose.model("RSVP", RSVPSchema);

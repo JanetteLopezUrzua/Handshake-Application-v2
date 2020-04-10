@@ -6,6 +6,8 @@ import studentslist from "./studentslist";
 import currentuser from "./currentuser";
 import event from "./event";
 import eventslist from "./eventslist";
+import registeredeventslist from "./registeredeventslist";
+import upcomingeventslist from "./upcomingeventslist";
 import rsvplist from "./rsvplist";
 
 export default combineReducers({
@@ -16,5 +18,7 @@ export default combineReducers({
   studentslist,
   event,
   eventslist,
+  registeredeventslist,
+  upcomingeventslist,
   rsvplist,
 });
