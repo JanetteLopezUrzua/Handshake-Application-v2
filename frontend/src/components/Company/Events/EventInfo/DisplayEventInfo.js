@@ -119,6 +119,7 @@ const ConnectedDisplayInfo = (props) => {
     "July",
     "August",
     "September",
+    "October",
     "November",
     "December",
   ];

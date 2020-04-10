@@ -14,29 +14,27 @@ import {
 import setAuthToken from "../utils/setAuthToken";
 
 // Jobs
-// export const companyloadevent = (eventid) => async (dispatch) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
+export const companyloadjob = (jobid) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
 
-//   try {
-//     const res = await axios.get(
-//       `http://localhost:3001/companies/event/${eventid}`
-//     );
-//     dispatch({
-//       type: EVENT_LOADED,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     console.log("ERR", err);
-//     const errors = err.response.data.errors;
+  try {
+    const res = await axios.get(`http://localhost:3001/companies/job/${jobid}`);
+    dispatch({
+      type: JOB_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
 
-//     dispatch({
-//       type: EVENT_UPDATE_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };
+    dispatch({
+      type: JOB_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
 
 export const addnewjob = ({ company_id, job }) => async (dispatch) => {
   if (localStorage.token) {
@@ -131,228 +129,123 @@ export const companyloadjobslist = (page, id) => async (dispatch) => {
   }
 };
 
-// export const updatebannerphoto = (eventid, data) => async (dispatch) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
+export const deleteerrors = () => (dispatch) => {
+  dispatch({
+    type: DELETE_ERRORS,
+  });
+};
 
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   };
+export const updatejobinfo = (job_id, job) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
 
-//   try {
-//     let photo = await axios.post("http://localhost:3001/upload", data);
-//     photo = photo.data;
-//     const body = JSON.stringify({ eventid, photo });
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
 
-//     console.log(body);
+  const {
+    title,
+    deadlinemonth,
+    deadlineday,
+    deadlineyear,
+    deadlinetime,
+    deadlinedaytime,
+    location,
+    salary,
+    salarytime,
+    description,
+    category,
+  } = job;
 
-//     const res = await axios.put(
-//       "http://localhost:3001/companies/event/bannerphoto",
-//       body,
-//       config
-//     );
+  const body = JSON.stringify({
+    job_id,
+    title,
+    deadlinemonth,
+    deadlineday,
+    deadlineyear,
+    deadlinetime,
+    deadlinedaytime,
+    location,
+    salary,
+    salarytime,
+    description,
+    category,
+  });
 
-//     dispatch({
-//       type: EVENT_BANNER_PHOTO_UPDATE,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     console.log("ERR", err);
-//     const errors = err.response.data.errors;
+  console.log(body);
 
-//     dispatch({
-//       type: EVENT_UPDATE_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };
+  try {
+    const res = await axios.put(
+      "http://localhost:3001/companies/job/info",
+      body,
+      config
+    );
 
-// export const deletebannerphoto = (eventid) => async (dispatch) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
+    dispatch({
+      type: JOB_INFO_UPDATE,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
 
-//   try {
-//     const res = await axios.delete(
-//       `http://localhost:3001/companies/event/bannerphoto/${eventid}`
-//     );
+    dispatch({
+      type: JOB_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
 
-//     dispatch({
-//       type: EVENT_BANNER_PHOTO_DELETE,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     console.log("ERR", err);
-//     const errors = err.response.data.errors;
+export const companydeletejob = (jobid) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
 
-//     dispatch({
-//       type: EVENT_UPDATE_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };
+  try {
+    const res = await axios.delete(
+      `http://localhost:3001/companies/job/${jobid}`
+    );
 
-// export const deleteerrors = () => (dispatch) => {
-//   dispatch({
-//     type: DELETE_ERRORS,
-//   });
-// };
+    dispatch({
+      type: COMPANY_JOB_DELETE,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
 
-// export const updateeventdescription = (event_id, description) => async (
-//   dispatch
-// ) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
+    dispatch({
+      type: JOB_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
 
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   };
+// Applications
+export const companyloadapplicationslist = (jobid) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
 
-//   const body = JSON.stringify({ event_id, description });
-
-//   console.log(body);
-
-//   try {
-//     const res = await axios.put(
-//       "http://localhost:3001/companies/event/description",
-//       body,
-//       config
-//     );
-
-//     dispatch({
-//       type: EVENT_DESCRIPTION_UPDATE,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     console.log("ERR", err);
-//     const errors = err.response.data.errors;
-
-//     dispatch({
-//       type: EVENT_UPDATE_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };
-
-// export const updateeventinfo = (event_id, event) => async (dispatch) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
-
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   };
-
-//   const {
-//     title,
-//     dayofweek,
-//     month,
-//     day,
-//     year,
-//     starttime,
-//     startdaytime,
-//     endtime,
-//     enddaytime,
-//     timezone,
-//     location,
-//     eligibility,
-//   } = event;
-
-//   const body = JSON.stringify({
-//     event_id,
-//     title,
-//     dayofweek,
-//     month,
-//     day,
-//     year,
-//     starttime,
-//     startdaytime,
-//     endtime,
-//     enddaytime,
-//     timezone,
-//     location,
-//     eligibility,
-//   });
-
-//   console.log(body);
-
-//   try {
-//     const res = await axios.put(
-//       "http://localhost:3001/companies/event/info",
-//       body,
-//       config
-//     );
-
-//     dispatch({
-//       type: EVENT_INFO_UPDATE,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     console.log("ERR", err);
-//     const errors = err.response.data.errors;
-
-//     dispatch({
-//       type: EVENT_UPDATE_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };
-
-// export const companydeleteevent = (eventid) => async (dispatch) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
-
-//   try {
-//     const res = await axios.delete(
-//       `http://localhost:3001/companies/event/${eventid}`
-//     );
-
-//     dispatch({
-//       type: COMPANY_EVENT_DELETE,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     console.log("ERR", err);
-//     const errors = err.response.data.errors;
-
-//     dispatch({
-//       type: EVENT_UPDATE_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };
-
-// // RSVP
-// export const companyloadrsvplist = (eventid) => async (dispatch) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
-
-//   try {
-//     const res = await axios.get(
-//       `http://localhost:3001/companies/event/${eventid}/rsvp`
-//     );
-//     dispatch({
-//       type: RSVP_LIST_LOADED,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     const errors = err.response.data.errors;
-//     dispatch({
-//       type: RSVP_LIST_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };
+  try {
+    const res = await axios.get(
+      `http://localhost:3001/companies/job/${jobid}/applications`
+    );
+    dispatch({
+      type: APPLICATIONS_LIST_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    dispatch({
+      type: APPLICATIONS_LIST_ERROR,
+      payload: errors,
+    });
+  }
+};
 
 // export const company_event_rsvp = (eventid, studentid) => async (dispatch) => {
 //   if (localStorage.token) {

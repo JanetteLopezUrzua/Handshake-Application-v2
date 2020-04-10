@@ -329,6 +329,8 @@ class ConnectedNewJobPosting extends React.Component {
                   onChange={this.handleChange}
                   name="salary"
                   type="number"
+                  min={1}
+                  max={9223372036854775807}
                 />
                 <p className="errormessage">{salaryerrormsg}</p>
               </Form.Group>

@@ -1,5 +1,4 @@
 import React from "react";
-// import cookie from 'react-cookies';
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -7,11 +6,76 @@ import Button from "react-bootstrap/Button";
 import { MdEdit, MdLocationOn } from "react-icons/md";
 import { FaRegMoneyBillAlt, FaRegClock, FaBriefcase } from "react-icons/fa";
 
-const DisplayInfo = (props) => {
+import { connect } from "react-redux";
+
+const ConnectedDisplayInfo = (props) => {
+  let company_id = "";
+  let title = "";
+  let deadlinemonth = "";
+  let deadlineday = "";
+  let deadlineyear = "";
+  let deadlinetime = "";
+  let deadlinedaytime = "";
+  let location = "";
+  let salary = "";
+  let salarytime = "";
+  let description = "";
+  let category = "";
+  let postingmonth = "";
+  let postingday = "";
+  let postingyear = "";
+  let company_name = "";
+  let posteddate = "";
+
+  if (props.job.job !== null) {
+    company_id = props.job.job.job.companyid._id
+      ? props.job.job.job.companyid._id
+      : "";
+    company_name = props.job.job.job.companyid.company_name
+      ? props.job.job.job.companyid.company_name
+      : "";
+    title = props.job.job.job.title ? props.job.job.job.title : "";
+    deadlinemonth = props.job.job.job.deadlinemonth
+      ? props.job.job.job.deadlinemonth
+      : "";
+    deadlineday = props.job.job.job.deadlineday
+      ? props.job.job.job.deadlineday
+      : "";
+    deadlineyear = props.job.job.job.deadlineyear
+      ? props.job.job.job.deadlineyear
+      : "";
+    deadlinetime = props.job.job.job.deadlinetime
+      ? props.job.job.job.deadlinetime
+      : "";
+    deadlinedaytime = props.job.job.job.deadlinedaytime
+      ? props.job.job.job.deadlinedaytime
+      : "";
+    location = props.job.job.job.location ? props.job.job.job.location : "";
+    salary = props.job.job.job.salary ? props.job.job.job.salary : "";
+    salarytime = props.job.job.job.salarytime
+      ? props.job.job.job.salarytime
+      : "";
+    description = props.job.job.job.description
+      ? props.job.job.job.description
+      : "";
+    category = props.job.job.job.category ? props.job.job.job.category : "";
+    postingmonth = props.job.job.job.postingmonth
+      ? props.job.job.job.postingmonth
+      : "";
+    postingday = props.job.job.job.postingday
+      ? props.job.job.job.postingday
+      : "";
+    postingyear = props.job.job.job.postingyear
+      ? props.job.job.job.postingyear
+      : "";
+  }
+
   let button = "";
 
-  // if (cookie.load('id') === props.company_id && cookie.load('user') === "company") {
-  if (true) {
+  if (
+    localStorage.getItem("id") === company_id &&
+    localStorage.getItem("type") === "company"
+  ) {
     button = (
       <Col style={{ textAlign: "right" }}>
         <Button className="editbutton" onClick={props.clicked}>
@@ -31,9 +95,27 @@ const DisplayInfo = (props) => {
     "July",
     "August",
     "September",
+    "October",
     "November",
     "December",
   ];
+
+  const posteddatemonths = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  posteddate = `${posteddatemonths[postingmonth]} ${postingday}, ${postingyear}`;
 
   return (
     <Card style={{ border: "none", boxShadow: "none", padding: "0" }}>
@@ -50,37 +132,39 @@ const DisplayInfo = (props) => {
                 lineHeight: "none",
               }}
             >
-              {props.title}
+              {title}
             </Card.Title>
           </Col>
           <Col>{button}</Col>
         </Row>
-        <Card.Title>{props.company_name}</Card.Title>
+        <Card.Title>{company_name}</Card.Title>
         <Row>
           <Card.Text style={{ marginRight: "15px", marginLeft: "15px" }}>
-            <FaBriefcase /> {props.category}{" "}
+            <FaBriefcase /> {category}{" "}
           </Card.Text>
           <Card.Text style={{ marginRight: "15px", marginLeft: "15px" }}>
-            <MdLocationOn /> {props.location}{" "}
+            <MdLocationOn /> {location}{" "}
           </Card.Text>
           <Card.Text style={{ marginRight: "15px", marginLeft: "15px" }}>
-            <FaRegMoneyBillAlt /> {`$${props.salary}`} per {props.salarytime}{" "}
+            <FaRegMoneyBillAlt /> {`$${salary}`} per {salarytime}{" "}
           </Card.Text>
           <Card.Text style={{ marginRight: "15px", marginLeft: "15px" }}>
-            <FaRegClock /> Posted {props.posteddate}{" "}
+            <FaRegClock /> Posted {posteddate}{" "}
           </Card.Text>
         </Row>
         <Card style={{ boxShadow: "none" }}>
           <Card.Title>
-            Applications close on {months[props.deadlinemonth - 1]}{" "}
-            {props.deadlineday}, {props.deadlineyear} at {props.deadlinetime}{" "}
-            {props.deadlinedaytime.toLowerCase()}
+            Applications close on {months[deadlinemonth - 1]} {deadlineday},{" "}
+            {deadlineyear} at {deadlinetime} {deadlinedaytime.toLowerCase()}
           </Card.Title>
         </Card>
-        <Card.Title>{props.description}</Card.Title>
+        <Card.Title>{description}</Card.Title>
       </Card.Body>
     </Card>
   );
 };
-
+const mapStateToProps = (state) => {
+  return { job: state.job };
+};
+const DisplayInfo = connect(mapStateToProps)(ConnectedDisplayInfo);
 export default DisplayInfo;

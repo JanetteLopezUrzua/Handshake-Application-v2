@@ -4,71 +4,66 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Redirect } from "react-router";
-import axios from "axios";
-//import cookie from "react-cookies";
 import JobInfo from "../JobInfo/JobInfo";
 import JobApplications from "../JobApplications/JobApplications";
 
-class JobContainer extends React.Component {
+import setAuthToken from "../../../../utils/setAuthToken";
+import { connect } from "react-redux";
+import {
+  companyloadjob,
+  companydeletejob,
+  companyloadapplicationslist,
+} from "../../../../actions/jobs";
+
+class ConnectedJobContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      job_id: this.props.match.params.job_id,
       redirect: false,
-      company_id: "",
     };
   }
 
-  componentDidMount() {
-    this.getInfo();
+  async componentDidMount() {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+
+      await this.props.dispatch(companyloadjob(this.state.job_id));
+      await this.props.dispatch(companyloadapplicationslist(this.state.job_id));
+    }
   }
 
-  getInfo = () => {
-    axios
-      .get(
-        `http://localhost:3001/company/companytojob/${this.props.match.params.job_id}`
-      )
-      .then((response) => {
-        const info = response.data;
-
-        this.setState({
-          company_id: info.company_id.toString(),
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  handleDelete = () => {
-    axios
-      .delete("http://localhost:3001/company/job/delete", {
-        data: { job_id: this.props.match.params.job_id },
-      })
-      .then((response) => {
-        console.log(response);
-        this.setState({
-          redirect: true,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  handleDelete = async () => {
+    await this.props.dispatch(companydeletejob(this.state.job_id));
+    this.setState({
+      redirect: true,
+    });
   };
 
   render() {
     // if not logged in go to login page
     let redirectVar = null;
-    // if (!cookie.load('id')) {
-    //   redirectVar = <Redirect to="/" />;
-    // }
+    if (this.props.userprofile.isAuthenticated === false) {
+      redirectVar = <Redirect to="/" />;
+    }
 
     if (this.state.redirect === true) {
       redirectVar = <Redirect to="/company/jobs" />;
     }
 
+    let company_id = "";
+
+    if (this.props.job.job !== null) {
+      company_id = this.props.job.job.job.companyid._id
+        ? this.props.job.job.job.companyid._id
+        : "";
+    }
+
     let del = "";
-    // if (cookie.load('id') === this.state.company_id && cookie.load('user') === "company") {
-    if (true) {
+    if (
+      localStorage.getItem("id") === company_id &&
+      localStorage.getItem("type") === "company"
+    ) {
       del = (
         <Button
           className="delete"
@@ -92,5 +87,8 @@ class JobContainer extends React.Component {
     );
   }
 }
-
+const mapStateToProps = (state) => {
+  return { userprofile: state.userprofile, job: state.job };
+};
+const JobContainer = connect(mapStateToProps)(ConnectedJobContainer);
 export default JobContainer;

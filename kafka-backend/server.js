@@ -50,6 +50,10 @@ var CompanyRSVPStudent = require("./services/company/events/company_rsvp_student
 var CompanyUnregisterStudent = require("./services/company/events/company_unregister_student");
 var CompanyAddNewJob = require("./services/company/jobs/company_add_new_job");
 var CompanyJobsList = require("./services/company/jobs/company_jobs_list");
+var CompanyDeleteJob = require("./services/company/jobs/company_delete_job");
+var CompanyApplicationsList = require("./services/company/jobs/company_job_applications_list");
+var JobPostingInfo = require("./services/company/jobs/job_posting_info");
+var CompanyUpdateJobInfo = require("./services/company/jobs/company_update_job_info");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -138,3 +142,7 @@ handleTopicRequest("company_rsvp_student", CompanyRSVPStudent);
 handleTopicRequest("company_unregister_student", CompanyUnregisterStudent);
 handleTopicRequest("company_add_new_job", CompanyAddNewJob);
 handleTopicRequest("company_jobs_list", CompanyJobsList);
+handleTopicRequest("company_delete_job", CompanyDeleteJob);
+handleTopicRequest("company_job_applications_list", CompanyApplicationsList);
+handleTopicRequest("job_posting_info", JobPostingInfo);
+handleTopicRequest("company_update_job_info", CompanyUpdateJobInfo);
