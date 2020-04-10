@@ -10,6 +10,10 @@ import {
   EVENT_BANNER_PHOTO_UPDATE,
   EVENT_BANNER_PHOTO_DELETE,
   EVENT_INFO_UPDATE,
+  RSVP_LIST_LOADED,
+  RSVP_LIST_ERROR,
+  // RSVP_STUDENT,
+  // UNREGISTER_STUDENT,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -330,6 +334,105 @@ export const companydeleteevent = (eventid) => async (dispatch) => {
       type: COMPANY_EVENT_DELETE,
       payload: res.data,
     });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: EVENT_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+// RSVP
+export const companyloadrsvplist = (eventid) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.get(
+      `http://localhost:3001/companies/event/${eventid}/rsvp`
+    );
+    dispatch({
+      type: RSVP_LIST_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    dispatch({
+      type: RSVP_LIST_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+export const company_event_rsvp = (eventid, studentid) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ eventid, studentid });
+
+  console.log(body);
+
+  try {
+    const res = await axios.put(
+      "http://localhost:3001/companies/event/rsvp",
+      body,
+      config
+    );
+
+    // dispatch({
+    //   type: RSVP_STUDENT,
+    //   payload: res.data,
+    // });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: EVENT_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+export const company_event_unregister = (eventid, studentid) => async (
+  dispatch
+) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ eventid, studentid });
+
+  console.log(body);
+
+  try {
+    const res = await axios.put(
+      "http://localhost:3001/companies/event/unregister",
+      body,
+      config
+    );
+
+    // dispatch({
+    //   type: UNREGISTER_STUDENT,
+    //   payload: res.data,
+    // });
   } catch (err) {
     console.log("ERR", err);
     const errors = err.response.data.errors;

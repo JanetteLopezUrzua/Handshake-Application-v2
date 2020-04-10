@@ -232,4 +232,61 @@ router.delete("/event/:eventid", checkAuth, async (req, res) => {
   });
 });
 
+// @route   GET companies/event/:eventid/rsvp
+// @desc    Get events list
+// @access  Public
+router.get("/event/:eventid/rsvp", checkAuth, async (req, res) => {
+  let eventid = req.params.eventid;
+
+  kafka.make_request("company_event_rsvp_list", eventid, function (
+    err,
+    results
+  ) {
+    try {
+      let students = results;
+      res.json({ students });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
+// @route   PUT companies/event/rsvp
+// @desc    Add student to rsvp list
+// @access  Public
+router.put("/event/rsvp", checkAuth, async (req, res) => {
+  kafka.make_request("company_rsvp_student", req.body, function (err, results) {
+    try {
+      let students = results;
+      console.log("Student Results", results);
+
+      res.json({ students });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
+// @route   PUT companies/event/unregister
+// @desc    Remove student from rsvp list
+// @access  Public
+router.put("/event/unregister", checkAuth, async (req, res) => {
+  kafka.make_request("company_unregister_student", req.body, function (
+    err,
+    results
+  ) {
+    try {
+      let students = results;
+      console.log("Student Results", results);
+
+      res.json({ students });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
 module.exports = router;

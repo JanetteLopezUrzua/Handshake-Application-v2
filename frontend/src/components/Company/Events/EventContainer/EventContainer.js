@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import {
   companyloadevent,
   companydeleteevent,
+  companyloadrsvplist,
 } from "../../../../actions/events";
 
 class ConnectedEventContainer extends React.Component {
@@ -31,6 +32,7 @@ class ConnectedEventContainer extends React.Component {
       setAuthToken(localStorage.token);
 
       await this.props.dispatch(companyloadevent(this.state.event_id));
+      await this.props.dispatch(companyloadrsvplist(this.state.event_id));
     }
   }
 
@@ -46,8 +48,6 @@ class ConnectedEventContainer extends React.Component {
     let redirectVar = null;
     if (this.props.userprofile.isAuthenticated === false) {
       redirectVar = <Redirect to="/" />;
-    } else if (localStorage.getItem("type") === "student") {
-      redirectVar = <Redirect to={`/student/${localStorage.getItem("id")}`} />;
     }
 
     if (this.state.redirect === true) {

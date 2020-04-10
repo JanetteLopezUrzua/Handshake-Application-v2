@@ -1,4 +1,5 @@
 const Event = require("../../../models/Event/Events");
+const RSVP = require("../../../models/Event/RSVP");
 const mongoose = require("mongoose");
 
 async function handle_request(msg, callback) {
@@ -11,6 +12,10 @@ async function handle_request(msg, callback) {
     console.log(eventid);
     let event = await Event.deleteOne({
       _id: mongoose.Types.ObjectId(eventid),
+    });
+
+    let rsvp = await RSVP.deleteMany({
+      eventid: mongoose.Types.ObjectId(eventid),
     });
 
     callback(null, event);
