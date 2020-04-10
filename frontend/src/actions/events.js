@@ -12,8 +12,6 @@ import {
   EVENT_INFO_UPDATE,
   RSVP_LIST_LOADED,
   RSVP_LIST_ERROR,
-  // RSVP_STUDENT,
-  // UNREGISTER_STUDENT,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -130,7 +128,7 @@ export const companyloadeventslist = (page, id) => async (dispatch) => {
 
   try {
     const res = await axios.get(
-      `http://localhost:3001/companies/eventslist?page=${page}&&id=${id}`
+      `http://localhost:3001/companies/eventslist?page=${page}&id=${id}`
     );
     dispatch({
       type: EVENTS_LIST_LOADED,
@@ -389,11 +387,6 @@ export const company_event_rsvp = (eventid, studentid) => async (dispatch) => {
       body,
       config
     );
-
-    // dispatch({
-    //   type: RSVP_STUDENT,
-    //   payload: res.data,
-    // });
   } catch (err) {
     console.log("ERR", err);
     const errors = err.response.data.errors;
@@ -428,15 +421,79 @@ export const company_event_unregister = (eventid, studentid) => async (
       body,
       config
     );
-
-    // dispatch({
-    //   type: UNREGISTER_STUDENT,
-    //   payload: res.data,
-    // });
   } catch (err) {
     console.log("ERR", err);
     const errors = err.response.data.errors;
 
+    dispatch({
+      type: EVENT_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+// Student events
+export const studentloadeventslist = (page, name) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.get(
+      `http://localhost:3001/students/eventslist?page=${page}&name=${name}`
+    );
+    dispatch({
+      type: EVENTS_LIST_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    dispatch({
+      type: EVENT_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+export const studentloadregisteredeventslist = (page, id) => async (
+  dispatch
+) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.get(
+      `http://localhost:3001/students/registered/eventslist?page=${page}&id=${id}`
+    );
+    dispatch({
+      type: EVENTS_LIST_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    dispatch({
+      type: EVENT_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+export const studentloadupcomingeventslist = (page, id) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.get(
+      `http://localhost:3001/students/upcoming/eventslist?page=${page}&id=${id}`
+    );
+    dispatch({
+      type: EVENTS_LIST_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
     dispatch({
       type: EVENT_UPDATE_ERROR,
       payload: errors,

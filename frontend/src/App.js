@@ -13,11 +13,11 @@ import CompanyStudentsList from "./components/Company/StudentTab/StudentsPage";
 import NewEvent from "./components/Company/Events/NewEvent/NewEventInfo";
 import CompanyEvents from "./components/Company/Events/EventPage";
 import Event from "./components/Company/Events/EventContainer/EventContainer";
-// import EventsSearch from "./components/Student/StudentEvents/EventsSearch/EventsSearchPage";
-// import RegisteredEvents from "./components/Student/StudentEvents/RegisteredEvents/RegisteredEventsPage";
-// import UpcomingEvents from "./components/Student/StudentEvents/UpcomingEvents/UpcomingEventsPage";
+import EventsSearch from "./components/Student/StudentEvents/EventsSearch/EventsSearchPage";
+import RegisteredEvents from "./components/Student/StudentEvents/RegisteredEvents/RegisteredEventsPage";
+import UpcomingEvents from "./components/Student/StudentEvents/UpcomingEvents/UpcomingEventsPage";
 import Navbar from "./components/Navigationbar";
-// import EventsNavBar from "./components/Student/StudentEvents/EventsNavBar";
+import EventsNavBar from "./components/Student/StudentEvents/EventsNavBar";
 // import NewJob from "./components/Company/JobPostings/NewJobPosting/NewJobPosting";
 // import CompanyJobs from "./components/Company/JobPostings/JobsPage";
 // import Job from "./components/Company/JobPostings/JobContainer/JobContainer";
@@ -38,16 +38,24 @@ class App extends Component {
     //   </div>
     // );
 
-    // const EventsContainer = () => (
-    //   <div>
-    //     <EventsNavBar />
-    //     <Switch>
-    //       <Route exact path="/student/events/upcoming" component={UpcomingEvents} />
-    //       <Route exact path="/student/events/search" component={EventsSearch} />
-    //       <Route exact path="/student/events/registered" component={RegisteredEvents} />
-    //     </Switch>
-    //   </div>
-    // );
+    const EventsContainer = () => (
+      <div>
+        <EventsNavBar />
+        <Switch>
+          <Route
+            exact
+            path="/student/events/upcoming"
+            component={UpcomingEvents}
+          />
+          <Route exact path="/student/events/search" component={EventsSearch} />
+          <Route
+            exact
+            path="/student/events/registered"
+            component={RegisteredEvents}
+          />
+        </Switch>
+      </div>
+    );
 
     const DefaultContainer = () => (
       <div>
@@ -71,8 +79,8 @@ class App extends Component {
           />
           <Route exact path="/student/:id" component={StudentProfile} />
           <Route excat path="/company/:id" component={CompanyProfile} />
-          {/* <Route path="/student/jobs/" component={JobsContainer} />
-          <Route path="/student/events/" component={EventsContainer} /> */}
+          {/* <Route path="/student/jobs/" component={JobsContainer} /> */}
+          <Route path="/student/events/" component={EventsContainer} />
         </Switch>
       </div>
     );

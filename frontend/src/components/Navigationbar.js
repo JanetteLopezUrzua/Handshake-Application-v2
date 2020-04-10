@@ -102,20 +102,15 @@ class ConnectedNavigationbar extends React.Component {
     let eventspath = "";
     let jobspath = "";
     let studentspath = "";
-    // if (cookie.load("user") === "student") {
-    //   eventspath = "/student/events/upcoming";
-    //   jobspath = "/student/jobs/search";
-    // } else {
-    //   eventspath = "/company/events";
-    //   jobspath = "/company/jobs";
-    // }
 
     if (localStorage.getItem("type") === "student") {
       studentspath = "/student/students?page=1&nameorcollege=''&major=''";
-      //eventspath = "/student/events/upcoming";
+      eventspath = "/student/events/upcoming?page=1";
+      //   jobspath = "/student/jobs/search";
     } else {
       studentspath = "/company/students?page=1&nameorcollegeorskillset=''";
       eventspath = "/company/events?page=1";
+      //   jobspath = "/company/jobs";
     }
 
     return (
