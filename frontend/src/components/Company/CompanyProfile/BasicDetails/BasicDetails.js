@@ -5,7 +5,7 @@ import EditInfo from "./EditInfo";
 import { connect } from "react-redux";
 import {
   updatebasicinfo,
-  deleteerrors
+  deleteerrors,
 } from "../../../../actions/companyprofile";
 
 class ConnectedBasicDetails extends React.Component {
@@ -16,37 +16,37 @@ class ConnectedBasicDetails extends React.Component {
       id: "",
       location: "",
       description: "",
-      editWasTriggered: false
+      editWasTriggered: false,
     };
   }
 
-  static getDerivedStateFromProps = props => ({ id: props.id });
+  static getDerivedStateFromProps = (props) => ({ id: props.id });
 
-  handleClick = e => {
+  handleClick = (e) => {
     e.preventDefault();
     this.setState({ editWasTriggered: true });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  handleSave = async e => {
+  handleSave = async (e) => {
     e.preventDefault();
 
     const { id } = this.state;
     let location = "";
     let description = "";
 
-    if (this.props.userprofile.user !== null) {
+    if (this.props.currentuser.user !== null) {
       location =
-        this.props.userprofile.user.company.location === this.state.location
-          ? this.props.userprofile.user.company.location
+        this.props.currentuser.user.company.location === this.state.location
+          ? this.props.currentuser.user.company.location
           : this.state.location;
       description =
-        this.props.userprofile.user.company.description ===
+        this.props.currentuser.user.company.description ===
         this.state.description
-          ? this.props.userprofile.user.company.description
+          ? this.props.currentuser.user.company.description
           : this.state.description;
     }
 
@@ -54,11 +54,11 @@ class ConnectedBasicDetails extends React.Component {
       updatebasicinfo({
         id,
         location,
-        description
+        description,
       })
     );
 
-    if (this.props.userprofile.payload) {
+    if (this.props.currentuser.payload) {
     } else {
       this.setState({ editWasTriggered: false });
     }
@@ -88,8 +88,8 @@ class ConnectedBasicDetails extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const BasicDetails = connect(mapStateToProps)(ConnectedBasicDetails);
 export default BasicDetails;

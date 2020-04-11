@@ -19,6 +19,12 @@ import {
   LOG_OUT,
   LOGIN_SUCCESS,
   SIGNUP_SUCCESS,
+  COMPANY_BASIC_INFO_UPDATE,
+  COMPANY_CONTACT_INFO_UPDATE,
+  COMPANY_PHOTO_UPDATE,
+  COMPANY_PHOTO_DELETE,
+  COMPANY_NAME_UPDATE,
+  COMPANY_USER_PROFILE_UPDATE_ERROR,
 } from "../actions/types";
 
 const initialState = {
@@ -41,6 +47,11 @@ export default function (state = initialState, action) {
         user: payload,
       };
 
+    case COMPANY_BASIC_INFO_UPDATE:
+    case COMPANY_CONTACT_INFO_UPDATE:
+    case COMPANY_PHOTO_UPDATE:
+    case COMPANY_PHOTO_DELETE:
+    case COMPANY_NAME_UPDATE:
     case STUDENT_BASIC_INFO_UPDATE:
     case STUDENT_CAREER_OBJECTIVE_UPDATE:
     case STUDENT_PHOTO_UPDATE:
@@ -61,6 +72,7 @@ export default function (state = initialState, action) {
       };
 
     case USER_PROFILE_UPDATE_ERROR:
+    case COMPANY_USER_PROFILE_UPDATE_ERROR:
       return {
         ...state,
         payload,

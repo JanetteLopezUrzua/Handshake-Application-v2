@@ -15,7 +15,7 @@ import {
   updatephoto,
   deletephoto,
   updatecompanyname,
-  deleteerrors
+  deleteerrors,
 } from "../../../../actions/companyprofile";
 
 class ConnectedPictureDetails extends React.Component {
@@ -30,13 +30,13 @@ class ConnectedPictureDetails extends React.Component {
       photo: "",
       validimage: "",
       errormessage: "",
-      editWasTriggered: false
+      editWasTriggered: false,
     };
   }
 
-  static getDerivedStateFromProps = props => ({ id: props.id });
+  static getDerivedStateFromProps = (props) => ({ id: props.id });
 
-  photoHandler = e => {
+  photoHandler = (e) => {
     e.preventDefault();
     const file = e.target.files[0];
 
@@ -44,7 +44,7 @@ class ConnectedPictureDetails extends React.Component {
     this.getImage(file);
   };
 
-  getImage = file => {
+  getImage = (file) => {
     const data = new FormData();
 
     if (file && file.type.match("image.*")) {
@@ -54,17 +54,17 @@ class ConnectedPictureDetails extends React.Component {
       this.setState({
         data,
         validimage: true,
-        errormessage: ""
+        errormessage: "",
       });
     } else {
       this.setState({
         validimage: false,
-        errormessage: "File not accepted. Choose an Image."
+        errormessage: "File not accepted. Choose an Image.",
       });
     }
   };
 
-  onUpload = async e => {
+  onUpload = async (e) => {
     console.log(this.state.validimage);
     e.preventDefault();
     if (this.state.validimage === true) {
@@ -72,14 +72,14 @@ class ConnectedPictureDetails extends React.Component {
       await this.props.dispatch(
         updatephoto({
           id,
-          data
+          data,
         })
       );
 
-      if (this.props.userprofile.payload) {
+      if (this.props.currentuser.payload) {
       } else {
         this.setState({
-          show: false
+          show: false,
         });
       }
     }
@@ -88,54 +88,54 @@ class ConnectedPictureDetails extends React.Component {
   handleClose = () => {
     this.setState({
       show: false,
-      errormessage: ""
+      errormessage: "",
     });
   };
 
   handleShow = () =>
     this.setState({
-      show: true
+      show: true,
     });
 
-  onDelete = async e => {
+  onDelete = async (e) => {
     e.preventDefault();
     const id = this.state.id;
     await this.props.dispatch(deletephoto(id));
 
-    if (this.props.userprofile.payload) {
+    if (this.props.currentuser.payload) {
     } else {
       this.setState({
-        show: false
+        show: false,
       });
     }
   };
 
-  handleClick = e => {
+  handleClick = (e) => {
     e.preventDefault();
     this.setState({ editWasTriggered: true });
   };
 
-  handleSave = async e => {
+  handleSave = async (e) => {
     e.preventDefault();
 
     const { id } = this.state;
     let name = "";
 
-    if (this.props.userprofile.user !== null) {
+    if (this.props.currentuser.user !== null) {
       name =
-        this.props.userprofile.user.company.name === this.state.name
-          ? this.props.userprofile.user.company.name
+        this.props.currentuser.user.company.name === this.state.name
+          ? this.props.currentuser.user.company.name
           : this.state.name;
     }
 
     await this.props.dispatch(
       updatecompanyname({
         id,
-        name
+        name,
       })
     );
 
-    if (this.props.userprofile.payload) {
+    if (this.props.currentuser.payload) {
     } else {
       this.setState({ editWasTriggered: false });
     }
@@ -145,13 +145,13 @@ class ConnectedPictureDetails extends React.Component {
     await this.props.dispatch(deleteerrors());
     this.setState({
       editWasTriggered: false,
-      name: ""
+      name: "",
     });
   };
 
-  nameChangeHandler = e => {
+  nameChangeHandler = (e) => {
     this.setState({
-      name: e.target.value
+      name: e.target.value,
     });
   };
 
@@ -160,12 +160,12 @@ class ConnectedPictureDetails extends React.Component {
     let photo = "";
     let has_image = "";
 
-    if (this.props.userprofile.user !== null) {
-      name = this.props.userprofile.user.company.name
-        ? this.props.userprofile.user.company.name
+    if (this.props.currentuser.user !== null) {
+      name = this.props.currentuser.user.company.name
+        ? this.props.currentuser.user.company.name
         : "";
-      photo = this.props.userprofile.user.company.photo
-        ? this.props.userprofile.user.company.photo
+      photo = this.props.currentuser.user.company.photo
+        ? this.props.currentuser.user.company.photo
         : "";
     }
 
@@ -177,8 +177,8 @@ class ConnectedPictureDetails extends React.Component {
 
     let nameerrormsg = "";
 
-    if (this.props.userprofile.payload) {
-      this.props.userprofile.payload.forEach(err => {
+    if (this.props.currentuser.payload) {
+      this.props.currentuser.payload.forEach((err) => {
         if (err.param === "name") nameerrormsg = err.msg;
       });
     }
@@ -326,7 +326,7 @@ class ConnectedPictureDetails extends React.Component {
                   boxShadow: "none",
                   color: "rgba(0, 0, 0, 0.98)",
                   fontSize: "24px",
-                  fontWeight: "500"
+                  fontWeight: "500",
                 }}
               >
                 {display}
@@ -338,8 +338,8 @@ class ConnectedPictureDetails extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const PictureDetails = connect(mapStateToProps)(ConnectedPictureDetails);
 export default PictureDetails;

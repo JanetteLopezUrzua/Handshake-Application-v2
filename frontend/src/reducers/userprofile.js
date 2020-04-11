@@ -4,12 +4,12 @@ import {
   LOG_OUT,
   LOGIN_SUCCESS,
   SIGNUP_SUCCESS,
-  COMPANY_BASIC_INFO_UPDATE,
-  COMPANY_CONTACT_INFO_UPDATE,
-  COMPANY_PHOTO_UPDATE,
-  COMPANY_PHOTO_DELETE,
-  COMPANY_NAME_UPDATE,
-  COMPANY_USER_PROFILE_UPDATE_ERROR,
+  // COMPANY_BASIC_INFO_UPDATE,
+  // COMPANY_CONTACT_INFO_UPDATE,
+  // COMPANY_PHOTO_UPDATE,
+  // COMPANY_PHOTO_DELETE,
+  // COMPANY_NAME_UPDATE,
+  // COMPANY_USER_PROFILE_UPDATE_ERROR,
   DELETE_ERRORS,
 } from "../actions/types";
 
@@ -31,11 +31,11 @@ export default function (state = initialState, action) {
       };
 
     case USER_PROFILE_LOADED:
-    case COMPANY_BASIC_INFO_UPDATE:
-    case COMPANY_CONTACT_INFO_UPDATE:
-    case COMPANY_PHOTO_UPDATE:
-    case COMPANY_PHOTO_DELETE:
-    case COMPANY_NAME_UPDATE:
+      // case COMPANY_BASIC_INFO_UPDATE:
+      // case COMPANY_CONTACT_INFO_UPDATE:
+      // case COMPANY_PHOTO_UPDATE:
+      // case COMPANY_PHOTO_DELETE:
+      // case COMPANY_NAME_UPDATE:
       return {
         ...state,
         isAuthenticated: true,
@@ -43,11 +43,11 @@ export default function (state = initialState, action) {
         user: payload,
       };
 
-    case COMPANY_USER_PROFILE_UPDATE_ERROR:
-      return {
-        ...state,
-        payload,
-      };
+    // case COMPANY_USER_PROFILE_UPDATE_ERROR:
+    // return {
+    //   ...state,
+    //   payload,
+    // };
 
     case DELETE_ERRORS:
       return {

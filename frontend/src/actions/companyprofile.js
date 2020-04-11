@@ -9,6 +9,7 @@ import {
   COMPANY_PHOTO_DELETE,
   COMPANY_NAME_UPDATE,
   DELETE_ERRORS,
+  CURRENT_USER_PROFILE_LOADED,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -27,6 +28,28 @@ export const loadcompanyprofile = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: AUTH_ERROR,
+    });
+  }
+};
+
+export const loadcurrentcompany = (id) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.get(`http://localhost:3001/companies/info/${id}`);
+    dispatch({
+      type: CURRENT_USER_PROFILE_LOADED,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log("ERR", error);
+    const errors = error.response.data.errors;
+
+    dispatch({
+      type: COMPANY_USER_PROFILE_UPDATE_ERROR,
+      payload: errors,
     });
   }
 };

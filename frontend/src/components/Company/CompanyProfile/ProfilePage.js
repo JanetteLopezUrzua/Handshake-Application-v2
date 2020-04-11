@@ -10,7 +10,10 @@ import ContactInformation from "./ContactInfo/ContactInformation";
 
 import setAuthToken from "../../../utils/setAuthToken";
 import { connect } from "react-redux";
-import { loadcompanyprofile } from "../../../actions/companyprofile";
+import {
+  loadcompanyprofile,
+  loadcurrentcompany,
+} from "../../../actions/companyprofile";
 
 class ConnectedProfilePage extends React.Component {
   constructor() {
@@ -23,7 +26,11 @@ class ConnectedProfilePage extends React.Component {
       setAuthToken(localStorage.token);
     }
     const id = this.props.match.params.id;
-    await this.props.dispatch(loadcompanyprofile(id));
+
+    if (localStorage.getItem("type") === "company")
+      await this.props.dispatch(loadcompanyprofile(localStorage.getItem("id")));
+
+    await this.props.dispatch(loadcurrentcompany(id));
   }
 
   render() {
@@ -49,8 +56,8 @@ class ConnectedProfilePage extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { userprofile: state.userprofile, currentuser: state.currentuser };
 };
 const ProfilePage = connect(mapStateToProps)(ConnectedProfilePage);
 export default ProfilePage;

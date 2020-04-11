@@ -28,7 +28,6 @@ class ConnectedProfilePage extends React.Component {
       setAuthToken(localStorage.token);
 
       const id = this.props.match.params.id;
-      console.log("compoent did mount");
       if (localStorage.getItem("type") === "student")
         await this.props.dispatch(
           loadstudentprofile(localStorage.getItem("id"))

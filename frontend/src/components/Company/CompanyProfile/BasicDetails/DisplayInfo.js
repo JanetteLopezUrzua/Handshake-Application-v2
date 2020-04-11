@@ -7,16 +7,16 @@ import { MdEdit } from "react-icons/md";
 
 import { connect } from "react-redux";
 
-const ConnectedDisplayInfo = props => {
+const ConnectedDisplayInfo = (props) => {
   let location = "";
   let description = "";
 
-  if (props.userprofile.user !== null) {
-    location = props.userprofile.user.company.location
-      ? props.userprofile.user.company.location
+  if (props.currentuser.user !== null) {
+    location = props.currentuser.user.company.location
+      ? props.currentuser.user.company.location
       : "No Location Entered";
-    description = props.userprofile.user.company.description
-      ? props.userprofile.user.company.description
+    description = props.currentuser.user.company.description
+      ? props.currentuser.user.company.description
       : "No Description Entered";
   }
 
@@ -49,8 +49,8 @@ const ConnectedDisplayInfo = props => {
     </Card>
   );
 };
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const DisplayInfo = connect(mapStateToProps)(ConnectedDisplayInfo);
 export default DisplayInfo;

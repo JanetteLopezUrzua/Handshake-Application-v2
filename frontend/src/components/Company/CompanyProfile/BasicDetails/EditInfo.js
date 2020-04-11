@@ -10,8 +10,8 @@ import { connect } from "react-redux";
 const ConnectedEditInfo = (props) => {
   let locationerrormsg = "";
 
-  if (props.userprofile.payload) {
-    props.userprofile.payload.forEach((err) => {
+  if (props.currentuser.payload) {
+    props.currentuser.payload.forEach((err) => {
       if (err.param === "location") locationerrormsg = err.msg;
     });
   }
@@ -68,7 +68,7 @@ const ConnectedEditInfo = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  return { userprofile: state.userprofile };
+  return { currentuser: state.currentuser };
 };
 const EditInfo = connect(mapStateToProps)(ConnectedEditInfo);
 export default EditInfo;

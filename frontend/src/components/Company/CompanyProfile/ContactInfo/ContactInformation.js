@@ -5,7 +5,7 @@ import EditContactInfo from "./EditContactInfo";
 import { connect } from "react-redux";
 import {
   updatecontactinfo,
-  deleteerrors
+  deleteerrors,
 } from "../../../../actions/companyprofile";
 
 class ConnectedContactInformation extends React.Component {
@@ -16,37 +16,37 @@ class ConnectedContactInformation extends React.Component {
       id: "",
       email: "",
       phonenumber: "",
-      editWasTriggered: false
+      editWasTriggered: false,
     };
   }
 
-  static getDerivedStateFromProps = props => ({ id: props.id });
+  static getDerivedStateFromProps = (props) => ({ id: props.id });
 
-  handleClick = e => {
+  handleClick = (e) => {
     e.preventDefault();
     this.setState({ editWasTriggered: true });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  handleSave = async e => {
+  handleSave = async (e) => {
     e.preventDefault();
 
     const { id } = this.state;
     let email = "";
     let phonenumber = "";
 
-    if (this.props.userprofile.user !== null) {
+    if (this.props.currentuser.user !== null) {
       email =
-        this.props.userprofile.user.company.email === this.state.email
-          ? this.props.userprofile.user.company.email
+        this.props.currentuser.user.company.email === this.state.email
+          ? this.props.currentuser.user.company.email
           : this.state.email;
       phonenumber =
-        this.props.userprofile.user.company.phonenumber ===
+        this.props.currentuser.user.company.phonenumber ===
         this.state.phonenumber
-          ? this.props.userprofile.user.company.phonenumber
+          ? this.props.currentuser.user.company.phonenumber
           : this.state.phonenumber;
     }
 
@@ -54,11 +54,11 @@ class ConnectedContactInformation extends React.Component {
       updatecontactinfo({
         id,
         email,
-        phonenumber
+        phonenumber,
       })
     );
 
-    if (this.props.userprofile.payload) {
+    if (this.props.currentuser.payload) {
     } else {
       this.setState({ editWasTriggered: false });
     }
@@ -69,7 +69,7 @@ class ConnectedContactInformation extends React.Component {
     this.setState({
       editWasTriggered: false,
       email: "",
-      phonenumber: ""
+      phonenumber: "",
     });
   };
 
@@ -94,8 +94,8 @@ class ConnectedContactInformation extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = state => {
-  return { userprofile: state.userprofile };
+const mapStateToProps = (state) => {
+  return { currentuser: state.currentuser };
 };
 const ContactInformation = connect(mapStateToProps)(
   ConnectedContactInformation

@@ -11,8 +11,8 @@ const ConnectedEditContactInfo = (props) => {
   let emailerrormsg = "";
   let phonenumerrormsg = "";
 
-  if (props.userprofile.payload) {
-    props.userprofile.payload.forEach((err) => {
+  if (props.currentuser.payload) {
+    props.currentuser.payload.forEach((err) => {
       if (err.param === "email") emailerrormsg = err.msg;
       else if (err.param === "phonenumber") phonenumerrormsg = err.msg;
     });
@@ -60,7 +60,7 @@ const ConnectedEditContactInfo = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  return { userprofile: state.userprofile };
+  return { currentuser: state.currentuser };
 };
 const EditContactInfo = connect(mapStateToProps)(ConnectedEditContactInfo);
 export default EditContactInfo;

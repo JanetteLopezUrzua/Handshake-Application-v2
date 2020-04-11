@@ -117,7 +117,8 @@ class ConnectedNavigationbar extends React.Component {
     if (localStorage.getItem("type") === "student") {
       studentspath = "/student/students?page=1&nameorcollege=''&major=''";
       eventspath = "/student/events/upcoming?page=1";
-      jobspath = "/student/jobs?page=1&sort_direction=desc";
+      jobspath =
+        "/student/jobs/search?page=1&companynameoreventtitle=''&category=''&location=''&sort_direction=''";
     } else {
       studentspath = "/company/students?page=1&nameorcollegeorskillset=''";
       eventspath = "/company/events?page=1";

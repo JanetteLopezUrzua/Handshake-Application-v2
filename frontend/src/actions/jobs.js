@@ -313,28 +313,34 @@ export const companyloadapplicationslist = (jobid) => async (dispatch) => {
 //   }
 // };
 
-// // Student events
-// export const studentloadeventslist = (page, name) => async (dispatch) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
+// Student events
+export const studentloadjobslist = (
+  page,
+  nameortitle,
+  location,
+  filter,
+  sort
+) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
 
-//   try {
-//     const res = await axios.get(
-//       `http://localhost:3001/students/eventslist?page=${page}&name=${name}`
-//     );
-//     dispatch({
-//       type: EVENTS_LIST_LOADED,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     const errors = err.response.data.errors;
-//     dispatch({
-//       type: EVENT_UPDATE_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };
+  try {
+    const res = await axios.get(
+      `http://localhost:3001/students/jobslist?page=${page}&nameortitle=${nameortitle}&location=${location}&filter=${filter}&sort=${sort}`
+    );
+    dispatch({
+      type: JOBS_LIST_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    dispatch({
+      type: JOB_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
 
 // export const studentloadregisteredeventslist = (page, id) => async (
 //   dispatch
