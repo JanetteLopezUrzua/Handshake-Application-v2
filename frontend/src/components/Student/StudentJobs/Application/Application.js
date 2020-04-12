@@ -64,7 +64,7 @@ class ConnectedApplication extends React.Component {
       const year = date.getFullYear();
 
       await this.props.dispatch(
-        uploadresume(job_id, student_id, data, "pending", month, day, year)
+        uploadresume(job_id, student_id, data, "Pending", month, day, year)
       );
 
       await this.props.dispatch(companyloadapplicationslist(job_id));

@@ -1,7 +1,6 @@
 import {
   APPLICATION_LOADED,
   DELETE_ERRORS,
-  APPLICATION_STATUS_UPDATE,
   APPLICATION_UPDATE_ERROR,
   LOG_OUT,
   LOGIN_SUCCESS,
@@ -28,12 +27,12 @@ export default function (state = initialState, action) {
         application: payload,
       };
 
-    case APPLICATION_STATUS_UPDATE:
-      return {
-        ...state,
-        application: payload,
-        payload: null,
-      };
+    // case APPLICATION_STATUS_UPDATE:
+    //   return {
+    //     ...state,
+    //     application: payload,
+    //     payload: null,
+    //   };
 
     case APPLICATION_UPDATE_ERROR:
       return {

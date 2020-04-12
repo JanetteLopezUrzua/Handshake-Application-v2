@@ -58,21 +58,23 @@ class ConnectedEventContainer extends React.Component {
     let eligibility = "";
     let major = "";
 
-    if (this.props.userprofile.user !== null) {
-      if (this.props.userprofile.user.student.schools) {
-        if (this.props.userprofile.user.student.schools.length === 0) {
-          major = "";
-        } else major = this.props.userprofile.user.student.schools[0].major;
+    if (localStorage.getItem("type") === "student") {
+      if (this.props.userprofile.user !== null) {
+        if (this.props.userprofile.user.student.schools) {
+          if (this.props.userprofile.user.student.schools.length === 0) {
+            major = "";
+          } else major = this.props.userprofile.user.student.schools[0].major;
+        }
       }
-    }
 
-    if (this.props.event.event !== null) {
-      company_id = this.props.event.event.event.companyid._id
-        ? this.props.event.event.event.companyid._id
-        : "";
-      eligibility = this.props.event.event.event.eligibility
-        ? this.props.event.event.event.eligibility
-        : "all";
+      if (this.props.event.event !== null) {
+        company_id = this.props.event.event.event.companyid._id
+          ? this.props.event.event.event.companyid._id
+          : "";
+        eligibility = this.props.event.event.event.eligibility
+          ? this.props.event.event.event.eligibility
+          : "all";
+      }
     }
 
     let del = "";

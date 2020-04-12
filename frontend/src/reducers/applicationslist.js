@@ -5,6 +5,7 @@ import {
   LOG_OUT,
   LOGIN_SUCCESS,
   SIGNUP_SUCCESS,
+  RESET,
 } from "../actions/types";
 
 const initialState = {
@@ -39,6 +40,7 @@ export default function (state = initialState, action) {
         payload: null,
       };
 
+    case RESET:
     case LOG_OUT:
       return {
         applications: null,

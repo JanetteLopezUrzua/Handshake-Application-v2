@@ -8,8 +8,6 @@ import { FaCalendar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const EventListContainer = (props) => {
-  console.log("EVEEENTTTTT", props.event);
-
   let name = props.event.eventid.companyid.name;
   let photo = "";
   if (props.event.eventid.companyid.photo)

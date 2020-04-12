@@ -39,4 +39,22 @@ router.put("/job/application", checkAuth, async (req, res) => {
   });
 });
 
+// @route   GET students/applicationslist;
+// @desc    Get applications list
+// @access  Public
+router.get("/applicationslist", checkAuth, async (req, res) => {
+  kafka.make_request("student_applications_list", req.query, function (
+    err,
+    results
+  ) {
+    try {
+      let applicationsList = results;
+      res.json({ applicationsList });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
 module.exports = router;

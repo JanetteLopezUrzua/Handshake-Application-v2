@@ -155,7 +155,7 @@ class ConnectedStudentTab extends React.Component {
                   >
                     <FaChevronLeft />
                   </Button>
-                  <div className="pagesinfo">{`${this.state.page} / ${totalStudents}`}</div>
+                  <div className="pagesinfo">{`${this.state.page} / ${numOfPages}`}</div>
                   <Button className="pagesbuttons" onClick={this.nextPage}>
                     <FaChevronRight />
                   </Button>
@@ -174,7 +174,7 @@ class ConnectedStudentTab extends React.Component {
                   >
                     <FaChevronLeft />
                   </Button>
-                  <div className="pagesinfo">{`${this.state.page} / ${totalStudents}`}</div>
+                  <div className="pagesinfo">{`${this.state.page} / ${numOfPages}`}</div>
                   <Button
                     className="pagesbuttons"
                     style={{ cursor: "not-allowed" }}
@@ -193,7 +193,7 @@ class ConnectedStudentTab extends React.Component {
                   <Button className="pagesbuttons" onClick={this.prevPage}>
                     <FaChevronLeft />
                   </Button>
-                  <div className="pagesinfo">{`${currPage} / ${totalStudents}`}</div>
+                  <div className="pagesinfo">{`${currPage} / ${numOfPages}`}</div>
                   <Button
                     className="pagesbuttons"
                     style={{ cursor: "not-allowed" }}
@@ -212,7 +212,7 @@ class ConnectedStudentTab extends React.Component {
                   <Button className="pagesbuttons" onClick={this.prevPage}>
                     <FaChevronLeft />
                   </Button>
-                  <div className="pagesinfo">{`${currPage} / ${totalStudents}`}</div>
+                  <div className="pagesinfo">{`${currPage} / ${numOfPages}`}</div>
                   <Button className="pagesbuttons" onClick={this.nextPage}>
                     <FaChevronRight />
                   </Button>

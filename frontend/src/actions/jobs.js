@@ -10,7 +10,7 @@ import {
   APPLICATIONS_LIST_LOADED,
   APPLICATION_UPDATE_ERROR,
   APPLICATION_LOADED,
-  APPLICATION_STATUS_UPDATE,
+  RESET,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -133,6 +133,12 @@ export const companyloadjobslist = (page, id) => async (dispatch) => {
 export const deleteerrors = () => (dispatch) => {
   dispatch({
     type: DELETE_ERRORS,
+  });
+};
+
+export const reset = () => (dispatch) => {
+  dispatch({
+    type: RESET,
   });
 };
 
@@ -329,6 +335,30 @@ export const uploadresume = (
     console.log("ERR", err);
     const errors = err.response.data.errors;
 
+    dispatch({
+      type: APPLICATION_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+export const studentloadapplications = (page, filter, id) => async (
+  dispatch
+) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.get(
+      `http://localhost:3001/students/applicationslist?page=${page}&filter=${filter}&id=${id}`
+    );
+    dispatch({
+      type: APPLICATIONS_LIST_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
     dispatch({
       type: APPLICATION_UPDATE_ERROR,
       payload: errors,

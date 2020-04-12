@@ -1,6 +1,5 @@
 import React from "react";
 import "../../../components.css";
-import axios from "axios";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
@@ -8,80 +7,60 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import { Redirect } from "react-router";
-// import cookie from "react-cookies";
 import ApplicationsListContainer from "./ApplicationsListContainer";
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 
-class ApplicationsPage extends React.Component {
+import { connect } from "react-redux";
+import { studentloadapplications } from "../../../../actions/jobs";
+
+class ConnectedApplicationsPage extends React.Component {
   constructor() {
     super();
     this.state = {
       pending: false,
       reviewed: false,
       declined: false,
-      applications: [],
-      message: "",
+      page: 0,
+      redirect: "",
     };
   }
 
-  componentDidMount() {
-    this.getInfo();
-  }
-
-  componentDidUpdate(previousProps, previousState) {
+  async componentDidUpdate(previousProps, previousState) {
     if (
       previousState.pending !== this.state.pending ||
       previousState.reviewed !== this.state.reviewed ||
       previousState.declined !== this.state.declined
     ) {
-      this.getInfo();
+      let filter = "";
+
+      if (this.state.pending === true) filter = "Pending";
+      else if (this.state.reviewed === true) filter = "Reviewed";
+      else if (this.state.declined === true) filter = "Declined";
+
+      let id = localStorage.getItem("id");
+
+      await this.props.dispatch(
+        studentloadapplications(this.state.page, filter, id)
+      );
+      window.scrollTo(0, 0);
+      this.setState({
+        page: 1,
+        redirect: (
+          <Redirect to={`/student/jobs/applications?page=1&status=${filter}`} />
+        ),
+      });
     }
   }
 
-  getInfo = () => {
-    let path = "";
+  async componentDidMount() {
+    let id = localStorage.getItem("id");
 
-    const { pending, reviewed, declined } = this.state;
+    await this.props.dispatch(studentloadapplications(1, "", id));
 
-    if (pending === false && reviewed === false && declined === false)
-      path = "all";
-    if (pending === true && reviewed === false && declined === false)
-      path = "pending";
-    if (pending === false && reviewed === true && declined === false)
-      path = "reviewed";
-    if (pending === false && reviewed === false && declined === true)
-      path = "declined";
-
-    // const data = {
-    //   student_id: cookie.load('id'),
-    // };
-    let data = "";
-
-    axios
-      .post(`http://localhost:3001/student/applicationslist/${path}`, data)
-      .then((response) => {
-        const info = response.data;
-
-        this.setState({
-          applications: info.applications,
-        });
-
-        if (
-          this.state.applications === undefined ||
-          this.state.applications.length === 0
-        ) {
-          this.setState({
-            message: "No Applications Found",
-          });
-        } else {
-          this.setState({
-            message: "",
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    this.setState({
+      page: 1,
+    });
+  }
 
   handlePendingClick = () => {
     this.setState({
@@ -118,11 +97,9 @@ class ApplicationsPage extends React.Component {
   render() {
     // if not logged in go to login page
     let redirectVar = null;
-    // if (!cookie.load('id')) {
-    //   redirectVar = <Redirect to="/" />;
-    // } else if (cookie.load('id') && cookie.load('user') === "company") {
-    //   redirectVar = <Redirect to={`/company/${cookie.load('id')}`} />;
-    // }
+    if (this.props.userprofile.isAuthenticated === false) {
+      redirectVar = <Redirect to="/" />;
+    }
 
     let clear = "";
     if (
@@ -197,20 +174,138 @@ class ApplicationsPage extends React.Component {
       );
 
     let applicationsList = "";
+    let message = "";
+    let currPage = "";
+    let numOfPages = "";
+    let limit = "";
+    let totalApplications = "";
+    let pageRedirect = null;
+    let pagesArrows = "";
 
-    if (
-      this.state.applications === undefined ||
-      this.state.applications.length === 0
-    )
-      applicationsList = "";
-    else
-      applicationsList = this.state.applications.map((application) => (
-        <ApplicationsListContainer application={application} />
-      ));
+    if (this.props.applicationslist.applications !== null) {
+      if (this.props.applicationslist.applications.applicationsList)
+        if (this.props.applicationslist.applications.applicationsList.docs) {
+          if (
+            this.props.applicationslist.applications.applicationsList.docs
+              .length === 0
+          ) {
+            applicationsList = "";
+            message = "Found 0 applications";
+          } else {
+            applicationsList = this.props.applicationslist.applications.applicationsList.docs.map(
+              (application) => {
+                return (
+                  <ApplicationsListContainer
+                    key={application._id}
+                    appid={application._id}
+                    application={application}
+                  />
+                );
+              }
+            );
+            currPage = this.props.applicationslist.applications.applicationsList
+              .page;
+            numOfPages = this.props.applicationslist.applications
+              .applicationsList.pages;
+            limit = this.props.applicationslist.applications.applicationsList
+              .limit;
+            totalApplications = this.props.applicationslist.applications
+              .applicationsList.total;
+            pageRedirect = this.state.redirect;
+
+            if (this.state.page === 1 && currPage !== numOfPages) {
+              pagesArrows = (
+                <Container
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
+                  <Row>
+                    <Button
+                      className="pagesbuttons"
+                      style={{ cursor: "not-allowed" }}
+                      onClick={this.prevPage}
+                      disabled
+                    >
+                      <FaChevronLeft />
+                    </Button>
+                    <div className="pagesinfo">{`${this.state.page} / ${numOfPages}`}</div>
+                    <Button className="pagesbuttons" onClick={this.nextPage}>
+                      <FaChevronRight />
+                    </Button>
+                  </Row>
+                </Container>
+              );
+            } else if (this.state.page === 1 && currPage === numOfPages) {
+              pagesArrows = (
+                <Container
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
+                  <Row>
+                    <Button
+                      className="pagesbuttons"
+                      style={{ cursor: "not-allowed" }}
+                      onClick={this.prevPage}
+                      disabled
+                    >
+                      <FaChevronLeft />
+                    </Button>
+                    <div className="pagesinfo">{`${this.state.page} / ${numOfPages}`}</div>
+                    <Button
+                      className="pagesbuttons"
+                      style={{ cursor: "not-allowed" }}
+                      onClick={this.nextPage}
+                      disabled
+                    >
+                      <FaChevronRight />
+                    </Button>
+                  </Row>
+                </Container>
+              );
+            } else if (currPage === numOfPages) {
+              pagesArrows = (
+                <Container
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
+                  <Row>
+                    <Button className="pagesbuttons" onClick={this.prevPage}>
+                      <FaChevronLeft />
+                    </Button>
+                    <div className="pagesinfo">{`${currPage} / ${numOfPages}`}</div>
+                    <Button
+                      className="pagesbuttons"
+                      style={{ cursor: "not-allowed" }}
+                      onClick={this.nextPage}
+                      disabled
+                    >
+                      <FaChevronRight />
+                    </Button>
+                  </Row>
+                </Container>
+              );
+            } else {
+              pagesArrows = (
+                <Container
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
+                  <Row>
+                    <Button className="pagesbuttons" onClick={this.prevPage}>
+                      <FaChevronLeft />
+                    </Button>
+                    <div className="pagesinfo">{`${currPage} / ${numOfPages}`}</div>
+                    <Button className="pagesbuttons" onClick={this.nextPage}>
+                      <FaChevronRight />
+                    </Button>
+                  </Row>
+                </Container>
+              );
+            }
+          }
+        }
+    }
 
     return (
       <div>
         {redirectVar}
+        {pageRedirect}
         <Container>
           <Row>
             <Col sm={4}>
@@ -235,7 +330,8 @@ class ApplicationsPage extends React.Component {
             <Col sm={8}>
               <Container>
                 {applicationsList}
-                <p className="errormessage">{this.state.message}</p>
+                {pagesArrows}
+                <p className="errormessage">{message}</p>
               </Container>
             </Col>
           </Row>
@@ -244,5 +340,11 @@ class ApplicationsPage extends React.Component {
     );
   }
 }
-
+const mapStateToProps = (state) => {
+  return {
+    userprofile: state.userprofile,
+    applicationslist: state.applicationslist,
+  };
+};
+const ApplicationsPage = connect(mapStateToProps)(ConnectedApplicationsPage);
 export default ApplicationsPage;
