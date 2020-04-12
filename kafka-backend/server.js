@@ -56,6 +56,7 @@ var CompanyDeleteJob = require("./services/company/jobs/company_delete_job");
 var CompanyApplicationsList = require("./services/company/jobs/company_job_applications_list");
 var JobPostingInfo = require("./services/company/jobs/job_posting_info");
 var CompanyUpdateJobInfo = require("./services/company/jobs/company_update_job_info");
+var CompanyUpdateApplicationStatus = require("./services/company/jobs/company_update_application_status");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -150,3 +151,7 @@ handleTopicRequest("company_delete_job", CompanyDeleteJob);
 handleTopicRequest("company_job_applications_list", CompanyApplicationsList);
 handleTopicRequest("job_posting_info", JobPostingInfo);
 handleTopicRequest("company_update_job_info", CompanyUpdateJobInfo);
+handleTopicRequest(
+  "company_update_application_status",
+  CompanyUpdateApplicationStatus
+);

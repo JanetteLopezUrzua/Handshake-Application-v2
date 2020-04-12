@@ -208,41 +208,22 @@ router.get("/job/:jobid/applications", checkAuth, async (req, res) => {
   });
 });
 
-// // @route   PUT companies/event/rsvp
-// // @desc    Add student to rsvp list
-// // @access  Public
-// router.put("/event/rsvp", checkAuth, async (req, res) => {
-//   kafka.make_request("company_rsvp_student", req.body, function (err, results) {
-//     try {
-//       let students = results;
-//       console.log("Student Results", results);
-
-//       res.json({ students });
-//     } catch (err) {
-//       console.error(err.message);
-//       res.status(500).send("Server Error");
-//     }
-//   });
-// });
-
-// // @route   PUT companies/event/unregister
-// // @desc    Remove student from rsvp list
-// // @access  Public
-// router.put("/event/unregister", checkAuth, async (req, res) => {
-//   kafka.make_request("company_unregister_student", req.body, function (
-//     err,
-//     results
-//   ) {
-//     try {
-//       let students = results;
-//       console.log("Student Results", results);
-
-//       res.json({ students });
-//     } catch (err) {
-//       console.error(err.message);
-//       res.status(500).send("Server Error");
-//     }
-//   });
-// });
+// @route   PUT companies/job/status
+// @desc    Update status of job applications
+// @access  Public
+router.put("/job/status", checkAuth, async (req, res) => {
+  kafka.make_request("company_update_application_status", req.body, function (
+    err,
+    results
+  ) {
+    try {
+      let applications = results;
+      res.json({ applications });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
 
 module.exports = router;

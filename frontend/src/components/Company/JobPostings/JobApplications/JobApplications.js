@@ -3,85 +3,64 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import JobApplicationsModal from "./JobApplicationsModal";
 
-class JobApplications extends React.Component {
+import { connect } from "react-redux";
+import {
+  companyloadapplicationslist,
+  company_update_application_status,
+} from "../../../../actions/jobs";
+
+class ConnectedJobApplications extends React.Component {
   constructor() {
     super();
 
     this.state = {
       job_id: "",
       show: false,
-      students: [],
     };
   }
 
   static getDerivedStateFromProps = (props) => ({ job_id: props.job_id });
 
-  componentDidMount() {
-    this.getInfo();
-  }
-
-  getInfo = () => {
-    axios
-      .get(`http://localhost:3001/job/applied/${this.state.job_id}`)
-      .then((response) => {
-        const info = response.data;
-        this.setState({
-          students: info.students,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   handleClose = () => {
-    // eslint-disable-next-line implicit-arrow-linebreak
     this.setState({
       show: false,
     });
-    this.getInfo();
   };
 
   handleShow = () => {
-    // eslint-disable-next-line implicit-arrow-linebreak
     this.setState({
       show: true,
     });
   };
 
-  // eslint-disable-next-line camelcase
-  handleStatus = (e, pstudent_id) => {
-    const data = {
-      student_id: pstudent_id,
-      job_id: this.state.job_id,
-      status: e.target.value,
-    };
-
-    console.log(e.target.value);
-
-    axios
-      .post("http://localhost:3001/job/studentstatus", data)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  handleStatus = async (e, appid) => {
+    let status = e.target.value;
+    let jobid = this.state.job_id;
+    console.log("clicked");
+    await this.props.dispatch(company_update_application_status(appid, status));
+    await this.props.dispatch(companyloadapplicationslist(jobid));
   };
 
   render() {
-    let message = "";
     let button = "";
-    if (this.state.students.length === 0) {
-      message = "No one has applied to this job.";
-      button = (
-        <Button style={{ cursor: "not-allowed" }} disabled>
-          View Applications
-        </Button>
-      );
-    } else {
-      message = "";
-      button = <Button onClick={this.handleShow}>View Applications</Button>;
+    let message = "";
+
+    if (this.props.applicationslist.applications !== null) {
+      if (this.props.applicationslist.applications.applications) {
+        if (
+          this.props.applicationslist.applications.applications.length === 0
+        ) {
+          message = "No one has applied to this job.";
+          button = (
+            <Button style={{ cursor: "not-allowed" }} disabled>
+              View Applications
+            </Button>
+          );
+        } else {
+          message = "";
+          button = <Button onClick={this.handleShow}>View Applications</Button>;
+        }
+      }
     }
 
     return (
@@ -89,7 +68,6 @@ class JobApplications extends React.Component {
         <JobApplicationsModal
           show={this.state.show}
           close={this.handleClose}
-          students={this.state.students}
           handleStatus={this.handleStatus}
         />
         {button}
@@ -99,5 +77,8 @@ class JobApplications extends React.Component {
     );
   }
 }
-
+const mapStateToProps = (state) => {
+  return { applicationslist: state.applicationslist };
+};
+const JobApplications = connect(mapStateToProps)(ConnectedJobApplications);
 export default JobApplications;

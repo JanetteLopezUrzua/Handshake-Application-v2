@@ -14,6 +14,7 @@ import {
   loadcompanyprofile,
   loadcurrentcompany,
 } from "../../../actions/companyprofile";
+import { loadcurrentstudent } from "../../../actions/studentprofile";
 
 class ConnectedProfilePage extends React.Component {
   constructor() {
@@ -27,10 +28,10 @@ class ConnectedProfilePage extends React.Component {
     }
     const id = this.props.match.params.id;
 
-    if (localStorage.getItem("type") === "company")
+    if (localStorage.getItem("type") === "company") {
       await this.props.dispatch(loadcompanyprofile(localStorage.getItem("id")));
-
-    await this.props.dispatch(loadcurrentcompany(id));
+      await this.props.dispatch(loadcurrentstudent(id));
+    } else await this.props.dispatch(loadcurrentcompany(id));
   }
 
   render() {

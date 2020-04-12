@@ -39,14 +39,14 @@ class ConnectedEventRSVP extends React.Component {
     let eventid = this.state.event_id;
     let studentid = localStorage.getItem("id");
     await this.props.dispatch(company_event_rsvp(eventid, studentid));
-    await this.props.dispatch(companyloadrsvplist(this.state.event_id));
+    await this.props.dispatch(companyloadrsvplist(eventid));
   };
 
   handleUnregister = async () => {
     let eventid = this.state.event_id;
     let studentid = localStorage.getItem("id");
     await this.props.dispatch(company_event_unregister(eventid, studentid));
-    await this.props.dispatch(companyloadrsvplist(this.state.event_id));
+    await this.props.dispatch(companyloadrsvplist(eventid));
   };
 
   render() {

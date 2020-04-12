@@ -226,6 +226,40 @@ export const companydeletejob = (jobid) => async (dispatch) => {
 };
 
 // Applications
+export const company_update_application_status = (appid, status) => async (
+  dispatch
+) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ appid, status });
+
+  console.log(body);
+
+  try {
+    const res = await axios.put(
+      "http://localhost:3001/companies/job/status",
+      body,
+      config
+    );
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
+
+    dispatch({
+      type: APPLICATION_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
 export const companyloadapplicationslist = (jobid) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
