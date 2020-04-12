@@ -19,7 +19,7 @@ const JobsNavBar = () => (
         <Nav className="ml-auto">
           <Link
             className="eventsnavbaritem"
-            to="/student/jobs/search?page=1&companynameoreventtitle=''&category=''&location=''&sort_direction=''"
+            to="/student/jobs/search?page=1&companynameoreventtitle=''&category=''&location=''&sort_direction=posting_date_desc"
           >
             <span>Job Search</span>
           </Link>

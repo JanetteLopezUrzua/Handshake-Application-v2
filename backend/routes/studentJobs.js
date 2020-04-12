@@ -19,40 +19,24 @@ router.get("/jobslist", checkAuth, async (req, res) => {
   });
 });
 
-// // @route   GET students/registered/eventslist
-// // @desc    Get registered events list
-// // @access  Public
-// router.get("/registered/eventslist", checkAuth, async (req, res) => {
-//   kafka.make_request("student_registered_events_list", req.query, function (
-//     err,
-//     results
-//   ) {
-//     try {
-//       let eventsList = results;
-//       res.json({ eventsList });
-//     } catch (err) {
-//       console.error(err.message);
-//       res.status(500).send("Server Error");
-//     }
-//   });
-// });
+// @route   PUT students/job/application
+// @desc    Update event banner photo
+// @access  Public
+router.put("/job/application", checkAuth, async (req, res) => {
+  console.log(req.body);
 
-// // @route   GET students/upcoming/eventslist
-// // @desc    Get upcoming events list
-// // @access  Public
-// router.get("/upcoming/eventslist", checkAuth, async (req, res) => {
-//   kafka.make_request("student_upcoming_events_list", req.query, function (
-//     err,
-//     results
-//   ) {
-//     try {
-//       let eventsList = results;
-//       res.json({ eventsList });
-//     } catch (err) {
-//       console.error(err.message);
-//       res.status(500).send("Server Error");
-//     }
-//   });
-// });
+  kafka.make_request("student_upload_resume", req.body, function (
+    err,
+    results
+  ) {
+    try {
+      let application = results;
+      res.json({ application });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
 
 module.exports = router;

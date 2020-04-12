@@ -27,6 +27,7 @@ var StudentEventsList = require("./services/student/events/student_events_list")
 var StudentRegisteredEventsList = require("./services/student/events/student_registered_events_list");
 var StudentUpcomingEventsList = require("./services/student/events/student_upcoming_events_list");
 var StudentJobsList = require("./services/student/jobs/student_jobs_list");
+var StudentUploadResume = require("./services/student/jobs/student_upload_resume");
 
 /************* COMPANY *************************/
 var CompanyLogin = require("./services/company/auth/company_login.js");
@@ -117,6 +118,7 @@ handleTopicRequest(
 );
 handleTopicRequest("student_upcoming_events_list", StudentUpcomingEventsList);
 handleTopicRequest("student_jobs_list", StudentJobsList);
+handleTopicRequest("student_upload_resume", StudentUploadResume);
 
 /************* COMPANY *************************/
 handleTopicRequest("company_login", CompanyLogin);

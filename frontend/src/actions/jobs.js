@@ -8,8 +8,9 @@ import {
   JOBS_LIST_LOADED,
   JOB_INFO_UPDATE,
   APPLICATIONS_LIST_LOADED,
-  APPLICATIONS_LIST_ERROR,
-  APPLIED_JOBS_LIST_LOADED,
+  APPLICATION_UPDATE_ERROR,
+  APPLICATION_LOADED,
+  APPLICATION_STATUS_UPDATE,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -241,79 +242,67 @@ export const companyloadapplicationslist = (jobid) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     dispatch({
-      type: APPLICATIONS_LIST_ERROR,
+      type: APPLICATION_UPDATE_ERROR,
       payload: errors,
     });
   }
 };
 
-// export const company_event_rsvp = (eventid, studentid) => async (dispatch) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
+export const uploadresume = (
+  job_id,
+  student_id,
+  data,
+  status,
+  month,
+  day,
+  year
+) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
 
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   };
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
 
-//   const body = JSON.stringify({ eventid, studentid });
+  try {
+    let resume = await axios.post("http://localhost:3001/upload", data);
+    resume = resume.data;
 
-//   console.log(body);
+    const body = JSON.stringify({
+      job_id,
+      student_id,
+      resume,
+      status,
+      month,
+      day,
+      year,
+    });
 
-//   try {
-//     const res = await axios.put(
-//       "http://localhost:3001/companies/event/rsvp",
-//       body,
-//       config
-//     );
-//   } catch (err) {
-//     console.log("ERR", err);
-//     const errors = err.response.data.errors;
+    const res = await axios.put(
+      "http://localhost:3001/students/job/application",
+      body,
+      config
+    );
 
-//     dispatch({
-//       type: EVENT_UPDATE_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };
+    dispatch({
+      type: APPLICATION_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log("ERR", err);
+    const errors = err.response.data.errors;
 
-// export const company_event_unregister = (eventid, studentid) => async (
-//   dispatch
-// ) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
+    dispatch({
+      type: APPLICATION_UPDATE_ERROR,
+      payload: errors,
+    });
+  }
+};
 
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   };
-
-//   const body = JSON.stringify({ eventid, studentid });
-
-//   console.log(body);
-
-//   try {
-//     const res = await axios.put(
-//       "http://localhost:3001/companies/event/unregister",
-//       body,
-//       config
-//     );
-//   } catch (err) {
-//     console.log("ERR", err);
-//     const errors = err.response.data.errors;
-
-//     dispatch({
-//       type: EVENT_UPDATE_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };
-
-// Student events
+// Student job postings
 export const studentloadjobslist = (
   page,
   nameortitle,
@@ -341,49 +330,3 @@ export const studentloadjobslist = (
     });
   }
 };
-
-// export const studentloadregisteredeventslist = (page, id) => async (
-//   dispatch
-// ) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
-
-//   try {
-//     const res = await axios.get(
-//       `http://localhost:3001/students/registered/eventslist?page=${page}&id=${id}`
-//     );
-//     dispatch({
-//       type: REGISTERED_EVENTS_LIST_LOADED,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     const errors = err.response.data.errors;
-//     dispatch({
-//       type: EVENT_UPDATE_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };
-
-// export const studentloadupcomingeventslist = (page, id) => async (dispatch) => {
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
-
-//   try {
-//     const res = await axios.get(
-//       `http://localhost:3001/students/upcoming/eventslist?page=${page}&id=${id}`
-//     );
-//     dispatch({
-//       type: UPCOMING_EVENTS_LIST_LOADED,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     const errors = err.response.data.errors;
-//     dispatch({
-//       type: EVENT_UPDATE_ERROR,
-//       payload: errors,
-//     });
-//   }
-// };

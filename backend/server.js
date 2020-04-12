@@ -71,28 +71,6 @@ app.post("/upload", upload.single("file"), (req, res) => {
   res.end(req.file.filename);
 });
 
-// app.post("/resumes", (req, res) => {
-//   console.log("Saving resumes file names to db");
-//   // console.log(req.body);
-//   if (req.body.student_id !== undefined) {
-//     connection.query(
-//       `insert into resumes values ('${req.body.job_id}', '${req.body.student_id}', '${req.body.file}', "Pending", '${req.body.appdate}')`,
-//       (err, result) => {
-//         if (err) res.end("Can't insert information");
-//         else {
-//           console.log("Last insert ID:", result.insertId);
-
-//           res.writeHead(200, {
-//             "Content-Type": "text/plain"
-//           });
-
-//           res.end("Succesful insert");
-//         }
-//       }
-//     );
-//   }
-// });
-
 const PORT = 3001;
 
 app.listen(PORT, () => console.log(`Server started on port: ${PORT}`));

@@ -199,8 +199,8 @@ router.get("/job/:jobid/applications", checkAuth, async (req, res) => {
     results
   ) {
     try {
-      let students = results;
-      res.json({ students });
+      let applications = results;
+      res.json({ applications });
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");

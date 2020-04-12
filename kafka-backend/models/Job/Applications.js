@@ -21,6 +21,18 @@ const ApplicationsSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    appmonth: {
+      type: Number,
+      required: true,
+    },
+    appday: {
+      type: Number,
+      required: true,
+    },
+    appyear: {
+      type: Number,
+      required: true,
+    },
   },
   {
     versionKey: false,

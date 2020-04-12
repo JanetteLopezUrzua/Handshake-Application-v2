@@ -1,27 +1,24 @@
 import React from "react";
 import axios from "axios";
-// import cookie from "react-cookies";
-// import Card from "react-bootstrap/Card";
-// import Container from "react-bootstrap/Container";
-// import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
-// import Row from "react-bootstrap/Row";
-// import { FaCamera } from "react-icons/fa";
 import ApplicationModal from "./ApplicationModal";
 
-class Application extends React.Component {
+import { connect } from "react-redux";
+import {
+  uploadresume,
+  companyloadapplicationslist,
+} from "../../../../actions/jobs";
+
+class ConnectedApplication extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      // student_id: cookie.load('id'),
-      student_id: "",
       job_id: "",
       show: false,
       validfile: "",
       errormessage: "",
       data: "",
-      alreadyapplied: false,
     };
   }
 
@@ -55,62 +52,33 @@ class Application extends React.Component {
     }
   };
 
-  onUpload = (e) => {
+  onUpload = async (e) => {
     e.preventDefault();
     if (this.state.validfile === true) {
-      axios
-        .post("http://localhost:3001/upload", this.state.data)
-        .then((response) => {
-          console.log("res", response.data);
+      const { job_id, data } = this.state;
+      let student_id = localStorage.getItem("id");
 
-          const date = new Date();
-          const day = `${date.getDate()}`.slice(-2);
-          let month = `${date.getMonth()}`.slice(-2);
-          const year = date.getFullYear();
+      const date = new Date();
+      const day = `${date.getDate()}`.slice(-2);
+      let month = `${date.getMonth()}`.slice(-2);
+      const year = date.getFullYear();
 
-          const months = [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sept",
-            "Oct",
-            "Nov",
-            "Dec",
-          ];
+      await this.props.dispatch(
+        uploadresume(job_id, student_id, data, "pending", month, day, year)
+      );
 
-          month = months[month];
+      await this.props.dispatch(companyloadapplicationslist(job_id));
 
-          const applicationdate = `${month} ${day}, ${year}`;
-
-          const data = {
-            student_id: this.state.student_id,
-            job_id: this.state.job_id,
-            file: response.data,
-            appdate: applicationdate,
-          };
-
-          return axios.post("http://localhost:3001/resumes", data);
-        })
-        .then((response) => {
-          console.log(response);
-          this.setState({
-            errormessage: "",
-            show: false,
-          });
-        })
-        .catch((error) => {
-          console.log(error.response.data);
+      if (this.props.application.payload) {
+      } else {
+        this.setState({
+          show: false,
         });
+      }
     }
   };
 
   handleClose = () => {
-    // eslint-disable-next-line implicit-arrow-linebreak
     this.setState({
       show: false,
       errormessage: "",
@@ -118,19 +86,42 @@ class Application extends React.Component {
   };
 
   handleShow = () =>
-    // eslint-disable-next-line implicit-arrow-linebreak
     this.setState({
       show: true,
     });
 
   render() {
-    console.log("REEEEEEEEEEEEENDER");
+    let alreadyapplied = "";
+
+    if (this.props.applicationslist.applications !== null) {
+      if (this.props.applicationslist.applications.applications) {
+        if (
+          this.props.applicationslist.applications.applications.length === 0
+        ) {
+          alreadyapplied = false;
+        } else {
+          this.props.applicationslist.applications.applications.map(
+            (application) => {
+              if (
+                application.studentid._id === localStorage.getItem("id") &&
+                localStorage.getItem("type") === "student"
+              ) {
+                alreadyapplied = true;
+              } else {
+                alreadyapplied = false;
+              }
+            }
+          );
+        }
+      }
+    }
+
     let button = "";
-    if (this.state.alreadyapplied === true) {
+    if (alreadyapplied === true) {
       button = (
         <Button
           className="cancel"
-          style={{ backgroundColor: "#ccc" }}
+          style={{ backgroundColor: "#ccc", cursor: "not-allowed" }}
           onClick={this.handleShow}
           disabled
         >
@@ -158,5 +149,11 @@ class Application extends React.Component {
     );
   }
 }
-
+const mapStateToProps = (state) => {
+  return {
+    application: state.application,
+    applicationslist: state.applicationslist,
+  };
+};
+const Application = connect(mapStateToProps)(ConnectedApplication);
 export default Application;

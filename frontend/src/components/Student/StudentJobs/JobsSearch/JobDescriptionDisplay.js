@@ -9,6 +9,7 @@ import { FaRegMoneyBillAlt, FaRegClock, FaBriefcase } from "react-icons/fa";
 import Application from "../Application/Application";
 
 import { connect } from "react-redux";
+import { companyloadapplicationslist } from "../../../../actions/jobs";
 
 const ConnectedJobDescriptionDisplay = (props) => {
   let jobid = "";
@@ -73,6 +74,8 @@ const ConnectedJobDescriptionDisplay = (props) => {
       : "";
   }
 
+  props.dispatch(companyloadapplicationslist(jobid));
+
   const path = `/company/${companyid}`;
   const months = [
     "January",
@@ -84,6 +87,7 @@ const ConnectedJobDescriptionDisplay = (props) => {
     "July",
     "August",
     "September",
+    "October",
     "November",
     "December",
   ];
