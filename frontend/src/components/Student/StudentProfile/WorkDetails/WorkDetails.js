@@ -105,19 +105,21 @@ class ConnectedWorkDetails extends React.Component {
     let message = "";
 
     if (this.props.currentuser.user !== null) {
-      if (this.props.currentuser.user.student.jobs) {
-        if (this.props.currentuser.user.student.jobs.length === 0) {
-          jobsList = "";
-          message = "Where is somewhere you have worked?";
-        } else
-          jobsList = this.props.currentuser.user.student.jobs.map((job) => (
-            <WorkContainer
-              key={job._id}
-              jobid={job._id}
-              id={this.state.id}
-              job={job}
-            />
-          ));
+      if (this.props.currentuser.user.student) {
+        if (this.props.currentuser.user.student.jobs) {
+          if (this.props.currentuser.user.student.jobs.length === 0) {
+            jobsList = "";
+            message = "Where is somewhere you have worked?";
+          } else
+            jobsList = this.props.currentuser.user.student.jobs.map((job) => (
+              <WorkContainer
+                key={job._id}
+                jobid={job._id}
+                id={this.state.id}
+                job={job}
+              />
+            ));
+        }
       }
     }
 

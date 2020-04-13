@@ -132,24 +132,26 @@ class ConnectedPictureDetails extends React.Component {
     let has_image = "";
 
     if (this.props.currentuser.user !== null) {
-      currid = this.props.currentuser.user.student._id
-        ? this.props.currentuser.user.student._id
-        : "";
-      fname = this.props.currentuser.user.student.fname
-        ? this.props.currentuser.user.student.fname
-        : "";
-      lname = this.props.currentuser.user.student.lname
-        ? this.props.currentuser.user.student.lname
-        : "";
-      college =
-        this.props.currentuser.user.student.schools.length !== 0
-          ? this.props.currentuser.user.student.schools.find((school) => {
-              return school.primaryschool === "true";
-            })
+      if (this.props.currentuser.user.student) {
+        currid = this.props.currentuser.user.student._id
+          ? this.props.currentuser.user.student._id
           : "";
-      photo = this.props.currentuser.user.student.photo
-        ? this.props.currentuser.user.student.photo
-        : "";
+        fname = this.props.currentuser.user.student.fname
+          ? this.props.currentuser.user.student.fname
+          : "";
+        lname = this.props.currentuser.user.student.lname
+          ? this.props.currentuser.user.student.lname
+          : "";
+        college =
+          this.props.currentuser.user.student.schools.length !== 0
+            ? this.props.currentuser.user.student.schools.find((school) => {
+                return school.primaryschool === "true";
+              })
+            : "";
+        photo = this.props.currentuser.user.student.photo
+          ? this.props.currentuser.user.student.photo
+          : "";
+      }
     }
 
     if (college !== "") {

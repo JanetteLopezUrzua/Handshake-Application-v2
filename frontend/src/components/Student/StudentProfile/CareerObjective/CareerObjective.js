@@ -36,10 +36,12 @@ class ConnectedCareerObjective extends React.Component {
     const { id } = this.state;
     let objective = "";
     if (this.props.currentuser.user !== null) {
-      objective =
-        this.props.currentuser.user.student.objective === this.state.objective
-          ? this.props.currentuser.user.student.objective
-          : this.state.objective;
+      if (this.props.currentuser.user.student) {
+        objective =
+          this.props.currentuser.user.student.objective === this.state.objective
+            ? this.props.currentuser.user.student.objective
+            : this.state.objective;
+      }
     }
 
     await this.props.dispatch(

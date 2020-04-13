@@ -63,20 +63,22 @@ class ConnectedSkillset extends React.Component {
   render() {
     let skillsList = "";
     if (this.props.currentuser.user !== null) {
-      if (this.props.currentuser.user.student.skillset) {
-        if (this.props.currentuser.user.student.skillset.length === 0)
-          skillsList = "";
-        else
-          skillsList = this.props.currentuser.user.student.skillset.map(
-            (skill) => (
-              <DisplaySkills
-                key={skill._id}
-                id={this.state.id}
-                skill={skill.skill}
-                handleDelete={this.handleDelete}
-              />
-            )
-          );
+      if (this.props.currentuser.user.student) {
+        if (this.props.currentuser.user.student.skillset) {
+          if (this.props.currentuser.user.student.skillset.length === 0)
+            skillsList = "";
+          else
+            skillsList = this.props.currentuser.user.student.skillset.map(
+              (skill) => (
+                <DisplaySkills
+                  key={skill._id}
+                  id={this.state.id}
+                  skill={skill.skill}
+                  handleDelete={this.handleDelete}
+                />
+              )
+            );
+        }
       }
     }
 

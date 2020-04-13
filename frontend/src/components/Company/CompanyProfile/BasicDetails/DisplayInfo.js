@@ -12,12 +12,14 @@ const ConnectedDisplayInfo = (props) => {
   let description = "";
 
   if (props.currentuser.user !== null) {
-    location = props.currentuser.user.company.location
-      ? props.currentuser.user.company.location
-      : "No Location Entered";
-    description = props.currentuser.user.company.description
-      ? props.currentuser.user.company.description
-      : "No Description Entered";
+    if (props.currentuser.user.company) {
+      location = props.currentuser.user.company.location
+        ? props.currentuser.user.company.location
+        : "No Location Entered";
+      description = props.currentuser.user.company.description
+        ? props.currentuser.user.company.description
+        : "No Description Entered";
+    }
   }
 
   let button = "";

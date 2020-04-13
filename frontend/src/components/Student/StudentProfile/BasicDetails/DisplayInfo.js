@@ -16,24 +16,26 @@ const ConnectedDisplayInfo = (props) => {
   let country = "";
 
   if (props.currentuser.user !== null) {
-    fname = props.currentuser.user.student.fname
-      ? props.currentuser.user.student.fname
-      : "No First Name Entered";
-    lname = props.currentuser.user.student.lname
-      ? props.currentuser.user.student.lname
-      : "No Last Name Entered";
-    dob = props.currentuser.user.student.dob
-      ? props.currentuser.user.student.dob
-      : "No Date of Birth Entered";
-    city = props.currentuser.user.student.city
-      ? props.currentuser.user.student.city
-      : "No City Entered";
-    state = props.currentuser.user.student.state
-      ? props.currentuser.user.student.state
-      : "No State Entered";
-    country = props.currentuser.user.student.country
-      ? props.currentuser.user.student.country
-      : "No Country Entered";
+    if (props.currentuser.user.student) {
+      fname = props.currentuser.user.student.fname
+        ? props.currentuser.user.student.fname
+        : "No First Name Entered";
+      lname = props.currentuser.user.student.lname
+        ? props.currentuser.user.student.lname
+        : "No Last Name Entered";
+      dob = props.currentuser.user.student.dob
+        ? props.currentuser.user.student.dob
+        : "No Date of Birth Entered";
+      city = props.currentuser.user.student.city
+        ? props.currentuser.user.student.city
+        : "No City Entered";
+      state = props.currentuser.user.student.state
+        ? props.currentuser.user.student.state
+        : "No State Entered";
+      country = props.currentuser.user.student.country
+        ? props.currentuser.user.student.country
+        : "No Country Entered";
+    }
   }
 
   let button = "";

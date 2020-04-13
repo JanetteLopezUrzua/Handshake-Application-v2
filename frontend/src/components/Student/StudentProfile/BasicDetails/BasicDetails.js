@@ -49,32 +49,34 @@ class ConnectedBasicDetails extends React.Component {
     const wspatt = new RegExp("^ *$");
 
     if (this.props.currentuser.user !== null) {
-      fname =
-        this.props.currentuser.user.student.fname === this.state.fname ||
-        wspatt.test(this.state.fname)
-          ? this.props.currentuser.user.student.fname
-          : this.state.fname;
-      lname =
-        this.props.currentuser.user.student.lname === this.state.lname ||
-        wspatt.test(this.state.lname)
-          ? this.props.currentuser.user.student.lname
-          : this.state.lname;
-      dob =
-        this.props.currentuser.user.student.dob === this.state.dob
-          ? this.props.currentuser.user.student.dob
-          : this.state.dob;
-      city =
-        this.props.currentuser.user.student.city === this.state.city
-          ? this.props.currentuser.user.student.city
-          : this.state.city;
-      state =
-        this.props.currentuser.user.student.state === this.state.state
-          ? this.props.currentuser.user.student.state
-          : this.state.state;
-      country =
-        this.props.currentuseruser.student.country === this.state.country
-          ? this.props.currentuser.user.student.country
-          : this.state.country;
+      if (this.props.currentuser.user.student) {
+        fname =
+          this.props.currentuser.user.student.fname === this.state.fname ||
+          wspatt.test(this.state.fname)
+            ? this.props.currentuser.user.student.fname
+            : this.state.fname;
+        lname =
+          this.props.currentuser.user.student.lname === this.state.lname ||
+          wspatt.test(this.state.lname)
+            ? this.props.currentuser.user.student.lname
+            : this.state.lname;
+        dob =
+          this.props.currentuser.user.student.dob === this.state.dob
+            ? this.props.currentuser.user.student.dob
+            : this.state.dob;
+        city =
+          this.props.currentuser.user.student.city === this.state.city
+            ? this.props.currentuser.user.student.city
+            : this.state.city;
+        state =
+          this.props.currentuser.user.student.state === this.state.state
+            ? this.props.currentuser.user.student.state
+            : this.state.state;
+        country =
+          this.props.currentuseruser.student.country === this.state.country
+            ? this.props.currentuser.user.student.country
+            : this.state.country;
+      }
     }
 
     await this.props.dispatch(

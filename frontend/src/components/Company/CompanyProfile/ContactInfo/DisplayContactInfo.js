@@ -12,18 +12,20 @@ const ConnectedDisplayContactInfo = (props) => {
   let phonenumber = "";
 
   if (props.currentuser.user !== null) {
-    email = props.currentuser.user.company.email
-      ? props.currentuser.user.company.email
-      : "No Email Entered";
-    phonenumber = props.currentuser.user.company.phonenumber
-      ? `(${props.currentuser.user.company.phonenumber.substring(
-          0,
-          3
-        )})${props.currentuser.user.company.phonenumber.substring(
-          3,
-          6
-        )}-${props.currentuser.user.company.phonenumber.substring(6)}`
-      : "No Phone Number Entered";
+    if (props.currentuser.user.company) {
+      email = props.currentuser.user.company.email
+        ? props.currentuser.user.company.email
+        : "No Email Entered";
+      phonenumber = props.currentuser.user.company.phonenumber
+        ? `(${props.currentuser.user.company.phonenumber.substring(
+            0,
+            3
+          )})${props.currentuser.user.company.phonenumber.substring(
+            3,
+            6
+          )}-${props.currentuser.user.company.phonenumber.substring(6)}`
+        : "No Phone Number Entered";
+    }
   }
   let button = "";
 

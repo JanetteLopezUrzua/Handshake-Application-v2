@@ -26,24 +26,26 @@ const ConnectedEditInfo = (props) => {
   let country = "";
 
   if (props.currentuser.user !== null) {
-    fname = props.currentuser.user.student.fname
-      ? props.currentuser.user.student.fname
-      : "";
-    lname = props.currentuser.user.student.lname
-      ? props.currentuser.user.student.lname
-      : "";
-    dob = props.currentuser.user.student.dob
-      ? props.currentuser.user.student.dob
-      : "";
-    city = props.currentuser.user.student.city
-      ? props.currentuser.user.student.city
-      : "";
-    state = props.currentuser.user.student.state
-      ? props.currentuser.user.student.state
-      : "";
-    country = props.currentuser.user.student.country
-      ? props.currentuser.user.student.country
-      : "";
+    if (props.current.user.student) {
+      fname = props.currentuser.user.student.fname
+        ? props.currentuser.user.student.fname
+        : "";
+      lname = props.currentuser.user.student.lname
+        ? props.currentuser.user.student.lname
+        : "";
+      dob = props.currentuser.user.student.dob
+        ? props.currentuser.user.student.dob
+        : "";
+      city = props.currentuser.user.student.city
+        ? props.currentuser.user.student.city
+        : "";
+      state = props.currentuser.user.student.state
+        ? props.currentuser.user.student.state
+        : "";
+      country = props.currentuser.user.student.country
+        ? props.currentuser.user.student.country
+        : "";
+    }
   }
 
   return (

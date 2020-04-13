@@ -39,15 +39,17 @@ class ConnectedBasicDetails extends React.Component {
     let description = "";
 
     if (this.props.currentuser.user !== null) {
-      location =
-        this.props.currentuser.user.company.location === this.state.location
-          ? this.props.currentuser.user.company.location
-          : this.state.location;
-      description =
-        this.props.currentuser.user.company.description ===
-        this.state.description
-          ? this.props.currentuser.user.company.description
-          : this.state.description;
+      if (this.currentuser.user.company) {
+        location =
+          this.props.currentuser.user.company.location === this.state.location
+            ? this.props.currentuser.user.company.location
+            : this.state.location;
+        description =
+          this.props.currentuser.user.company.description ===
+          this.state.description
+            ? this.props.currentuser.user.company.description
+            : this.state.description;
+      }
     }
 
     await this.props.dispatch(

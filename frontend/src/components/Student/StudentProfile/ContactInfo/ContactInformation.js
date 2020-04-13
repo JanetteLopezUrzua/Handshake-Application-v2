@@ -41,16 +41,18 @@ class ConnectedContactInformation extends React.Component {
     const wspatt = new RegExp("^ *$");
 
     if (this.props.currentuser.user !== null) {
-      email =
-        this.props.currentuser.user.student.email === this.state.email ||
-        wspatt.test(this.state.email)
-          ? this.props.currentuser.user.student.email
-          : this.state.email;
-      phonenumber =
-        this.props.currentuser.user.student.phonenumber ===
-          this.state.phonenumber || wspatt.test(this.state.phonenumber)
-          ? this.props.currentuser.user.student.phonenumber
-          : this.state.phonenumber;
+      if (this.props.currentuser.user.student) {
+        email =
+          this.props.currentuser.user.student.email === this.state.email ||
+          wspatt.test(this.state.email)
+            ? this.props.currentuser.user.student.email
+            : this.state.email;
+        phonenumber =
+          this.props.currentuser.user.student.phonenumber ===
+            this.state.phonenumber || wspatt.test(this.state.phonenumber)
+            ? this.props.currentuser.user.student.phonenumber
+            : this.state.phonenumber;
+      }
     }
 
     await this.props.dispatch(

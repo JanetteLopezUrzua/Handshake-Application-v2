@@ -25,50 +25,54 @@ const ConnectedDisplayObjective = (props) => {
     );
 
     if (props.currentuser.user !== null) {
-      obj = props.currentuser.user.student.objective ? (
-        <Card.Text
-          style={{
-            fontSize: "24px",
-            lineHeight: "32px",
-            color: "black",
-            cursor: "pointer",
-          }}
-          onClick={props.clicked}
-        >
-          {props.currentuser.user.student.objective}
-        </Card.Text>
-      ) : (
-        <Form.Label
-          style={{ color: "blue", cursor: "pointer" }}
-          onClick={props.clicked}
-        >
-          Enter a career objective...
-        </Form.Label>
-      );
+      if (props.currentuser.user.student) {
+        obj = props.currentuser.user.student.objective ? (
+          <Card.Text
+            style={{
+              fontSize: "24px",
+              lineHeight: "32px",
+              color: "black",
+              cursor: "pointer",
+            }}
+            onClick={props.clicked}
+          >
+            {props.currentuser.user.student.objective}
+          </Card.Text>
+        ) : (
+          <Form.Label
+            style={{ color: "blue", cursor: "pointer" }}
+            onClick={props.clicked}
+          >
+            Enter a career objective...
+          </Form.Label>
+        );
+      }
     }
   } else {
     button = "";
 
     if (props.currentuser.user !== null) {
-      obj = props.currentuser.user.student.objective ? (
-        <Card.Text
-          style={{
-            fontSize: "24px",
-            lineHeight: "32px",
-            color: "black",
-          }}
-        >
-          {props.currentuser.user.student.objective}
-        </Card.Text>
-      ) : (
-        <Card.Text
-          style={{
-            fontSize: "24px",
-            lineHeight: "32px",
-            color: "black",
-          }}
-        ></Card.Text>
-      );
+      if (props.currentuser.user.student) {
+        obj = props.currentuser.user.student.objective ? (
+          <Card.Text
+            style={{
+              fontSize: "24px",
+              lineHeight: "32px",
+              color: "black",
+            }}
+          >
+            {props.currentuser.user.student.objective}
+          </Card.Text>
+        ) : (
+          <Card.Text
+            style={{
+              fontSize: "24px",
+              lineHeight: "32px",
+              color: "black",
+            }}
+          ></Card.Text>
+        );
+      }
     }
   }
 

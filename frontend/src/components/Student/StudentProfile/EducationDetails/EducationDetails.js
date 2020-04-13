@@ -113,24 +113,26 @@ class ConnectedEducationDetails extends React.Component {
     let message = "";
 
     if (this.props.currentuser.user !== null) {
-      if (this.props.currentuser.user.student.schools) {
-        if (this.props.currentuser.user.student.schools.length === 0) {
-          schoolsList = "";
-          message = "Where is somewhere you have studied?";
-        } else
-          schoolsList = this.props.currentuser.user.student.schools.map(
-            (school) => {
-              return (
-                <EducationContainer
-                  key={school._id}
-                  schoolid={school._id}
-                  id={this.state.id}
-                  school={school}
-                  delete={this.handleDelete}
-                />
-              );
-            }
-          );
+      if (this.props.currentuser.user.student) {
+        if (this.props.currentuser.user.student.schools) {
+          if (this.props.currentuser.user.student.schools.length === 0) {
+            schoolsList = "";
+            message = "Where is somewhere you have studied?";
+          } else
+            schoolsList = this.props.currentuser.user.student.schools.map(
+              (school) => {
+                return (
+                  <EducationContainer
+                    key={school._id}
+                    schoolid={school._id}
+                    id={this.state.id}
+                    school={school}
+                    delete={this.handleDelete}
+                  />
+                );
+              }
+            );
+        }
       }
     }
 

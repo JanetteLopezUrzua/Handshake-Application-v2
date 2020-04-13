@@ -27,9 +27,6 @@ class ConnectedProfilePage extends React.Component {
     }
     const id = this.props.match.params.id;
 
-    if (localStorage.getItem("type") === "company")
-      await this.props.dispatch(loadcompanyprofile(localStorage.getItem("id")));
-
     await this.props.dispatch(loadcurrentcompany(id));
   }
 

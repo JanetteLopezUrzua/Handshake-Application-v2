@@ -161,12 +161,14 @@ class ConnectedPictureDetails extends React.Component {
     let has_image = "";
 
     if (this.props.currentuser.user !== null) {
-      name = this.props.currentuser.user.company.name
-        ? this.props.currentuser.user.company.name
-        : "";
-      photo = this.props.currentuser.user.company.photo
-        ? this.props.currentuser.user.company.photo
-        : "";
+      if (this.props.currentuser.user.company) {
+        name = this.props.currentuser.user.company.name
+          ? this.props.currentuser.user.company.name
+          : "";
+        photo = this.props.currentuser.user.company.photo
+          ? this.props.currentuser.user.company.photo
+          : "";
+      }
     }
 
     if (photo === "") {

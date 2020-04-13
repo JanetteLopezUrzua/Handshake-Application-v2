@@ -22,12 +22,14 @@ const ConnectedEditContactInfo = (props) => {
   let phonenumber = "";
 
   if (props.currentuser.user !== null) {
-    email = props.currentuser.user.student.email
-      ? props.currentuser.user.student.email
-      : "";
-    phonenumber = props.currentuser.user.student.phonenumber
-      ? props.currentuser.user.student.phonenumber
-      : "";
+    if (props.currentuser.user.student) {
+      email = props.currentuser.user.student.email
+        ? props.currentuser.user.student.email
+        : "";
+      phonenumber = props.currentuser.user.student.phonenumber
+        ? props.currentuser.user.student.phonenumber
+        : "";
+    }
   }
 
   return (

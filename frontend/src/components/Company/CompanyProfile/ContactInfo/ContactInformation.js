@@ -39,15 +39,17 @@ class ConnectedContactInformation extends React.Component {
     let phonenumber = "";
 
     if (this.props.currentuser.user !== null) {
-      email =
-        this.props.currentuser.user.company.email === this.state.email
-          ? this.props.currentuser.user.company.email
-          : this.state.email;
-      phonenumber =
-        this.props.currentuser.user.company.phonenumber ===
-        this.state.phonenumber
-          ? this.props.currentuser.user.company.phonenumber
-          : this.state.phonenumber;
+      if (this.props.currentuser.user.company) {
+        email =
+          this.props.currentuser.user.company.email === this.state.email
+            ? this.props.currentuser.user.company.email
+            : this.state.email;
+        phonenumber =
+          this.props.currentuser.user.company.phonenumber ===
+          this.state.phonenumber
+            ? this.props.currentuser.user.company.phonenumber
+            : this.state.phonenumber;
+      }
     }
 
     await this.props.dispatch(

@@ -28,17 +28,12 @@ class ConnectedProfilePage extends React.Component {
       setAuthToken(localStorage.token);
 
       const id = this.props.match.params.id;
-      if (localStorage.getItem("type") === "student")
-        await this.props.dispatch(
-          loadstudentprofile(localStorage.getItem("id"))
-        );
 
       await this.props.dispatch(loadcurrentstudent(id));
     }
   }
 
   render() {
-    console.log("rendering");
     // if not logged in redirect to first page
     let redirectVar = null;
     if (this.props.userprofile.isAuthenticated === false) {
