@@ -23,6 +23,7 @@ class ConnectedPictureDetails extends React.Component {
       data: "",
       validimage: "",
       errormessage: "",
+      messageshow: false,
     };
   }
 
@@ -97,6 +98,18 @@ class ConnectedPictureDetails extends React.Component {
     });
   };
 
+  handleMessageClose = () => {
+    this.setState({
+      messageshow: false,
+    });
+  };
+
+  handleMessageShow = () => {
+    this.setState({
+      messageshow: true,
+    });
+  };
+
   onDelete = async (e) => {
     e.preventDefault();
     const id = this.state.id;
@@ -111,6 +124,7 @@ class ConnectedPictureDetails extends React.Component {
   };
 
   render() {
+    let currid = "";
     let fname = "";
     let lname = "";
     let college = "";
@@ -118,6 +132,9 @@ class ConnectedPictureDetails extends React.Component {
     let has_image = "";
 
     if (this.props.currentuser.user !== null) {
+      currid = this.props.currentuser.user.student._id
+        ? this.props.currentuser.user.student._id
+        : "";
       fname = this.props.currentuser.user.student.fname
         ? this.props.currentuser.user.student.fname
         : "";
@@ -214,6 +231,20 @@ class ConnectedPictureDetails extends React.Component {
       }
     }
 
+    let messagebutton = "";
+    if (
+      localStorage.getItem("id") === currid &&
+      localStorage.getItem("type") === "student"
+    ) {
+      messagebutton = "";
+    } else {
+      messagebutton = (
+        <Button onClick={this.handleMessageShow} className="messagebutton">
+          Message
+        </Button>
+      );
+    }
+
     return (
       <Card>
         <ModalPicture
@@ -247,6 +278,7 @@ class ConnectedPictureDetails extends React.Component {
         >
           {college}
         </Card.Subtitle>
+        {messagebutton}
       </Card>
     );
   }

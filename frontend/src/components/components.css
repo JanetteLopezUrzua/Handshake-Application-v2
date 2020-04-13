@@ -714,3 +714,26 @@
   -ms-flex-pack: center;
   justify-content: center;
 }
+
+/* Messages */
+
+.messagebutton {
+  background-color: #1569e0;
+  color: #fff;
+  display: block;
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 20px;
+  text-decoration: none;
+  border: 0;
+  border-radius: 3px;
+  padding: 8px 12px;
+  -webkit-transition: background-color 0.2s;
+  -o-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+  font-family: Suisse Int\'l,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,sans-serif;
+}
