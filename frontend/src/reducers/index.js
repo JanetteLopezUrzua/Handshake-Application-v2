@@ -13,6 +13,8 @@ import job from "./job";
 import jobslist from "./jobslist";
 import application from "./application";
 import applicationslist from "./applicationslist";
+import message from "./message";
+import messageslist from "./messageslist";
 
 export default combineReducers({
   signup,
@@ -29,4 +31,6 @@ export default combineReducers({
   jobslist,
   application,
   applicationslist,
+  message,
+  messageslist,
 });

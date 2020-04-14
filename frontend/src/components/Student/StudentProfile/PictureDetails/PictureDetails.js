@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import { FaCamera } from "react-icons/fa";
 import ModalPicture from "./Modal";
+import MessageModal from "../Message/MessageModal";
 
 import { connect } from "react-redux";
 import {
@@ -12,6 +13,7 @@ import {
   deletephoto,
   loadstudentprofile,
 } from "../../../../actions/studentprofile";
+import { sendmessage, deleteerrors } from "../../../../actions/messages";
 
 class ConnectedPictureDetails extends React.Component {
   constructor() {
@@ -24,6 +26,7 @@ class ConnectedPictureDetails extends React.Component {
       validimage: "",
       errormessage: "",
       messageshow: false,
+      message: "",
     };
   }
 
@@ -56,6 +59,10 @@ class ConnectedPictureDetails extends React.Component {
     }
   };
 
+  messageHandler = (e) => {
+    this.setState({ message: e.target.value });
+  };
+
   onUpload = async (e) => {
     console.log(this.state.validimage);
     e.preventDefault();
@@ -82,6 +89,57 @@ class ConnectedPictureDetails extends React.Component {
           show: false,
         });
       }
+    }
+  };
+
+  onSend = async (e) => {
+    e.preventDefault();
+    let type = "";
+    if (localStorage.getItem("type") === "student") {
+      type = "students";
+    } else if (localStorage.getItem("type") === "company") {
+      type = "companies";
+    }
+
+    const { id, message } = this.state;
+    let fromId = localStorage.getItem("id");
+
+    const date = new Date();
+    const day = `${date.getDate()}`.slice(-2);
+    const month = `${date.getMonth()}`.slice(-2);
+    const year = date.getFullYear();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+
+    let day_time = hours >= 12 ? "PM" : "AM";
+
+    hours = hours % 12;
+
+    // Convert "0" to "12"
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+
+    await this.props.dispatch(
+      sendmessage(
+        type,
+        fromId,
+        id,
+        message,
+        false,
+        month,
+        day,
+        year,
+        hours,
+        minutes,
+        day_time
+      )
+    );
+
+    if (this.props.message.payload) {
+    } else {
+      this.setState({
+        messageshow: false,
+      });
     }
   };
 
@@ -121,6 +179,14 @@ class ConnectedPictureDetails extends React.Component {
         show: false,
       });
     }
+  };
+
+  onCancel = async (e) => {
+    e.preventDefault();
+    await this.props.dispatch(deleteerrors());
+    this.setState({
+      messageshow: false,
+    });
   };
 
   render() {
@@ -258,6 +324,13 @@ class ConnectedPictureDetails extends React.Component {
           has_image={has_image}
           onDelete={this.onDelete}
         />
+        <MessageModal
+          show={this.state.messageshow}
+          close={this.handleMessageClose}
+          onSend={this.onSend}
+          messageHandler={this.messageHandler}
+          onCancel={this.onCancel}
+        />
         {studentPhoto}
         <Card.Title
           style={{
@@ -286,7 +359,7 @@ class ConnectedPictureDetails extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
+  return { currentuser: state.currentuser, message: state.message };
 };
 const PictureDetails = connect(mapStateToProps)(ConnectedPictureDetails);
 export default PictureDetails;

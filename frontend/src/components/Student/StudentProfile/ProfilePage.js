@@ -26,11 +26,11 @@ class ConnectedProfilePage extends React.Component {
   async componentDidMount() {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
-
-      const id = this.props.match.params.id;
-
-      await this.props.dispatch(loadcurrentstudent(id));
     }
+
+    const id = this.props.match.params.id;
+
+    await this.props.dispatch(loadcurrentstudent(id));
   }
 
   render() {
