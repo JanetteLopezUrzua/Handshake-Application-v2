@@ -94,11 +94,21 @@ class ConnectedPictureDetails extends React.Component {
 
   onSend = async (e) => {
     e.preventDefault();
-    let type = "";
+    let fromtype = "";
     if (localStorage.getItem("type") === "student") {
-      type = "students";
+      fromtype = "students";
     } else if (localStorage.getItem("type") === "company") {
-      type = "companies";
+      fromtype = "companies";
+    }
+
+    let totype = "";
+
+    if (this.props.currentuser.user !== null) {
+      if (this.props.currentuser.user.student) {
+        totype = "students";
+      } else if (this.props.currentuser.user.student) {
+        totype = "companies";
+      }
     }
 
     const { id, message } = this.state;
@@ -121,8 +131,9 @@ class ConnectedPictureDetails extends React.Component {
 
     await this.props.dispatch(
       sendmessage(
-        type,
+        fromtype,
         fromId,
+        totype,
         id,
         message,
         false,

@@ -5,17 +5,22 @@ const MessagesSchema = new mongoose.Schema(
     fromid: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      refPath: "onModel",
+      refPath: "onModel1",
     },
-    onModel: {
+    onModel1: {
       type: String,
       required: true,
       enum: ["companies", "students"],
     },
     toid: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "students",
+      refPath: "onModel2",
       required: true,
+    },
+    onModel2: {
+      type: String,
+      required: true,
+      enum: ["companies", "students"],
     },
     messages: [
       {

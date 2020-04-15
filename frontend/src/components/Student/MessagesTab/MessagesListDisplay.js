@@ -14,7 +14,7 @@ const MessagesListDisplay = (props) => {
   let img = "";
   let lastmessage = "";
   if (localStorage.getItem("type") === "student") {
-    if (props.message.onModel === "companies") {
+    if (props.message.onModel1 === "companies") {
       name = props.message.fromid.name;
       lastmessage =
         props.message.messages[props.message.messages.length - 1].message;
@@ -39,7 +39,7 @@ const MessagesListDisplay = (props) => {
       }
     }
 
-    if (props.message.onModel === "students") {
+    if (props.message.onModel1 === "students") {
       fname = props.message.fromid.fname;
       lname = props.message.fromid.lname;
       name = `${fname} ${lname}`;
@@ -69,7 +69,7 @@ const MessagesListDisplay = (props) => {
       }
     }
   } else {
-    if (props.message.onModel === "companies") {
+    if (props.message.onModel1 === "companies") {
       fname = props.message.toid.fname;
       lname = props.message.toid.lname;
       name = `${fname} ${lname}`;
@@ -95,7 +95,7 @@ const MessagesListDisplay = (props) => {
       }
     }
 
-    if (props.message.onModel === "students") {
+    if (props.message.onModel1 === "students") {
       name = props.message.toid.name;
       lastmessage = "";
       if (props.message.toid.photo) photo = props.message.toid.photo;

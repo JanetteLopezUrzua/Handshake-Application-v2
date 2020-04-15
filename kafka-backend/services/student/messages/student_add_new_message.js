@@ -8,6 +8,7 @@ async function handle_request(msg, callback) {
   const {
     from_type,
     from_id,
+    to_type,
     to_id,
     message,
     read,
@@ -23,8 +24,9 @@ async function handle_request(msg, callback) {
     //Check if email conversation exists
     let m = await Message.findOne({
       fromid: new mongoose.Types.ObjectId(from_id),
-      onModel: from_type,
+      onModel1: from_type,
       toid: new mongoose.Types.ObjectId(to_id),
+      onModel2: to_type,
     });
 
     if (m) {
@@ -41,8 +43,9 @@ async function handle_request(msg, callback) {
       m = await Message.findOneAndUpdate(
         {
           fromid: new mongoose.Types.ObjectId(from_id),
-          onModel: from_type,
+          onModel1: from_type,
           toid: new mongoose.Types.ObjectId(to_id),
+          onModel2: to_type,
         },
         { $push: { messages: data } },
         { new: true }
@@ -50,8 +53,9 @@ async function handle_request(msg, callback) {
     } else {
       m = await Message.create({
         fromid: new mongoose.Types.ObjectId(from_id),
-        onModel: from_type,
+        onModel1: from_type,
         toid: new mongoose.Types.ObjectId(to_id),
+        onModel2: to_type,
         messages: {
           message,
           read,

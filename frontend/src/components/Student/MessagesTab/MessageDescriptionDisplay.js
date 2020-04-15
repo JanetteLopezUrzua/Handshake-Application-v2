@@ -13,6 +13,7 @@ const ConnectedMessageDescriptionDisplay = (props) => {
   let m = "";
   let messagesList = "";
   let id = "";
+  let type = "";
 
   if (props.message.message === null) {
     m = "No conversation selected.";
@@ -20,7 +21,28 @@ const ConnectedMessageDescriptionDisplay = (props) => {
 
   if (props.message.message !== null) {
     if (props.message.message.message) {
-      id = props.message.message.message[0].toid;
+      if (
+        props.message.message.message[0].toid === localStorage.getItem("id")
+      ) {
+        if (props.message.message.message[0].onModel1 === "students") {
+          id = props.message.message.message[0].fromid._id;
+          type = "students";
+        } else {
+          id = props.message.message.message[0].fromid._id;
+          type = "companies";
+        }
+      } else if (
+        props.message.message.message[0].fromid._id ===
+        localStorage.getItem("id")
+      ) {
+        if (props.message.message.message[0].onModel2 === "students") {
+          id = props.message.message.message[0].toid;
+          type = "students";
+        } else {
+          id = props.message.message.message[0].toid;
+          type = "companies";
+        }
+      }
 
       messagesList = props.message.message.message.map((message) => {
         let name = "";
@@ -29,7 +51,7 @@ const ConnectedMessageDescriptionDisplay = (props) => {
         let photo = "";
         let img = "";
 
-        if (message.onModel === "companies") {
+        if (message.onModel1 === "companies") {
           name = message.fromid.name;
 
           if (message.fromid.photo) photo = message.fromid.photo;
@@ -146,9 +168,11 @@ const ConnectedMessageDescriptionDisplay = (props) => {
                       message.messages.messageday
                     }/${message.messages.messageyear} ${
                       message.messages.messagehour
-                    }:${message.messages.messageminute} ${
-                      message.messages.messagedaytime
-                    }`}
+                    }:${
+                      message.messages.messageminute < 10
+                        ? "0" + message.messages.messageminute
+                        : message.messages.messageminute
+                    } ${message.messages.messagedaytime}`}
                   </Row>
                 </Col>
               </Row>
@@ -207,7 +231,10 @@ const ConnectedMessageDescriptionDisplay = (props) => {
               </Form.Group>
             </Col>
             <Col md={2}>
-              <Button className="save" onClick={(e) => props.onSend(e, id)}>
+              <Button
+                className="save"
+                onClick={(e) => props.onSend(e, id, type)}
+              >
                 Send
               </Button>
             </Col>

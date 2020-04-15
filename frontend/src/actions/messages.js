@@ -18,6 +18,7 @@ export const deleteerrors = () => (dispatch) => {
 export const sendmessage = (
   from_type,
   from_id,
+  to_type,
   to_id,
   message,
   read,
@@ -41,6 +42,7 @@ export const sendmessage = (
   const body = JSON.stringify({
     from_type,
     from_id,
+    to_type,
     to_id,
     message,
     read,

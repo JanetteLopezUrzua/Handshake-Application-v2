@@ -36,13 +36,13 @@ class ConnectedMessages extends React.Component {
     });
   };
 
-  onSend = async (e, id) => {
+  onSend = async (e, id, type) => {
     e.preventDefault();
-    let type = "";
+    let fromtype = "";
     if (localStorage.getItem("type") === "student") {
-      type = "students";
+      fromtype = "students";
     } else if (localStorage.getItem("type") === "company") {
-      type = "companies";
+      fromtype = "companies";
     }
 
     const { message } = this.state;
@@ -61,8 +61,9 @@ class ConnectedMessages extends React.Component {
 
     await this.props.dispatch(
       sendmessage(
-        type,
+        fromtype,
         fromId,
+        type,
         id,
         message,
         false,
