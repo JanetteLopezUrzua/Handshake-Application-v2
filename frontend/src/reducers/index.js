@@ -15,6 +15,7 @@ import application from "./application";
 import applicationslist from "./applicationslist";
 import message from "./message";
 import messageslist from "./messageslist";
+import allmessages from "./allmessages";
 
 export default combineReducers({
   signup,
@@ -33,4 +34,5 @@ export default combineReducers({
   applicationslist,
   message,
   messageslist,
+  allmessages,
 });

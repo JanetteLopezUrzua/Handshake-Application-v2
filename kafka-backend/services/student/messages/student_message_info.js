@@ -18,11 +18,6 @@ async function handle_request(msg, callback) {
       toid: new mongoose.Types.ObjectId(fromid),
     });
 
-    // let messagesList = {
-    //   messagesList1,
-    //   messagesList2,
-    // };
-
     let l1 = "";
     let l2 = "";
 

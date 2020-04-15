@@ -13,65 +13,127 @@ const MessagesListDisplay = (props) => {
   let photo = "";
   let img = "";
   let lastmessage = "";
-  if (props.message.onModel === "companies") {
-    name = props.message.fromid.name;
-    lastmessage =
-      props.message.messages[props.message.messages.length - 1].message;
-    if (props.message.fromid.photo) photo = props.message.fromid.photo;
+  if (localStorage.getItem("type") === "student") {
+    if (props.message.onModel === "companies") {
+      name = props.message.fromid.name;
+      lastmessage =
+        props.message.messages[props.message.messages.length - 1].message;
+      if (props.message.fromid.photo) photo = props.message.fromid.photo;
 
-    if (photo === "") {
-      img = (
-        <div>
-          <div className="studentslistpics">
-            <p style={{ paddingTop: "10px" }}>{name.charAt(0)}</p>
+      if (photo === "") {
+        img = (
+          <div>
+            <div className="studentslistpics">
+              <p style={{ paddingTop: "10px" }}>{name.charAt(0)}</p>
+            </div>
           </div>
-        </div>
-      );
-    } else {
-      img = (
-        <Image
-          className="studentslistpics"
-          src={`http://localhost:3001/resumesandimages/${photo}`}
-          roundedcircle="true"
-        />
-      );
+        );
+      } else {
+        img = (
+          <Image
+            className="studentslistpics"
+            src={`http://localhost:3001/resumesandimages/${photo}`}
+            roundedcircle="true"
+          />
+        );
+      }
+    }
+
+    if (props.message.onModel === "students") {
+      fname = props.message.fromid.fname;
+      lname = props.message.fromid.lname;
+      name = `${fname} ${lname}`;
+      lastmessage =
+        props.message.messages[props.message.messages.length - 1].message;
+      if (props.message.fromid.photo) photo = props.message.fromid.photo;
+
+      if (photo === "") {
+        img = (
+          <div>
+            <div className="studentslistpics">
+              <p style={{ paddingTop: "10px" }}>
+                {fname.charAt(0)}
+                {lname.charAt(0)}
+              </p>
+            </div>
+          </div>
+        );
+      } else {
+        img = (
+          <Image
+            className="studentslistpics"
+            src={`http://localhost:3001/resumesandimages/${photo}`}
+            roundedcircle="true"
+          />
+        );
+      }
+    }
+  } else {
+    if (props.message.onModel === "companies") {
+      fname = props.message.toid.fname;
+      lname = props.message.toid.lname;
+      name = `${fname} ${lname}`;
+      lastmessage = "";
+      if (props.message.toid.photo) photo = props.message.toid.photo;
+
+      if (photo === "") {
+        img = (
+          <div>
+            <div className="studentslistpics">
+              <p style={{ paddingTop: "10px" }}>{name.charAt(0)}</p>
+            </div>
+          </div>
+        );
+      } else {
+        img = (
+          <Image
+            className="studentslistpics"
+            src={`http://localhost:3001/resumesandimages/${photo}`}
+            roundedcircle="true"
+          />
+        );
+      }
+    }
+
+    if (props.message.onModel === "students") {
+      name = props.message.toid.name;
+      lastmessage = "";
+      if (props.message.toid.photo) photo = props.message.toid.photo;
+
+      if (photo === "") {
+        img = (
+          <div>
+            <div className="studentslistpics">
+              <p style={{ paddingTop: "10px" }}>
+                {fname.charAt(0)}
+                {lname.charAt(0)}
+              </p>
+            </div>
+          </div>
+        );
+      } else {
+        img = (
+          <Image
+            className="studentslistpics"
+            src={`http://localhost:3001/resumesandimages/${photo}`}
+            roundedcircle="true"
+          />
+        );
+      }
     }
   }
 
-  if (props.message.onModel === "students") {
-    fname = props.message.fromid.fname;
-    lname = props.message.fromid.lname;
-    name = `${fname} ${lname}`;
-    lastmessage =
-      props.message.messages[props.message.messages.length - 1].message;
-    if (props.message.fromid.photo) photo = props.message.fromid.photo;
-
-    if (photo === "") {
-      img = (
-        <div>
-          <div className="studentslistpics">
-            <p style={{ paddingTop: "10px" }}>
-              {fname.charAt(0)}
-              {lname.charAt(0)}
-            </p>
-          </div>
-        </div>
-      );
-    } else {
-      img = (
-        <Image
-          className="studentslistpics"
-          src={`http://localhost:3001/resumesandimages/${photo}`}
-          roundedcircle="true"
-        />
-      );
-    }
+  let id = "";
+  if (localStorage.getItem("type") === "company") {
+    id = props.message.toid._id;
+  } else {
+    id = props.message.fromid._id;
   }
 
   return (
     <Container
       style={{ padding: "10px" }}
-      onClick={(e) => props.messageClick(props.message.fromid._id)}
+      onClick={(e) => props.messageClick(id)}
     >
       <Link style={{ color: "black" }} to="###">
         <Row>

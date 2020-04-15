@@ -1,22 +1,20 @@
 import React from "react";
 import "../../components.css";
 import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
-import InputGroup from "react-bootstrap/InputGroup";
-import { FaSearch } from "react-icons/fa";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import { MdLocationOn } from "react-icons/md";
 import { Redirect } from "react-router";
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import MessagesListDisplay from "./MessagesListDisplay";
 import MessagesDescriptionDisplay from "./MessageDescriptionDisplay";
 
 import { connect } from "react-redux";
-import { loadmessage, loadmessageslist } from "../../../actions/messages";
+import {
+  loadmessage,
+  loadmessageslist,
+  sendmessage,
+} from "../../../actions/messages";
 
 class ConnectedMessages extends React.Component {
   constructor(props) {
@@ -28,7 +26,8 @@ class ConnectedMessages extends React.Component {
 
   async componentDidMount() {
     let toid = localStorage.getItem("id");
-    await this.props.dispatch(loadmessageslist(toid));
+    let type = localStorage.getItem("type");
+    await this.props.dispatch(loadmessageslist(type, toid));
   }
 
   handleMessage = (e) => {
@@ -37,8 +36,62 @@ class ConnectedMessages extends React.Component {
     });
   };
 
+  onSend = async (e, id) => {
+    e.preventDefault();
+    let type = "";
+    if (localStorage.getItem("type") === "student") {
+      type = "students";
+    } else if (localStorage.getItem("type") === "company") {
+      type = "companies";
+    }
+
+    const { message } = this.state;
+    let fromId = localStorage.getItem("id");
+
+    const date = new Date();
+    const day = `${date.getDate()}`.slice(-2);
+    const month = `${date.getMonth()}`.slice(-2);
+    const year = date.getFullYear();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+
+    let day_time = hours >= 12 ? "PM" : "AM";
+
+    hours = hours % 12;
+
+    await this.props.dispatch(
+      sendmessage(
+        type,
+        fromId,
+        id,
+        message,
+        false,
+        month,
+        day,
+        year,
+        hours,
+        minutes,
+        day_time
+      )
+    );
+
+    if (this.props.message.payload) {
+    } else {
+      let fromid = fromId;
+      let currid = id;
+      await this.props.dispatch(loadmessage(fromid, currid));
+    }
+  };
+
   messageClick = async (fromid) => {
     let currid = localStorage.getItem("id");
+
+    if (localStorage.getItem("type") === "company") {
+      let temp = currid;
+      currid = fromid;
+      fromid = temp;
+    }
+
     await this.props.dispatch(loadmessage(fromid, currid));
   };
 
@@ -116,7 +169,10 @@ class ConnectedMessages extends React.Component {
                 position: "relative",
               }}
             >
-              <MessagesDescriptionDisplay handleMessage={this.handleMessage} />
+              <MessagesDescriptionDisplay
+                handleMessage={this.handleMessage}
+                onSend={this.onSend}
+              />
             </Card>
           </Col>
         </Row>
@@ -128,6 +184,7 @@ const mapStateToProps = (state) => {
   return {
     userprofile: state.userprofile,
     messageslist: state.messageslist,
+    message: state.message,
   };
 };
 const Messages = connect(mapStateToProps)(ConnectedMessages);

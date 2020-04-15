@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  ALL_MESSAGES_LOADED,
   MESSAGE_LOADED,
   DELETE_ERRORS,
   MESSAGE_ERROR,
@@ -75,14 +76,14 @@ export const sendmessage = (
   }
 };
 
-export const loadmessageslist = (toid) => async (dispatch) => {
+export const loadmessageslist = (type, toid) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   try {
     const res = await axios.get(
-      `http://localhost:3001/students/messageslist?toid=${toid}`
+      `http://localhost:3001/students/messageslist?type=${type}&toid=${toid}`
     );
     dispatch({
       type: MESSAGES_LIST_LOADED,
@@ -107,7 +108,7 @@ export const loadmessage = (fromid, currid) => async (dispatch) => {
       `http://localhost:3001/students/messageinfo?fromid=${fromid}&currid=${currid}`
     );
     dispatch({
-      type: MESSAGE_LOADED,
+      type: ALL_MESSAGES_LOADED,
       payload: res.data,
     });
   } catch (err) {

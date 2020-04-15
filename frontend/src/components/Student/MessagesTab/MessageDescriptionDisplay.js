@@ -5,16 +5,14 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Link } from "react-router-dom";
-import { MdLocationOn } from "react-icons/md";
-import { FaRegMoneyBillAlt, FaRegClock, FaBriefcase } from "react-icons/fa";
+import Button from "react-bootstrap/Button";
 
 import { connect } from "react-redux";
-import { loadmessageslist } from "../../../actions/messages";
 
 const ConnectedMessageDescriptionDisplay = (props) => {
   let m = "";
   let messagesList = "";
+  let id = "";
 
   if (props.message.message === null) {
     m = "No conversation selected.";
@@ -22,12 +20,15 @@ const ConnectedMessageDescriptionDisplay = (props) => {
 
   if (props.message.message !== null) {
     if (props.message.message.message) {
+      id = props.message.message.message[0].toid;
+
       messagesList = props.message.message.message.map((message) => {
         let name = "";
         let fname = "";
         let lname = "";
         let photo = "";
         let img = "";
+
         if (message.onModel === "companies") {
           name = message.fromid.name;
 
@@ -106,9 +107,11 @@ const ConnectedMessageDescriptionDisplay = (props) => {
                       message.messages.messageday
                     }/${message.messages.messageyear} ${
                       message.messages.messagehour
-                    }:${message.messages.messageminute} ${
-                      message.messages.messagedaytime
-                    }`}
+                    }:${
+                      message.messages.messageminute < 10
+                        ? "0" + message.messages.messageminute
+                        : message.messages.messageminute
+                    } ${message.messages.messagedaytime}`}
                   </Row>
                 </Col>
                 <Col md={3}>{img}</Col>
@@ -190,16 +193,25 @@ const ConnectedMessageDescriptionDisplay = (props) => {
             left: "0",
           }}
         >
-          <Form.Group controlId="message">
-            <Form.Control
-              as="textarea"
-              onChange={props.handleMessage}
-              name="message"
-              type="text"
-              rows="3"
-              placeholder="Type a message..."
-            />
-          </Form.Group>
+          <Row>
+            <Col md={10}>
+              <Form.Group controlId="message">
+                <Form.Control
+                  as="textarea"
+                  onChange={props.handleMessage}
+                  name="message"
+                  type="text"
+                  rows="3"
+                  placeholder="Type a message..."
+                />
+              </Form.Group>
+            </Col>
+            <Col md={2}>
+              <Button className="save" onClick={(e) => props.onSend(e, id)}>
+                Send
+              </Button>
+            </Col>
+          </Row>
         </Container>
       </>
     );
@@ -215,7 +227,7 @@ const ConnectedMessageDescriptionDisplay = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  return { message: state.message };
+  return { message: state.allmessages };
 };
 const MessageDescriptionDisplay = connect(mapStateToProps)(
   ConnectedMessageDescriptionDisplay
