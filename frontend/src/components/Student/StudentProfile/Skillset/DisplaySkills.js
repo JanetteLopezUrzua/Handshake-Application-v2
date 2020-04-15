@@ -19,8 +19,8 @@ class DisplaySkills extends React.Component {
   render() {
     let button = "";
     if (
-      localStorage.getItem("id") === this.state.id &&
-      localStorage.getItem("type") === "student"
+      localStorage.getItem("id") === this.state.id
+      && localStorage.getItem("type") === "student"
     ) {
       button = (
         <Button

@@ -20,7 +20,7 @@ const ConnectedEditWork = (props) => {
     });
   }
 
-  let {
+  const {
     companyname,
     title,
     startdatemonth,
@@ -107,7 +107,7 @@ const ConnectedEditWork = (props) => {
         </Col>
         <Col>
           <Form.Group controlId="startdateyear">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control
               as="select"
               onChange={props.handleChange}
@@ -213,7 +213,7 @@ const ConnectedEditWork = (props) => {
         </Col>
         <Col>
           <Form.Group controlId="enddateyear">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control
               as="select"
               onChange={props.handleChange}
@@ -318,8 +318,6 @@ const ConnectedEditWork = (props) => {
     </Container>
   );
 };
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const EditWork = connect(mapStateToProps)(ConnectedEditWork);
 export default EditWork;

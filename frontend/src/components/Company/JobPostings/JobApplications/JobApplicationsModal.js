@@ -109,9 +109,7 @@ const ConnectedJobApplicationModal = (props) => {
     </Modal>
   );
 };
-const mapStateToProps = (state) => {
-  return { applicationslist: state.applicationslist };
-};
+const mapStateToProps = (state) => ({ applicationslist: state.applicationslist });
 const JobApplicationModal = connect(mapStateToProps)(
   ConnectedJobApplicationModal
 );

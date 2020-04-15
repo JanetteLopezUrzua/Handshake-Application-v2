@@ -67,8 +67,6 @@ const ConnectedEditInfo = (props) => {
     </Card>
   );
 };
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const EditInfo = connect(mapStateToProps)(ConnectedEditInfo);
 export default EditInfo;

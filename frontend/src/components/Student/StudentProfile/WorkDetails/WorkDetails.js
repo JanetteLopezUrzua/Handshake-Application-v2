@@ -4,10 +4,10 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { connect } from "react-redux";
 import WorkContainer from "./WorkContainer";
 import NewFormWork from "./NewFormWork";
 
-import { connect } from "react-redux";
 import {
   addnewjob,
   loadstudentprofile,
@@ -63,10 +63,9 @@ class ConnectedWorkDetails extends React.Component {
     );
 
     if (
-      localStorage.getItem("id") === this.state.id &&
-      localStorage.getItem("type") === "student"
-    )
-      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+      localStorage.getItem("id") === this.state.id
+      && localStorage.getItem("type") === "student"
+    ) await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
 
     if (this.props.currentuser.payload) {
     } else {
@@ -110,7 +109,7 @@ class ConnectedWorkDetails extends React.Component {
           if (this.props.currentuser.user.student.jobs.length === 0) {
             jobsList = "";
             message = "Where is somewhere you have worked?";
-          } else
+          } else {
             jobsList = this.props.currentuser.user.student.jobs.map((job) => (
               <WorkContainer
                 key={job._id}
@@ -119,6 +118,7 @@ class ConnectedWorkDetails extends React.Component {
                 job={job}
               />
             ));
+          }
         }
       }
     }
@@ -137,8 +137,8 @@ class ConnectedWorkDetails extends React.Component {
 
     let button = "";
     if (
-      localStorage.getItem("id") === this.state.id &&
-      localStorage.getItem("type") === "student"
+      localStorage.getItem("id") === this.state.id
+      && localStorage.getItem("type") === "student"
     ) {
       button = (
         <Button onClick={this.addWork} className="BottomAddButton">
@@ -159,14 +159,12 @@ class ConnectedWorkDetails extends React.Component {
           {jobsList}
           {newjobform}
         </Container>
-        <NavDropdown.Divider style={{ margin: "0" }}></NavDropdown.Divider>
+        <NavDropdown.Divider style={{ margin: "0" }} />
         {button}
       </Card>
     );
   }
 }
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const WorkDetails = connect(mapStateToProps)(ConnectedWorkDetails);
 export default WorkDetails;

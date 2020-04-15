@@ -90,10 +90,9 @@ class NewBanner extends React.Component {
     });
   };
 
-  handleShow = () =>
-    this.setState({
-      show: true,
-    });
+  handleShow = () => this.setState({
+    show: true,
+  });
 
   render() {
     let banner = "";

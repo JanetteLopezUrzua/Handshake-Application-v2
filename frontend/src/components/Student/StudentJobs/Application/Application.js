@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
+import { connect } from "react-redux";
 import ApplicationModal from "./ApplicationModal";
 
-import { connect } from "react-redux";
 import {
   uploadresume,
   companyloadapplicationslist,
@@ -56,11 +56,11 @@ class ConnectedApplication extends React.Component {
     e.preventDefault();
     if (this.state.validfile === true) {
       const { job_id, data } = this.state;
-      let student_id = localStorage.getItem("id");
+      const student_id = localStorage.getItem("id");
 
       const date = new Date();
       const day = `${date.getDate()}`.slice(-2);
-      let month = `${date.getMonth()}`.slice(-2);
+      const month = `${date.getMonth()}`.slice(-2);
       const year = date.getFullYear();
 
       await this.props.dispatch(
@@ -85,10 +85,9 @@ class ConnectedApplication extends React.Component {
     });
   };
 
-  handleShow = () =>
-    this.setState({
-      show: true,
-    });
+  handleShow = () => this.setState({
+    show: true,
+  });
 
   render() {
     let alreadyapplied = "";
@@ -103,8 +102,8 @@ class ConnectedApplication extends React.Component {
           this.props.applicationslist.applications.applications.map(
             (application) => {
               if (
-                application.studentid._id === localStorage.getItem("id") &&
-                localStorage.getItem("type") === "student"
+                application.studentid._id === localStorage.getItem("id")
+                && localStorage.getItem("type") === "student"
               ) {
                 alreadyapplied = true;
               } else {
@@ -128,12 +127,13 @@ class ConnectedApplication extends React.Component {
           Applied
         </Button>
       );
-    } else
+    } else {
       button = (
         <Button className="save" onClick={this.handleShow}>
           Apply
         </Button>
       );
+    }
 
     return (
       <div>
@@ -149,11 +149,9 @@ class ConnectedApplication extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    application: state.application,
-    applicationslist: state.applicationslist,
-  };
-};
+const mapStateToProps = (state) => ({
+  application: state.application,
+  applicationslist: state.applicationslist,
+});
 const Application = connect(mapStateToProps)(ConnectedApplication);
 export default Application;

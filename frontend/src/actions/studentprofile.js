@@ -53,7 +53,7 @@ export const loadcurrentstudent = (id) => async (dispatch) => {
     });
   } catch (error) {
     console.log("ERR", error);
-    const errors = error.response.data.errors;
+    const { errors } = error.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
@@ -81,7 +81,9 @@ export const updatebasicinfo = ({
     },
   };
 
-  const body = JSON.stringify({ id, fname, lname, dob, city, state, country });
+  const body = JSON.stringify({
+    id, fname, lname, dob, city, state, country
+  });
 
   console.log(body);
 
@@ -98,7 +100,7 @@ export const updatebasicinfo = ({
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
@@ -137,7 +139,7 @@ export const updatecareerobjective = ({ id, objective }) => async (
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
@@ -176,7 +178,7 @@ export const updatephoto = ({ id, data }) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
@@ -201,7 +203,7 @@ export const deletephoto = (id) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
@@ -240,7 +242,7 @@ export const updatecontactinfo = ({ id, email, phonenumber }) => async (
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
@@ -277,7 +279,7 @@ export const updateskills = ({ id, skill }) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
@@ -302,7 +304,7 @@ export const deleteskill = (id, skill) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
@@ -322,7 +324,7 @@ export const addnewschool = ({ id, school }) => async (dispatch) => {
     },
   };
 
-  let {
+  const {
     name,
     primaryschool,
     location,
@@ -360,7 +362,7 @@ export const addnewschool = ({ id, school }) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
@@ -385,7 +387,7 @@ export const deleteschool = (id, schoolid) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
@@ -405,7 +407,9 @@ export const updateschool = (id, school, schoolid) => async (dispatch) => {
     },
   };
 
-  let { location, degree, major, passingmonth, passingyear, gpa } = school;
+  const {
+    location, degree, major, passingmonth, passingyear, gpa
+  } = school;
 
   const body = JSON.stringify({
     id,
@@ -433,7 +437,7 @@ export const updateschool = (id, school, schoolid) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
@@ -453,7 +457,7 @@ export const addnewjob = ({ id, job }) => async (dispatch) => {
     },
   };
 
-  let {
+  const {
     companyname,
     title,
     startdatemonth,
@@ -489,7 +493,7 @@ export const addnewjob = ({ id, job }) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
@@ -514,7 +518,7 @@ export const deletejob = (id, jobid) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,
@@ -534,7 +538,7 @@ export const updatejob = (id, job, jobid) => async (dispatch) => {
     },
   };
 
-  let {
+  const {
     startdatemonth,
     startdateyear,
     enddatemonth,
@@ -567,7 +571,7 @@ export const updatejob = (id, job, jobid) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: USER_PROFILE_UPDATE_ERROR,

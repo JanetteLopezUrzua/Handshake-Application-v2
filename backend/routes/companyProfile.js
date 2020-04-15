@@ -1,18 +1,19 @@
 const express = require("../node_modules/express");
+
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const Company = require("../models/Company/Companies");
 const { checkAuth } = require("../config/passport");
-var kafka = require("../kafka/client");
+const kafka = require("../kafka/client");
 
 // @route   GET companies/info/:id
 // @desc    Get company profile information
 // @access  Public
 router.get("/info/:id", checkAuth, async (req, res) => {
-  let id = req.params.id;
-  kafka.make_request("company_info", id, function(err, results) {
+  const { id } = req.params;
+  kafka.make_request("company_info", id, (err, results) => {
     try {
-      let company = results;
+      const company = results;
       res.json({ company });
     } catch (err) {
       console.error(err.message);
@@ -27,33 +28,31 @@ router.get("/info/:id", checkAuth, async (req, res) => {
 router.put(
   "/basicinfo",
   [
-    check("location", "Location is required")
-      .trim()
-      .not()
-      .isEmpty(),
-    check("description").trim()
+    check("location", "Location is required").trim().not().isEmpty(),
+    check("description").trim(),
   ],
   checkAuth,
   async (req, res) => {
     const errors = validationResult(req);
 
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("company_update_basic_info", req.body, function(
-      err,
-      results
-    ) {
-      try {
-        let company = results;
-        res.json({ company });
-      } catch (err) {
-        console.error(err.message);
-        res.status(500).send("Server Error");
+    kafka.make_request(
+      "company_update_basic_info",
+      req.body,
+      (err, results) => {
+        try {
+          const company = results;
+          res.json({ company });
+        } catch (err) {
+          console.error(err.message);
+          res.status(500).send("Server Error");
+        }
       }
-    });
+    );
   }
 );
 
@@ -63,35 +62,34 @@ router.put(
 router.put(
   "/contactinfo",
   [
-    check("email", "Please enter a valid email")
-      .trim()
-      .isEmail(),
+    check("email", "Please enter a valid email").trim().isEmail(),
     check("phonenumber", "Phone Number must be exactly 10 numbers")
       .isNumeric()
-      .isLength({ min: 10, max: 10 })
+      .isLength({ min: 10, max: 10 }),
   ],
   checkAuth,
   async (req, res) => {
     const errors = validationResult(req);
     console.log(errors);
     console.log(req.body);
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("company_update_contact_info", req.body, function(
-      err,
-      results
-    ) {
-      try {
-        let company = results;
-        res.json({ company });
-      } catch (err) {
-        console.error(err.message);
-        res.status(500).send("Server Error");
+    kafka.make_request(
+      "company_update_contact_info",
+      req.body,
+      (err, results) => {
+        try {
+          const company = results;
+          res.json({ company });
+        } catch (err) {
+          console.error(err.message);
+          res.status(500).send("Server Error");
+        }
       }
-    });
+    );
   }
 );
 
@@ -101,9 +99,9 @@ router.put(
 router.put("/photo", checkAuth, async (req, res) => {
   console.log(req.body);
 
-  kafka.make_request("company_update_photo", req.body, function(err, results) {
+  kafka.make_request("company_update_photo", req.body, (err, results) => {
     try {
-      let company = results;
+      const company = results;
       res.json({ company });
     } catch (err) {
       console.error(err.message);
@@ -116,11 +114,11 @@ router.put("/photo", checkAuth, async (req, res) => {
 // @desc    Delete company photo
 // @access  Public
 router.delete("/photo/:id", checkAuth, async (req, res) => {
-  let id = req.params.id;
+  const { id } = req.params;
 
-  kafka.make_request("company_delete_photo", id, function(err, results) {
+  kafka.make_request("company_delete_photo", id, (err, results) => {
     try {
-      let company = results;
+      const company = results;
       res.json({ company });
     } catch (err) {
       console.error(err.message);
@@ -134,25 +132,20 @@ router.delete("/photo/:id", checkAuth, async (req, res) => {
 // @access  Public
 router.put(
   "/name",
-  [
-    check("name", "Name is required")
-      .trim()
-      .not()
-      .isEmpty()
-  ],
+  [check("name", "Name is required").trim().not().isEmpty()],
   checkAuth,
   async (req, res) => {
     const errors = validationResult(req);
     console.log(errors);
     console.log(req.body);
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("company_update_name", req.body, function(err, results) {
+    kafka.make_request("company_update_name", req.body, (err, results) => {
       try {
-        let company = results;
+        const company = results;
         res.json({ company });
       } catch (err) {
         console.error(err.message);

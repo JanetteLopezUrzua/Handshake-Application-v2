@@ -1,8 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import DisplayWork from "./DisplayWork";
 import EditWork from "./EditWork";
 
-import { connect } from "react-redux";
 import {
   deletejob,
   updatejob,
@@ -52,8 +52,8 @@ class ConnectedWorkContainer extends React.Component {
   handleSave = async (e) => {
     e.preventDefault();
 
-    const id = this.state.id;
-    const jobid = this.state.jobid;
+    const { id } = this.state;
+    const { jobid } = this.state;
     const job = {
       startdatemonth: this.state.job.startdatemonth,
       startdateyear: this.state.job.startdateyear,
@@ -65,10 +65,9 @@ class ConnectedWorkContainer extends React.Component {
     await this.props.dispatch(updatejob(id, job, jobid));
 
     if (
-      localStorage.getItem("id") === this.state.id &&
-      localStorage.getItem("type") === "student"
-    )
-      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+      localStorage.getItem("id") === this.state.id
+      && localStorage.getItem("type") === "student"
+    ) await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
 
     if (this.props.currentuser.payload) {
     } else {
@@ -88,15 +87,14 @@ class ConnectedWorkContainer extends React.Component {
 
   handleDelete = async (e) => {
     e.preventDefault();
-    const id = this.state.id;
-    const jobid = this.state.jobid;
+    const { id } = this.state;
+    const { jobid } = this.state;
     await this.props.dispatch(deletejob(id, jobid));
 
     if (
-      localStorage.getItem("id") === this.state.id &&
-      localStorage.getItem("type") === "student"
-    )
-      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+      localStorage.getItem("id") === this.state.id
+      && localStorage.getItem("type") === "student"
+    ) await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
 
     this.setState({
       editWasTriggered: false,
@@ -128,8 +126,6 @@ class ConnectedWorkContainer extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const WorkContainer = connect(mapStateToProps)(ConnectedWorkContainer);
 export default WorkContainer;

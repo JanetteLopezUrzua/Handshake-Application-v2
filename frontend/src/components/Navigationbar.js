@@ -7,20 +7,16 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
+import { connect } from "react-redux";
 import hslogo from "../assets/logo.jpg";
 
-import { connect } from "react-redux";
 import { logout } from "../actions/logout";
 import { loadstudentprofile } from "../actions/studentprofile";
 import { loadcompanyprofile } from "../actions/companyprofile";
 
 class ConnectedNavigationbar extends React.Component {
-  handleLogout = () => {
-    this.props.dispatch(logout());
-  };
-
   async componentDidMount() {
-    let id = localStorage.getItem("id");
+    const id = localStorage.getItem("id");
     if (localStorage.getItem("type") === "student") {
       await this.props.dispatch(loadstudentprofile(id));
     } else {
@@ -28,8 +24,12 @@ class ConnectedNavigationbar extends React.Component {
     }
   }
 
+  handleLogout = () => {
+    this.props.dispatch(logout());
+  };
+
   render() {
-    let userprofile = this.props.userprofile;
+    const { userprofile } = this.props;
     let fn = "";
     let ln = "";
     let has_image = "";
@@ -118,8 +118,7 @@ class ConnectedNavigationbar extends React.Component {
     if (localStorage.getItem("type") === "student") {
       studentspath = "/student/students?page=1&nameorcollege=''&major=''";
       eventspath = "/student/events/upcoming?page=1";
-      jobspath =
-        "/student/jobs/search?page=1&companynameoreventtitle=''&category=''&location=''&sort_direction=posting_date_desc";
+      jobspath = "/student/jobs/search?page=1&companynameoreventtitle=''&category=''&location=''&sort_direction=posting_date_desc";
       messagespath = "/student/messages";
     } else {
       studentspath = "/company/students?page=1&nameorcollegeorskillset=''";
@@ -184,8 +183,6 @@ class ConnectedNavigationbar extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return { userprofile: state.userprofile };
-};
+const mapStateToProps = (state) => ({ userprofile: state.userprofile });
 const Navigationbar = connect(mapStateToProps)(ConnectedNavigationbar);
 export default Navigationbar;

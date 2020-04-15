@@ -6,16 +6,16 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import InputGroup from "react-bootstrap/InputGroup";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { MdLocationOn } from "react-icons/md";
 import { Redirect } from "react-router";
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+
+import { connect } from "react-redux";
 import JobsListDisplay from "./JobsListDisplay";
 import JobDescriptionDisplay from "./JobDescriptionDisplay";
 
-import { connect } from "react-redux";
 import { studentloadjobslist, companyloadjob } from "../../../../actions/jobs";
 
 class ConnectedJobSearch extends React.Component {
@@ -34,15 +34,36 @@ class ConnectedJobSearch extends React.Component {
     };
   }
 
+  async componentDidMount() {
+    await this.props.dispatch(
+      studentloadjobslist(1, "", "", "", "posting_date_desc")
+    );
+
+    if (this.props.jobslist.jobs !== null) {
+      if (this.props.jobslist.jobs.jobsList.docs) {
+        if (this.props.jobslist.jobs.jobsList.docs.length === 0) {
+        } else {
+          await this.props.dispatch(
+            companyloadjob(this.props.jobslist.jobs.jobsList.docs[0]._id)
+          );
+        }
+      }
+    }
+
+    this.setState({
+      page: 1,
+    });
+  }
+
   async componentDidUpdate(previousProps, previousState) {
     if (
-      previousState.nameortitle !== this.state.nameortitle ||
-      previousState.fulltime !== this.state.fulltime ||
-      previousState.parttime !== this.state.parttime ||
-      previousState.internship !== this.state.internship ||
-      previousState.oncampus !== this.state.oncampus ||
-      previousState.location !== this.state.location ||
-      previousState.sort !== this.state.sort
+      previousState.nameortitle !== this.state.nameortitle
+      || previousState.fulltime !== this.state.fulltime
+      || previousState.parttime !== this.state.parttime
+      || previousState.internship !== this.state.internship
+      || previousState.oncampus !== this.state.oncampus
+      || previousState.location !== this.state.location
+      || previousState.sort !== this.state.sort
     ) {
       let filter = "";
 
@@ -79,27 +100,6 @@ class ConnectedJobSearch extends React.Component {
         }
       }
     }
-  }
-
-  async componentDidMount() {
-    await this.props.dispatch(
-      studentloadjobslist(1, "", "", "", "posting_date_desc")
-    );
-
-    if (this.props.jobslist.jobs !== null) {
-      if (this.props.jobslist.jobs.jobsList.docs) {
-        if (this.props.jobslist.jobs.jobsList.docs.length === 0) {
-        } else {
-          await this.props.dispatch(
-            companyloadjob(this.props.jobslist.jobs.jobsList.docs[0]._id)
-          );
-        }
-      }
-    }
-
-    this.setState({
-      page: 1,
-    });
   }
 
   handleNameOrTitle = (e) => {
@@ -178,10 +178,10 @@ class ConnectedJobSearch extends React.Component {
 
     let clear = "";
     if (
-      this.state.fulltime === true ||
-      this.state.parttime === true ||
-      this.state.internship === true ||
-      this.state.oncampus === true
+      this.state.fulltime === true
+      || this.state.parttime === true
+      || this.state.internship === true
+      || this.state.oncampus === true
     ) {
       clear = (
         <Button
@@ -205,12 +205,13 @@ class ConnectedJobSearch extends React.Component {
           Full-Time Job
         </Button>
       );
-    } else
+    } else {
       button1 = (
         <Button className="categorybuttons" onClick={this.fulltimeClick}>
           Full-Time Job
         </Button>
       );
+    }
 
     if (this.state.parttime === true) {
       button2 = (
@@ -218,12 +219,13 @@ class ConnectedJobSearch extends React.Component {
           Part-Time
         </Button>
       );
-    } else
+    } else {
       button2 = (
         <Button className="categorybuttons" onClick={this.parttimeClick}>
           Part-Time
         </Button>
       );
+    }
 
     if (this.state.internship === true) {
       button3 = (
@@ -235,12 +237,13 @@ class ConnectedJobSearch extends React.Component {
           Internships
         </Button>
       );
-    } else
+    } else {
       button3 = (
         <Button className="categorybuttons" onClick={this.internshipClick}>
           Internships
         </Button>
       );
+    }
 
     if (this.state.oncampus === true) {
       button4 = (
@@ -248,12 +251,13 @@ class ConnectedJobSearch extends React.Component {
           On-Campus
         </Button>
       );
-    } else
+    } else {
       button4 = (
         <Button className="categorybuttons" onClick={this.oncampusClick}>
           On-Campus
         </Button>
       );
+    }
 
     let jobsList = "";
     let message = "";
@@ -269,16 +273,14 @@ class ConnectedJobSearch extends React.Component {
           jobsList = "";
           message = "Found 0 jobs";
         } else {
-          jobsList = this.props.jobslist.jobs.jobsList.docs.map((job) => {
-            return (
-              <JobsListDisplay
-                key={job._id}
-                jobid={job._id}
-                job={job}
-                jobClick={this.jobClick}
-              />
-            );
-          });
+          jobsList = this.props.jobslist.jobs.jobsList.docs.map((job) => (
+            <JobsListDisplay
+              key={job._id}
+              jobid={job._id}
+              job={job}
+              jobClick={this.jobClick}
+            />
+          ));
           currPage = this.props.jobslist.jobs.jobsList.page;
           numOfPages = this.props.jobslist.jobs.jobsList.pages;
           limit = this.props.jobslist.jobs.jobsList.limit;
@@ -494,11 +496,9 @@ class ConnectedJobSearch extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    userprofile: state.userprofile,
-    jobslist: state.jobslist,
-  };
-};
+const mapStateToProps = (state) => ({
+  userprofile: state.userprofile,
+  jobslist: state.jobslist,
+});
 const JobSearch = connect(mapStateToProps)(ConnectedJobSearch);
 export default JobSearch;

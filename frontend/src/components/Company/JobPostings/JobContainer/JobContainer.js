@@ -4,11 +4,11 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Redirect } from "react-router";
+import { connect } from "react-redux";
 import JobInfo from "../JobInfo/JobInfo";
 import JobApplications from "../JobApplications/JobApplications";
 
 import setAuthToken from "../../../../utils/setAuthToken";
-import { connect } from "react-redux";
 import {
   companyloadjob,
   companydeletejob,
@@ -61,8 +61,8 @@ class ConnectedJobContainer extends React.Component {
 
     let del = "";
     if (
-      localStorage.getItem("id") === company_id &&
-      localStorage.getItem("type") === "company"
+      localStorage.getItem("id") === company_id
+      && localStorage.getItem("type") === "company"
     ) {
       del = (
         <Button
@@ -87,8 +87,6 @@ class ConnectedJobContainer extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return { userprofile: state.userprofile, job: state.job };
-};
+const mapStateToProps = (state) => ({ userprofile: state.userprofile, job: state.job });
 const JobContainer = connect(mapStateToProps)(ConnectedJobContainer);
 export default JobContainer;

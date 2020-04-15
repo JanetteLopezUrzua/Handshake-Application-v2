@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const DisplayStudent = (props) => {
   const { fname, lname } = props.student;
 
-  let name = `${fname} ${lname}`;
+  const name = `${fname} ${lname}`;
 
   const path = `/student/${props.studentid}`;
   let img = "";
@@ -42,7 +42,7 @@ const DisplayStudent = (props) => {
   let major = "";
   let skillset = "";
 
-  if (props.student.schools)
+  if (props.student.schools) {
     if (props.student.schools.length !== 0) {
       collegename = props.student.schools[0].name;
       degree = props.student.schools[0].degree;
@@ -50,22 +50,24 @@ const DisplayStudent = (props) => {
       passingyear = props.student.schools[0].passingyear;
       major = props.student.schools[0].major;
     }
+  }
 
-  if (props.student.skillset)
+  if (props.student.skillset) {
     if (props.student.skillset.length !== 0) {
       skillset = "Skills: ";
       props.student.skillset.forEach(
-        (skill) => (skillset = skillset + `${skill.skill} `)
+        (skill) => (skillset += `${skill.skill} `)
       );
     }
+  }
 
   if (
-    passingmonth === null ||
-    passingyear === null ||
-    passingmonth === "" ||
-    passingyear === "" ||
-    passingmonth === undefined ||
-    passingyear === undefined
+    passingmonth === null
+    || passingyear === null
+    || passingmonth === ""
+    || passingyear === ""
+    || passingmonth === undefined
+    || passingyear === undefined
   ) {
     passingdate = "No Passing Date Listed";
   } else {

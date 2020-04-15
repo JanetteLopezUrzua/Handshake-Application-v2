@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
+import { connect } from "react-redux";
 import JobApplicationsModal from "./JobApplicationsModal";
 
-import { connect } from "react-redux";
 import {
   companyloadapplicationslist,
   company_update_application_status,
@@ -34,8 +34,8 @@ class ConnectedJobApplications extends React.Component {
   };
 
   handleStatus = async (e, appid) => {
-    let status = e.target.value;
-    let jobid = this.state.job_id;
+    const status = e.target.value;
+    const jobid = this.state.job_id;
     console.log("clicked");
     await this.props.dispatch(company_update_application_status(appid, status));
     await this.props.dispatch(companyloadapplicationslist(jobid));
@@ -77,8 +77,6 @@ class ConnectedJobApplications extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return { applicationslist: state.applicationslist };
-};
+const mapStateToProps = (state) => ({ applicationslist: state.applicationslist });
 const JobApplications = connect(mapStateToProps)(ConnectedJobApplications);
 export default JobApplications;

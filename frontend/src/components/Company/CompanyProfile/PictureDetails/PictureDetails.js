@@ -8,9 +8,9 @@ import { FaCamera } from "react-icons/fa";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import { MdEdit } from "react-icons/md";
+import { connect } from "react-redux";
 import ModalPicture from "./Modal";
 
-import { connect } from "react-redux";
 import {
   updatephoto,
   deletephoto,
@@ -92,14 +92,13 @@ class ConnectedPictureDetails extends React.Component {
     });
   };
 
-  handleShow = () =>
-    this.setState({
-      show: true,
-    });
+  handleShow = () => this.setState({
+    show: true,
+  });
 
   onDelete = async (e) => {
     e.preventDefault();
-    const id = this.state.id;
+    const { id } = this.state;
     await this.props.dispatch(deletephoto(id));
 
     if (this.props.currentuser.payload) {
@@ -122,10 +121,9 @@ class ConnectedPictureDetails extends React.Component {
     let name = "";
 
     if (this.props.currentuser.user !== null) {
-      name =
-        this.props.currentuser.user.company.name === this.state.name
-          ? this.props.currentuser.user.company.name
-          : this.state.name;
+      name = this.props.currentuser.user.company.name === this.state.name
+        ? this.props.currentuser.user.company.name
+        : this.state.name;
     }
 
     await this.props.dispatch(
@@ -189,8 +187,8 @@ class ConnectedPictureDetails extends React.Component {
 
     if (has_image === false) {
       if (
-        localStorage.getItem("id") === this.state.id &&
-        localStorage.getItem("type") === "company"
+        localStorage.getItem("id") === this.state.id
+        && localStorage.getItem("type") === "company"
       ) {
         profilePhoto = (
           <Button className="CompanyProfilePicButton" onClick={this.handleShow}>
@@ -211,8 +209,8 @@ class ConnectedPictureDetails extends React.Component {
       }
     } else if (has_image === true) {
       if (
-        localStorage.getItem("id") === this.state.id &&
-        localStorage.getItem("type") === "company"
+        localStorage.getItem("id") === this.state.id
+        && localStorage.getItem("type") === "company"
       ) {
         profilePhoto = (
           <>
@@ -248,8 +246,8 @@ class ConnectedPictureDetails extends React.Component {
     }
     let button = "";
     if (
-      localStorage.getItem("id") === this.state.id &&
-      localStorage.getItem("type") === "company"
+      localStorage.getItem("id") === this.state.id
+      && localStorage.getItem("type") === "company"
     ) {
       button = (
         <Col style={{ textAlign: "right" }}>
@@ -340,8 +338,6 @@ class ConnectedPictureDetails extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const PictureDetails = connect(mapStateToProps)(ConnectedPictureDetails);
 export default PictureDetails;

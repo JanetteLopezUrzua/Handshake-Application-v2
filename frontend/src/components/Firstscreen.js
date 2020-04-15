@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-//import { Redirect } from "react-router";
+// import { Redirect } from "react-router";
 import "./components.css";
 import hsimage from "../assets/Handshakebanner.jpg";
 
@@ -12,7 +12,7 @@ class Firstscreen extends React.Component {
 
   render() {
     // if sign in then redirect to the student profile
-    let redirectVar = null;
+    const redirectVar = null;
     // const studentpath = `/student/${cookie.load('id')}`;
     // const companypath = `/company/${cookie.load('id')}`;
 

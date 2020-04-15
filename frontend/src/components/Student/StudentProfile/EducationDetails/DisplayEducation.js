@@ -7,7 +7,7 @@ import Container from "react-bootstrap/Container";
 import { MdEdit } from "react-icons/md";
 
 const DisplayEducation = (props) => {
-  let {
+  const {
     name,
     location,
     degree,
@@ -64,8 +64,8 @@ const DisplayEducation = (props) => {
 
   let container = "";
   if (
-    localStorage.getItem("id") === props.id &&
-    localStorage.getItem("type") === "student"
+    localStorage.getItem("id") === props.id
+    && localStorage.getItem("type") === "student"
   ) {
     container = (
       <Container

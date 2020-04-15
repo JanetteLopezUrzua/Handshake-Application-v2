@@ -27,8 +27,7 @@ const ConnectedEditJobInfo = (props) => {
       else if (err.param === "deadlineday") deadlinedayerrormsg = err.msg;
       else if (err.param === "deadlineyear") deadlineyearerrormsg = err.msg;
       else if (err.param === "deadlinetime") deadlinetimeerrormsg = err.msg;
-      else if (err.param === "deadlinedaytime")
-        deadlinedaytimeerrormsg = err.msg;
+      else if (err.param === "deadlinedaytime") deadlinedaytimeerrormsg = err.msg;
       else if (err.param === "location") locationerrormsg = err.msg;
       else if (err.param === "salary") salaryerrormsg = err.msg;
       else if (err.param === "salarytime") salarytimeerrormsg = err.msg;
@@ -133,7 +132,7 @@ const ConnectedEditJobInfo = (props) => {
         </Col>
         <Col>
           <Form.Group controlId="deadlineday">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control
               as="select"
               onChange={props.handleChange}
@@ -179,7 +178,7 @@ const ConnectedEditJobInfo = (props) => {
         </Col>
         <Col>
           <Form.Group controlId="deadlineyear">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control
               as="select"
               onChange={props.handleChange}
@@ -270,7 +269,7 @@ const ConnectedEditJobInfo = (props) => {
         </Col>
         <Col>
           <Form.Group controlId="deadlinedaytime">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control
               as="select"
               onChange={props.handleChange}
@@ -314,7 +313,7 @@ const ConnectedEditJobInfo = (props) => {
         <p style={{ paddingTop: "20px" }}> per </p>
         <Col>
           <Form.Group controlId="salarytime">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control
               as="select"
               onChange={props.handleChange}
@@ -367,8 +366,6 @@ const ConnectedEditJobInfo = (props) => {
     </Card>
   );
 };
-const mapStateToProps = (state) => {
-  return { job: state.job };
-};
+const mapStateToProps = (state) => ({ job: state.job });
 const EditJobInfo = connect(mapStateToProps)(ConnectedEditJobInfo);
 export default EditJobInfo;

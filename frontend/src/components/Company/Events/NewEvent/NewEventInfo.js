@@ -6,10 +6,10 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import { Redirect } from "react-router";
+import { connect } from "react-redux";
 import NewBanner from "./NewBanner";
 
 import setAuthToken from "../../../../utils/setAuthToken";
-import { connect } from "react-redux";
 import { loadcompanyprofile } from "../../../../actions/companyprofile";
 import { addnewevent } from "../../../../actions/events";
 
@@ -218,7 +218,7 @@ class ConnectedNewEventInfo extends React.Component {
             </Col>
             <Col>
               <Form.Group controlId="day">
-                <Form.Label className="labels"></Form.Label>
+                <Form.Label className="labels" />
                 <Form.Control
                   as="select"
                   onChange={this.handleChange}
@@ -264,7 +264,7 @@ class ConnectedNewEventInfo extends React.Component {
             </Col>
             <Col>
               <Form.Group controlId="year">
-                <Form.Label className="labels"></Form.Label>
+                <Form.Label className="labels" />
                 <Form.Control
                   as="select"
                   onChange={this.handleChange}
@@ -355,7 +355,7 @@ class ConnectedNewEventInfo extends React.Component {
             </Col>
             <Col>
               <Form.Group controlId="startdaytime">
-                <Form.Label className="labels"></Form.Label>
+                <Form.Label className="labels" />
                 <Form.Control
                   as="select"
                   onChange={this.handleChange}
@@ -437,7 +437,7 @@ class ConnectedNewEventInfo extends React.Component {
             </Col>
             <Col>
               <Form.Group controlId="enddaytime">
-                <Form.Label className="labels"></Form.Label>
+                <Form.Label className="labels" />
                 <Form.Control
                   as="select"
                   onChange={this.handleChange}
@@ -521,11 +521,9 @@ class ConnectedNewEventInfo extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    userprofile: state.userprofile,
-    event: state.event,
-  };
-};
+const mapStateToProps = (state) => ({
+  userprofile: state.userprofile,
+  event: state.event,
+});
 const NewEventInfo = connect(mapStateToProps)(ConnectedNewEventInfo);
 export default NewEventInfo;

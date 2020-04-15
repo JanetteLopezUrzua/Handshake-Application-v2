@@ -50,7 +50,7 @@ const ConnectedNewFormWork = (props) => {
               name="month"
               type="text"
             >
-              <option value="" hidden></option>
+              <option value="" hidden />
               <option value="1">January</option>
               <option value="2">February</option>
               <option value="3">March</option>
@@ -68,14 +68,14 @@ const ConnectedNewFormWork = (props) => {
         </Col>
         <Col>
           <Form.Group controlId="startdateyear">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control
               as="select"
               onChange={props.handleChange}
               name="year"
               type="number"
             >
-              <option value="" hidden></option>
+              <option value="" hidden />
               <option value="2020">2020</option>
               <option value="2019">2019</option>
               <option value="2018">2018</option>
@@ -151,7 +151,7 @@ const ConnectedNewFormWork = (props) => {
               name="month"
               type="text"
             >
-              <option value="" hidden></option>
+              <option value="" hidden />
               <option value="1">January</option>
               <option value="2">February</option>
               <option value="3">March</option>
@@ -169,14 +169,14 @@ const ConnectedNewFormWork = (props) => {
         </Col>
         <Col>
           <Form.Group controlId="enddateyear">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control
               as="select"
               onChange={props.handleChange}
               name="year"
               type="number"
             >
-              <option value="" hidden></option>
+              <option value="" hidden />
               <option value="2020">2020</option>
               <option value="2019">2019</option>
               <option value="2018">2018</option>
@@ -266,8 +266,6 @@ const ConnectedNewFormWork = (props) => {
     </Container>
   );
 };
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const NewFormWork = connect(mapStateToProps)(ConnectedNewFormWork);
 export default NewFormWork;

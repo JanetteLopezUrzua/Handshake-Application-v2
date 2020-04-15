@@ -4,10 +4,10 @@ import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import { FaCamera } from "react-icons/fa";
+import { connect } from "react-redux";
 import ModalPicture from "./Modal";
 import MessageModal from "../Message/MessageModal";
 
-import { connect } from "react-redux";
 import {
   updatephoto,
   deletephoto,
@@ -76,12 +76,13 @@ class ConnectedPictureDetails extends React.Component {
       );
 
       if (
-        localStorage.getItem("id") === this.state.id &&
-        localStorage.getItem("type") === "student"
-      )
+        localStorage.getItem("id") === this.state.id
+        && localStorage.getItem("type") === "student"
+      ) {
         await this.props.dispatch(
           loadstudentprofile(localStorage.getItem("id"))
         );
+      }
 
       if (this.props.currentuser.payload) {
       } else {
@@ -112,7 +113,7 @@ class ConnectedPictureDetails extends React.Component {
     }
 
     const { id, message } = this.state;
-    let fromId = localStorage.getItem("id");
+    const fromId = localStorage.getItem("id");
 
     const date = new Date();
     const day = `${date.getDate()}`.slice(-2);
@@ -121,13 +122,13 @@ class ConnectedPictureDetails extends React.Component {
     let hours = date.getHours();
     let minutes = date.getMinutes();
 
-    let day_time = hours >= 12 ? "PM" : "AM";
+    const day_time = hours >= 12 ? "PM" : "AM";
 
-    hours = hours % 12;
+    hours %= 12;
 
     // Convert "0" to "12"
-    hours = hours ? hours : 12;
-    minutes = minutes < 10 ? "0" + minutes : minutes;
+    hours = hours || 12;
+    minutes = minutes < 10 ? `0${minutes}` : minutes;
 
     await this.props.dispatch(
       sendmessage(
@@ -181,7 +182,7 @@ class ConnectedPictureDetails extends React.Component {
 
   onDelete = async (e) => {
     e.preventDefault();
-    const id = this.state.id;
+    const { id } = this.state;
     await this.props.dispatch(deletephoto(id));
 
     if (this.props.currentuser.payload) {
@@ -219,12 +220,9 @@ class ConnectedPictureDetails extends React.Component {
         lname = this.props.currentuser.user.student.lname
           ? this.props.currentuser.user.student.lname
           : "";
-        college =
-          this.props.currentuser.user.student.schools.length !== 0
-            ? this.props.currentuser.user.student.schools.find((school) => {
-                return school.primaryschool === "true";
-              })
-            : "";
+        college = this.props.currentuser.user.student.schools.length !== 0
+          ? this.props.currentuser.user.student.schools.find((school) => school.primaryschool === "true")
+          : "";
         photo = this.props.currentuser.user.student.photo
           ? this.props.currentuser.user.student.photo
           : "";
@@ -245,8 +243,8 @@ class ConnectedPictureDetails extends React.Component {
 
     if (has_image === false) {
       if (
-        localStorage.getItem("id") === this.state.id &&
-        localStorage.getItem("type") === "student"
+        localStorage.getItem("id") === this.state.id
+        && localStorage.getItem("type") === "student"
       ) {
         studentPhoto = (
           <Button className="ProfilePicButton" onClick={this.handleShow}>
@@ -272,8 +270,8 @@ class ConnectedPictureDetails extends React.Component {
       }
     } else if (has_image === true) {
       if (
-        localStorage.getItem("id") === this.state.id &&
-        localStorage.getItem("type") === "student"
+        localStorage.getItem("id") === this.state.id
+        && localStorage.getItem("type") === "student"
       ) {
         studentPhoto = (
           <>
@@ -312,8 +310,8 @@ class ConnectedPictureDetails extends React.Component {
 
     let messagebutton = "";
     if (
-      localStorage.getItem("id") === currid &&
-      localStorage.getItem("type") === "student"
+      localStorage.getItem("id") === currid
+      && localStorage.getItem("type") === "student"
     ) {
       messagebutton = "";
     } else {
@@ -369,8 +367,6 @@ class ConnectedPictureDetails extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser, message: state.message };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser, message: state.message });
 const PictureDetails = connect(mapStateToProps)(ConnectedPictureDetails);
 export default PictureDetails;

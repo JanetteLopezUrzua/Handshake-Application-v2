@@ -69,7 +69,7 @@ export const sendmessage = (
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: MESSAGE_ERROR,
@@ -92,7 +92,7 @@ export const loadmessageslist = (type, toid) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
     dispatch({
       type: MESSAGE_ERROR,
       payload: errors,
@@ -114,7 +114,7 @@ export const loadmessage = (fromid, currid) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
     dispatch({
       type: MESSAGE_ERROR,
       payload: errors,

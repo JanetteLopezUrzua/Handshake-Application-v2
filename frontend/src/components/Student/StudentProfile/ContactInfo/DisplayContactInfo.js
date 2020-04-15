@@ -18,20 +18,20 @@ const ConnectedDisplayContactInfo = (props) => {
         : "No Email Entered";
       phonenumber = props.currentuser.user.student.phonenumber
         ? `(${props.currentuser.user.student.phonenumber.substring(
-            0,
-            3
-          )})${props.currentuser.user.student.phonenumber.substring(
-            3,
-            6
-          )}-${props.currentuser.user.student.phonenumber.substring(6)}`
+          0,
+          3
+        )})${props.currentuser.user.student.phonenumber.substring(
+          3,
+          6
+        )}-${props.currentuser.user.student.phonenumber.substring(6)}`
         : "No Phone Number Entered";
     }
   }
 
   let button = "";
   if (
-    localStorage.getItem("id") === props.id &&
-    localStorage.getItem("type") === "student"
+    localStorage.getItem("id") === props.id
+    && localStorage.getItem("type") === "student"
   ) {
     button = (
       <Col style={{ textAlign: "right" }}>
@@ -63,9 +63,7 @@ const ConnectedDisplayContactInfo = (props) => {
     </Card>
   );
 };
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const DisplayContactInfo = connect(mapStateToProps)(
   ConnectedDisplayContactInfo
 );

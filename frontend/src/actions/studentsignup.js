@@ -15,7 +15,9 @@ export const studentsignup = ({
     }
   };
 
-  const body = JSON.stringify({ fname, lname, email, password, college });
+  const body = JSON.stringify({
+    fname, lname, email, password, college
+  });
 
   console.log(body);
 
@@ -33,7 +35,7 @@ export const studentsignup = ({
     });
   } catch (err) {
     console.log(err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: SIGNUP_FAIL,

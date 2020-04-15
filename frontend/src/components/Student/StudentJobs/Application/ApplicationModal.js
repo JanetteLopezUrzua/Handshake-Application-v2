@@ -14,7 +14,7 @@ const ApplicationModal = props => (
     </Modal.Body>
     <Modal.Footer>
       <Button className="save" onClick={props.onUpload}>
-          Submit
+        Submit
       </Button>
     </Modal.Footer>
   </Modal>

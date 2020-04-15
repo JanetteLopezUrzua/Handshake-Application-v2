@@ -43,8 +43,6 @@ const ConnectedModalPicture = (props) => {
     </Modal>
   );
 };
-const mapStateToProps = (state) => {
-  return { message: state.message };
-};
+const mapStateToProps = (state) => ({ message: state.message });
 const ModalPicture = connect(mapStateToProps)(ConnectedModalPicture);
 export default ModalPicture;

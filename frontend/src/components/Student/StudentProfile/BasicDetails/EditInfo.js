@@ -26,7 +26,7 @@ const ConnectedEditInfo = (props) => {
   let country = "";
 
   if (props.currentuser.user !== null) {
-    if (props.current.user.student) {
+    if (props.currentuser.user.student) {
       fname = props.currentuser.user.student.fname
         ? props.currentuser.user.student.fname
         : "";
@@ -128,8 +128,6 @@ const ConnectedEditInfo = (props) => {
     </Card>
   );
 };
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const EditInfo = connect(mapStateToProps)(ConnectedEditInfo);
 export default EditInfo;

@@ -1,4 +1,5 @@
 import { SIGNUP_SUCCESS, SIGNUP_FAIL, LOG_OUT } from "../actions/types";
+
 const jwt_decode = require("jwt-decode");
 
 const initialState = {
@@ -14,7 +15,7 @@ export default function (state = initialState, action) {
   switch (type) {
     case SIGNUP_SUCCESS:
       localStorage.setItem("token", payload);
-      var decoded = jwt_decode(payload.split(" ")[1]);
+      const decoded = jwt_decode(payload.split(" ")[1]);
       localStorage.setItem("id", decoded.user.id);
       localStorage.setItem("type", decoded.user.type);
       return {

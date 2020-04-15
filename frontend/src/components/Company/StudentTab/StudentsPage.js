@@ -8,11 +8,11 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import { Redirect } from "react-router";
-import DisplayStudent from "./DisplayStudent";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { connect } from "react-redux";
+import DisplayStudent from "./DisplayStudent";
 
 import setAuthToken from "../../../utils/setAuthToken";
-import { connect } from "react-redux";
 import { loadcompanyprofile } from "../../../actions/companyprofile";
 import { companyloadstudentslist } from "../../../actions/studentslist";
 
@@ -24,6 +24,20 @@ class ConnectedStudentTab extends React.Component {
       redirect: "",
       page: 0,
     };
+  }
+
+  async componentDidMount() {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
+    const id = localStorage.getItem("id");
+    await this.props.dispatch(loadcompanyprofile(id));
+    await this.props.dispatch(companyloadstudentslist(1, ""));
+
+    this.setState({
+      page: 1,
+    });
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -48,26 +62,12 @@ class ConnectedStudentTab extends React.Component {
     }
   }
 
-  async componentDidMount() {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
-
-    const id = localStorage.getItem("id");
-    await this.props.dispatch(loadcompanyprofile(id));
+  async componentWillUnmount() {
     await this.props.dispatch(companyloadstudentslist(1, ""));
-
-    this.setState({
-      page: 1,
-    });
   }
 
-  handleChange = (e) => {
-    this.setState({ [e.target.id]: e.target.value });
-  };
-
   nextPage = async () => {
-    let nextpage = this.state.page + 1;
+    const nextpage = this.state.page + 1;
     await this.props.dispatch(
       companyloadstudentslist(nextpage, this.state.nameorcollegeorskillset)
     );
@@ -83,7 +83,7 @@ class ConnectedStudentTab extends React.Component {
   };
 
   prevPage = async () => {
-    let prevpage = this.state.page - 1;
+    const prevpage = this.state.page - 1;
     await this.props.dispatch(
       companyloadstudentslist(prevpage, this.state.nameorcollegeorskillset)
     );
@@ -98,9 +98,9 @@ class ConnectedStudentTab extends React.Component {
     });
   };
 
-  async componentWillUnmount() {
-    await this.props.dispatch(companyloadstudentslist(1, ""));
-  }
+  handleChange = (e) => {
+    this.setState({ [e.target.id]: e.target.value });
+  };
 
   render() {
     // if not logged in go to login page
@@ -127,15 +127,13 @@ class ConnectedStudentTab extends React.Component {
           message = "No Students Found";
         } else {
           studentsList = this.props.studentslist.students.studentsList.docs.map(
-            (student) => {
-              return (
-                <DisplayStudent
-                  key={student._id}
-                  studentid={student._id}
-                  student={student}
-                />
-              );
-            }
+            (student) => (
+              <DisplayStudent
+                key={student._id}
+                studentid={student._id}
+                student={student}
+              />
+            )
           );
           currPage = this.props.studentslist.students.studentsList.page;
           numOfPages = this.props.studentslist.students.studentsList.pages;
@@ -277,11 +275,9 @@ class ConnectedStudentTab extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    userprofile: state.userprofile,
-    studentslist: state.studentslist,
-  };
-};
+const mapStateToProps = (state) => ({
+  userprofile: state.userprofile,
+  studentslist: state.studentslist,
+});
 const StudentTab = connect(mapStateToProps)(ConnectedStudentTab);
 export default StudentTab;

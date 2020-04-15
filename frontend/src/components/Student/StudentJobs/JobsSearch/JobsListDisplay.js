@@ -8,7 +8,7 @@ import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
 
 const JobsListDisplay = (props) => {
-  let name = props.job.companyid.name;
+  const { name } = props.job.companyid;
   let photo = "";
   if (props.job.companyid.photo) photo = props.job.companyid.photo;
 

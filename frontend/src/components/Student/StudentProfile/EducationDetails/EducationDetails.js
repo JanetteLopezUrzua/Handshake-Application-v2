@@ -4,10 +4,10 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { connect } from "react-redux";
 import EducationContainer from "./EducationContainer";
 import NewFormEducation from "./NewFormEducation";
 
-import { connect } from "react-redux";
 import {
   addnewschool,
   deleteschool,
@@ -65,10 +65,9 @@ class ConnectedEducationDetails extends React.Component {
     );
 
     if (
-      localStorage.getItem("id") === this.state.id &&
-      localStorage.getItem("type") === "student"
-    )
-      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+      localStorage.getItem("id") === this.state.id
+      && localStorage.getItem("type") === "student"
+    ) await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
 
     if (this.props.currentuser.payload) {
     } else {
@@ -104,7 +103,7 @@ class ConnectedEducationDetails extends React.Component {
   };
 
   handleDelete = async (schoolid) => {
-    const id = this.state.id;
+    const { id } = this.state;
     await this.props.dispatch(deleteschool(id, schoolid));
   };
 
@@ -118,20 +117,19 @@ class ConnectedEducationDetails extends React.Component {
           if (this.props.currentuser.user.student.schools.length === 0) {
             schoolsList = "";
             message = "Where is somewhere you have studied?";
-          } else
+          } else {
             schoolsList = this.props.currentuser.user.student.schools.map(
-              (school) => {
-                return (
-                  <EducationContainer
-                    key={school._id}
-                    schoolid={school._id}
-                    id={this.state.id}
-                    school={school}
-                    delete={this.handleDelete}
-                  />
-                );
-              }
+              (school) => (
+                <EducationContainer
+                  key={school._id}
+                  schoolid={school._id}
+                  id={this.state.id}
+                  school={school}
+                  delete={this.handleDelete}
+                />
+              )
             );
+          }
         }
       }
     }
@@ -150,8 +148,8 @@ class ConnectedEducationDetails extends React.Component {
 
     let button = "";
     if (
-      localStorage.getItem("id") === this.state.id &&
-      localStorage.getItem("type") === "student"
+      localStorage.getItem("id") === this.state.id
+      && localStorage.getItem("type") === "student"
     ) {
       button = (
         <Button onClick={this.addSchool} className="BottomAddButton">
@@ -172,14 +170,12 @@ class ConnectedEducationDetails extends React.Component {
           {schoolsList}
           {newschoolform}
         </Container>
-        <NavDropdown.Divider style={{ margin: "0" }}></NavDropdown.Divider>
+        <NavDropdown.Divider style={{ margin: "0" }} />
         {button}
       </Card>
     );
   }
 }
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const EducationDetails = connect(mapStateToProps)(ConnectedEducationDetails);
 export default EducationDetails;

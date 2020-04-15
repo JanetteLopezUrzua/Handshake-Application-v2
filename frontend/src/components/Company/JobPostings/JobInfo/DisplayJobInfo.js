@@ -73,8 +73,8 @@ const ConnectedDisplayInfo = (props) => {
   let button = "";
 
   if (
-    localStorage.getItem("id") === company_id &&
-    localStorage.getItem("type") === "company"
+    localStorage.getItem("id") === company_id
+    && localStorage.getItem("type") === "company"
   ) {
     button = (
       <Col style={{ textAlign: "right" }}>
@@ -163,8 +163,6 @@ const ConnectedDisplayInfo = (props) => {
     </Card>
   );
 };
-const mapStateToProps = (state) => {
-  return { job: state.job };
-};
+const mapStateToProps = (state) => ({ job: state.job });
 const DisplayInfo = connect(mapStateToProps)(ConnectedDisplayInfo);
 export default DisplayInfo;

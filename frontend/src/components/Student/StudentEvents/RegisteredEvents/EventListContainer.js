@@ -8,10 +8,9 @@ import { FaCalendar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const EventListContainer = (props) => {
-  let name = props.event.eventid.companyid.name;
+  const { name } = props.event.eventid.companyid;
   let photo = "";
-  if (props.event.eventid.companyid.photo)
-    photo = props.event.eventid.companyid.photo;
+  if (props.event.eventid.companyid.photo) photo = props.event.eventid.companyid.photo;
 
   const path = `/event/${props.eventid}`;
   let img = "";
@@ -46,9 +45,8 @@ const EventListContainer = (props) => {
     "November",
     "December",
   ];
-  const month =
-    months[props.event.eventid.month - 1].charAt(0).toUpperCase() +
-    months[props.event.eventid.month - 1].slice(1);
+  const month = months[props.event.eventid.month - 1].charAt(0).toUpperCase()
+    + months[props.event.eventid.month - 1].slice(1);
 
   return (
     <Card style={{ padding: "16px" }}>

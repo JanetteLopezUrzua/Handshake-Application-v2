@@ -1,8 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import DisplayContactInfo from "./DisplayContactInfo";
 import EditContactInfo from "./EditContactInfo";
 
-import { connect } from "react-redux";
 import {
   updatecontactinfo,
   deleteerrors,
@@ -40,15 +40,13 @@ class ConnectedContactInformation extends React.Component {
 
     if (this.props.currentuser.user !== null) {
       if (this.props.currentuser.user.company) {
-        email =
-          this.props.currentuser.user.company.email === this.state.email
-            ? this.props.currentuser.user.company.email
-            : this.state.email;
-        phonenumber =
-          this.props.currentuser.user.company.phonenumber ===
-          this.state.phonenumber
-            ? this.props.currentuser.user.company.phonenumber
-            : this.state.phonenumber;
+        email = this.props.currentuser.user.company.email === this.state.email
+          ? this.props.currentuser.user.company.email
+          : this.state.email;
+        phonenumber = this.props.currentuser.user.company.phonenumber
+          === this.state.phonenumber
+          ? this.props.currentuser.user.company.phonenumber
+          : this.state.phonenumber;
       }
     }
 
@@ -96,9 +94,7 @@ class ConnectedContactInformation extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const ContactInformation = connect(mapStateToProps)(
   ConnectedContactInformation
 );

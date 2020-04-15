@@ -59,8 +59,6 @@ const ConnectedEditContactInfo = (props) => {
     </Card>
   );
 };
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const EditContactInfo = connect(mapStateToProps)(ConnectedEditContactInfo);
 export default EditContactInfo;

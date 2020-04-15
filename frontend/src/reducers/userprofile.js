@@ -43,11 +43,11 @@ export default function (state = initialState, action) {
         user: payload,
       };
 
-    // case COMPANY_USER_PROFILE_UPDATE_ERROR:
-    // return {
-    //   ...state,
-    //   payload,
-    // };
+      // case COMPANY_USER_PROFILE_UPDATE_ERROR:
+      // return {
+      //   ...state,
+      //   payload,
+      // };
 
     case DELETE_ERRORS:
       return {

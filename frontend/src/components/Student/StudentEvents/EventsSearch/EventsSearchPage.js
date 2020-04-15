@@ -8,11 +8,11 @@ import Row from "react-bootstrap/Row";
 import ListGroup from "react-bootstrap/ListGroup";
 import Col from "react-bootstrap/Col";
 import { Redirect } from "react-router";
-import EventListContainer from "./EventListContainer";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { connect } from "react-redux";
+import EventListContainer from "./EventListContainer";
 
 import setAuthToken from "../../../../utils/setAuthToken";
-import { connect } from "react-redux";
 import { loadstudentprofile } from "../../../../actions/studentprofile";
 import { studentloadeventslist } from "../../../../actions/events";
 
@@ -24,6 +24,20 @@ class ConnectedEventSearchPage extends React.Component {
       page: 0,
       redirect: "",
     };
+  }
+
+  async componentDidMount() {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
+    const id = localStorage.getItem("id");
+    await this.props.dispatch(loadstudentprofile(id));
+    await this.props.dispatch(studentloadeventslist(1, ""));
+
+    this.setState({
+      page: 1,
+    });
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -43,18 +57,8 @@ class ConnectedEventSearchPage extends React.Component {
     }
   }
 
-  async componentDidMount() {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
-
-    const id = localStorage.getItem("id");
-    await this.props.dispatch(loadstudentprofile(id));
+  async componentWillUnmount() {
     await this.props.dispatch(studentloadeventslist(1, ""));
-
-    this.setState({
-      page: 1,
-    });
   }
 
   handleChange = (e) => {
@@ -62,7 +66,7 @@ class ConnectedEventSearchPage extends React.Component {
   };
 
   nextPage = async () => {
-    let nextpage = this.state.page + 1;
+    const nextpage = this.state.page + 1;
     await this.props.dispatch(studentloadeventslist(nextpage, this.state.name));
     window.scrollTo(0, 0);
     this.setState({
@@ -76,7 +80,7 @@ class ConnectedEventSearchPage extends React.Component {
   };
 
   prevPage = async () => {
-    let prevpage = this.state.page - 1;
+    const prevpage = this.state.page - 1;
     await this.props.dispatch(studentloadeventslist(prevpage, this.state.name));
     window.scrollTo(0, 0);
     this.setState({
@@ -88,10 +92,6 @@ class ConnectedEventSearchPage extends React.Component {
       ),
     });
   };
-
-  async componentWillUnmount() {
-    await this.props.dispatch(studentloadeventslist(1, ""));
-  }
 
   render() {
     // if not logged in go to login page
@@ -118,15 +118,13 @@ class ConnectedEventSearchPage extends React.Component {
           message = "Found 0 events";
         } else {
           eventsList = this.props.eventslist.events.eventsList.docs.map(
-            (event) => {
-              return (
-                <EventListContainer
-                  key={event._id}
-                  eventid={event._id}
-                  event={event}
-                />
-              );
-            }
+            (event) => (
+              <EventListContainer
+                key={event._id}
+                eventid={event._id}
+                event={event}
+              />
+            )
           );
           currPage = this.props.eventslist.events.eventsList.page;
           numOfPages = this.props.eventslist.events.eventsList.pages;
@@ -257,11 +255,9 @@ class ConnectedEventSearchPage extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    userprofile: state.userprofile,
-    eventslist: state.eventslist,
-  };
-};
+const mapStateToProps = (state) => ({
+  userprofile: state.userprofile,
+  eventslist: state.eventslist,
+});
 const EventSearchPage = connect(mapStateToProps)(ConnectedEventSearchPage);
 export default EventSearchPage;

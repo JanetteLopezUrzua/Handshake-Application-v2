@@ -45,7 +45,7 @@ export const loadcurrentcompany = (id) => async (dispatch) => {
     });
   } catch (error) {
     console.log("ERR", error);
-    const errors = error.response.data.errors;
+    const { errors } = error.response.data;
 
     dispatch({
       type: COMPANY_USER_PROFILE_UPDATE_ERROR,
@@ -84,7 +84,7 @@ export const updatebasicinfo = ({ id, location, description }) => async (
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: COMPANY_USER_PROFILE_UPDATE_ERROR,
@@ -123,7 +123,7 @@ export const updatecontactinfo = ({ id, email, phonenumber }) => async (
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: COMPANY_USER_PROFILE_UPDATE_ERROR,
@@ -162,7 +162,7 @@ export const updatephoto = ({ id, data }) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: COMPANY_USER_PROFILE_UPDATE_ERROR,
@@ -187,7 +187,7 @@ export const deletephoto = (id) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: COMPANY_USER_PROFILE_UPDATE_ERROR,
@@ -224,7 +224,7 @@ export const updatecompanyname = ({ id, name }) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: COMPANY_USER_PROFILE_UPDATE_ERROR,

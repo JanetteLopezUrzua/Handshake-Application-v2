@@ -4,12 +4,12 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Redirect } from "react-router";
+import { connect } from "react-redux";
 import BasicDetails from "./BasicDetails/BasicDetails";
 import PictureDetails from "./PictureDetails/PictureDetails";
 import ContactInformation from "./ContactInfo/ContactInformation";
 
 import setAuthToken from "../../../utils/setAuthToken";
-import { connect } from "react-redux";
 import {
   loadcompanyprofile,
   loadcurrentcompany,
@@ -25,7 +25,7 @@ class ConnectedProfilePage extends React.Component {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
-    const id = this.props.match.params.id;
+    const { id } = this.props.match.params;
 
     await this.props.dispatch(loadcurrentcompany(id));
   }
@@ -53,8 +53,6 @@ class ConnectedProfilePage extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return { userprofile: state.userprofile, currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ userprofile: state.userprofile, currentuser: state.currentuser });
 const ProfilePage = connect(mapStateToProps)(ConnectedProfilePage);
 export default ProfilePage;

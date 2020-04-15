@@ -28,7 +28,7 @@ export const companyloadjob = (jobid) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: JOB_UPDATE_ERROR,
@@ -48,7 +48,7 @@ export const addnewjob = ({ company_id, job }) => async (dispatch) => {
     },
   };
 
-  let {
+  const {
     title,
     deadlinemonth,
     deadlineday,
@@ -98,7 +98,7 @@ export const addnewjob = ({ company_id, job }) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: JOB_UPDATE_ERROR,
@@ -122,7 +122,7 @@ export const companyloadjobslist = (page, id) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
     dispatch({
       type: JOB_UPDATE_ERROR,
       payload: errors,
@@ -197,7 +197,7 @@ export const updatejobinfo = (job_id, job) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: JOB_UPDATE_ERROR,
@@ -222,7 +222,7 @@ export const companydeletejob = (jobid) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: JOB_UPDATE_ERROR,
@@ -250,14 +250,10 @@ export const company_update_application_status = (appid, status) => async (
   console.log(body);
 
   try {
-    const res = await axios.put(
-      "http://localhost:3001/companies/job/status",
-      body,
-      config
-    );
+    await axios.put("http://localhost:3001/companies/job/status", body, config);
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: APPLICATION_UPDATE_ERROR,
@@ -280,7 +276,7 @@ export const companyloadapplicationslist = (jobid) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
     dispatch({
       type: APPLICATION_UPDATE_ERROR,
       payload: errors,
@@ -333,7 +329,7 @@ export const uploadresume = (
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: APPLICATION_UPDATE_ERROR,
@@ -358,7 +354,7 @@ export const studentloadapplications = (page, filter, id) => async (
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
     dispatch({
       type: APPLICATION_UPDATE_ERROR,
       payload: errors,
@@ -387,7 +383,7 @@ export const studentloadjobslist = (
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
     dispatch({
       type: JOB_UPDATE_ERROR,
       payload: errors,

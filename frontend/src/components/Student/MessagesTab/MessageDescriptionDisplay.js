@@ -32,8 +32,8 @@ const ConnectedMessageDescriptionDisplay = (props) => {
           type = "companies";
         }
       } else if (
-        props.message.message.message[0].fromid._id ===
-        localStorage.getItem("id")
+        props.message.message.message[0].fromid._id
+        === localStorage.getItem("id")
       ) {
         if (props.message.message.message[0].onModel2 === "students") {
           id = props.message.message.message[0].toid;
@@ -131,54 +131,53 @@ const ConnectedMessageDescriptionDisplay = (props) => {
                       message.messages.messagehour
                     }:${
                       message.messages.messageminute < 10
-                        ? "0" + message.messages.messageminute
+                        ? `0${message.messages.messageminute}`
                         : message.messages.messageminute
                     } ${message.messages.messagedaytime}`}
                   </Row>
                 </Col>
                 <Col md={3}>{img}</Col>
-              </Row>
-            </Container>
-          );
-        } else {
-          return (
-            <Container
-              style={{
-                width: "60%",
-                marginLeft: "0",
-                marginTop: "20px",
-              }}
-            >
-              <Row>
-                <Col md={3}>{img}</Col>
-                <Col
-                  md={9}
-                  style={{
-                    backgroundColor: "rgb(239, 240, 241)",
-                    borderRadius: "5px",
-                    paddingRigth: "30px",
-                    paddingLeft: "30px",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  <Row>{message.messages.message}</Row>
-                  <Row style={{ fontSize: "10px" }}>
-                    {`${message.messages.messagemonth + 1}/${
-                      message.messages.messageday
-                    }/${message.messages.messageyear} ${
-                      message.messages.messagehour
-                    }:${
-                      message.messages.messageminute < 10
-                        ? "0" + message.messages.messageminute
-                        : message.messages.messageminute
-                    } ${message.messages.messagedaytime}`}
-                  </Row>
-                </Col>
               </Row>
             </Container>
           );
         }
+        return (
+          <Container
+            style={{
+              width: "60%",
+              marginLeft: "0",
+              marginTop: "20px",
+            }}
+          >
+            <Row>
+              <Col md={3}>{img}</Col>
+              <Col
+                md={9}
+                style={{
+                  backgroundColor: "rgb(239, 240, 241)",
+                  borderRadius: "5px",
+                  paddingRigth: "30px",
+                  paddingLeft: "30px",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                }}
+              >
+                <Row>{message.messages.message}</Row>
+                <Row style={{ fontSize: "10px" }}>
+                  {`${message.messages.messagemonth + 1}/${
+                    message.messages.messageday
+                  }/${message.messages.messageyear} ${
+                    message.messages.messagehour
+                  }:${
+                    message.messages.messageminute < 10
+                      ? `0${message.messages.messageminute}`
+                      : message.messages.messageminute
+                  } ${message.messages.messagedaytime}`}
+                </Row>
+              </Col>
+            </Row>
+          </Container>
+        );
       });
     }
   }
@@ -253,9 +252,7 @@ const ConnectedMessageDescriptionDisplay = (props) => {
     </div>
   );
 };
-const mapStateToProps = (state) => {
-  return { message: state.allmessages };
-};
+const mapStateToProps = (state) => ({ message: state.allmessages });
 const MessageDescriptionDisplay = connect(mapStateToProps)(
   ConnectedMessageDescriptionDisplay
 );

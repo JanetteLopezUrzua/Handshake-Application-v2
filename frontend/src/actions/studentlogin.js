@@ -27,7 +27,7 @@ export const studentlogin = ({ email, password }) => async dispatch => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: LOGIN_FAIL,

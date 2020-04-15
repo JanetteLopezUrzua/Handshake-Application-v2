@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Redirect } from "react-router";
+import { connect } from "react-redux";
 import BasicDetails from "./BasicDetails/BasicDetails";
 import CareerObjective from "./CareerObjective/CareerObjective";
 import Skillset from "./Skillset/Skillset";
@@ -13,9 +14,8 @@ import EducationDetails from "./EducationDetails/EducationDetails";
 import WorkDetails from "./WorkDetails/WorkDetails";
 
 import setAuthToken from "../../../utils/setAuthToken";
-import { connect } from "react-redux";
-import { loadstudentprofile } from "../../../actions/studentprofile";
-import { loadcurrentstudent } from "../../../actions/studentprofile";
+import { loadstudentprofile, loadcurrentstudent } from "../../../actions/studentprofile";
+
 
 class ConnectedProfilePage extends React.Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class ConnectedProfilePage extends React.Component {
       setAuthToken(localStorage.token);
     }
 
-    const id = this.props.match.params.id;
+    const { id } = this.props.match.params;
 
     await this.props.dispatch(loadcurrentstudent(id));
   }
@@ -42,8 +42,8 @@ class ConnectedProfilePage extends React.Component {
 
     let id = "";
     if (
-      localStorage.getItem("id") === this.props.match.params.id &&
-      localStorage.getItem("type") === "student"
+      localStorage.getItem("id") === this.props.match.params.id
+      && localStorage.getItem("type") === "student"
     ) {
       id = localStorage.getItem("id");
     } else {
@@ -70,8 +70,6 @@ class ConnectedProfilePage extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return { userprofile: state.userprofile, currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ userprofile: state.userprofile, currentuser: state.currentuser });
 const ProfilePage = connect(mapStateToProps)(ConnectedProfilePage);
 export default ProfilePage;

@@ -20,7 +20,7 @@ const ConnectedEditEducation = (props) => {
     });
   }
 
-  let {
+  const {
     name,
     location,
     degree,
@@ -119,7 +119,7 @@ const ConnectedEditEducation = (props) => {
         </Col>
         <Col>
           <Form.Group controlId="passingyear">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control
               as="select"
               onChange={props.handleChange}
@@ -271,8 +271,6 @@ const ConnectedEditEducation = (props) => {
     </Container>
   );
 };
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const EditEducation = connect(mapStateToProps)(ConnectedEditEducation);
 export default EditEducation;

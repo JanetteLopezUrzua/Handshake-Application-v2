@@ -181,7 +181,7 @@ const ConnectedEditEventInfo = (props) => {
         </Col>
         <Col>
           <Form.Group controlId="day">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control as="select" onChange={props.handleChange} name="day">
               <option value="" hidden>
                 {day}
@@ -223,7 +223,7 @@ const ConnectedEditEventInfo = (props) => {
         </Col>
         <Col>
           <Form.Group controlId="year">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control as="select" onChange={props.handleChange} name="year">
               <option value="" hidden>
                 {year}
@@ -310,7 +310,7 @@ const ConnectedEditEventInfo = (props) => {
         </Col>
         <Col>
           <Form.Group controlId="startdaytime">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control
               as="select"
               onChange={props.handleChange}
@@ -392,7 +392,7 @@ const ConnectedEditEventInfo = (props) => {
         </Col>
         <Col>
           <Form.Group controlId="enddaytime">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control
               as="select"
               onChange={props.handleChange}
@@ -458,8 +458,6 @@ const ConnectedEditEventInfo = (props) => {
     </Card>
   );
 };
-const mapStateToProps = (state) => {
-  return { event: state.event };
-};
+const mapStateToProps = (state) => ({ event: state.event });
 const EditEventInfo = connect(mapStateToProps)(ConnectedEditEventInfo);
 export default EditEventInfo;

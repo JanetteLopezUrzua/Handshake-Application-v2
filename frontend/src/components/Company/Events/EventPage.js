@@ -5,11 +5,11 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
-import EventListContainer from "./EventListContainer/EventListContainer";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { connect } from "react-redux";
+import EventListContainer from "./EventListContainer/EventListContainer";
 
 import setAuthToken from "../../../utils/setAuthToken";
-import { connect } from "react-redux";
 import { loadcompanyprofile } from "../../../actions/companyprofile";
 import { companyloadeventslist } from "../../../actions/events";
 
@@ -37,7 +37,7 @@ class ConnectedEventPage extends React.Component {
   }
 
   nextPage = async () => {
-    let nextpage = this.state.page + 1;
+    const nextpage = this.state.page + 1;
     await this.props.dispatch(
       companyloadeventslist(nextpage, localStorage.getItem("id"))
     );
@@ -49,7 +49,7 @@ class ConnectedEventPage extends React.Component {
   };
 
   prevPage = async () => {
-    let prevpage = this.state.page - 1;
+    const prevpage = this.state.page - 1;
     await this.props.dispatch(
       companyloadeventslist(prevpage, localStorage.getItem("id"))
     );
@@ -85,15 +85,13 @@ class ConnectedEventPage extends React.Component {
           message = "You have 0 events";
         } else {
           eventsList = this.props.eventslist.events.eventsList.docs.map(
-            (event) => {
-              return (
-                <EventListContainer
-                  key={event._id}
-                  eventid={event._id}
-                  event={event}
-                />
-              );
-            }
+            (event) => (
+              <EventListContainer
+                key={event._id}
+                eventid={event._id}
+                event={event}
+              />
+            )
           );
           currPage = this.props.eventslist.events.eventsList.page;
           numOfPages = this.props.eventslist.events.eventsList.pages;
@@ -199,11 +197,9 @@ class ConnectedEventPage extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    userprofile: state.userprofile,
-    eventslist: state.eventslist,
-  };
-};
+const mapStateToProps = (state) => ({
+  userprofile: state.userprofile,
+  eventslist: state.eventslist,
+});
 const EventPage = connect(mapStateToProps)(ConnectedEventPage);
 export default EventPage;

@@ -19,7 +19,7 @@ export const loadstudentslist = (page, nameorcollege, major) => async (
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
     dispatch({
       type: STUDENTS_LIST_ERROR,
       payload: errors,
@@ -43,7 +43,7 @@ export const companyloadstudentslist = (page, nameorcollegeorskillset) => async 
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
     dispatch({
       type: STUDENTS_LIST_ERROR,
       payload: errors,

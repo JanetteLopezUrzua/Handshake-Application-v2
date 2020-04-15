@@ -4,8 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 const EditObjective = props => {
-  const subtitle =
-    "What are you passionate about? What are you looking for on Handshake? What are your experiences or skills?";
+  const subtitle = "What are you passionate about? What are you looking for on Handshake? What are your experiences or skills?";
 
   return (
     <Card>

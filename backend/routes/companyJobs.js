@@ -1,8 +1,9 @@
 const express = require("express");
+
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const { checkAuth } = require("../config/passport");
-var kafka = require("../kafka/client");
+const kafka = require("../kafka/client");
 
 // @route   POST companies/newjobposting
 // @desc    Add a new job post for a company
@@ -48,17 +49,17 @@ router.post(
     const errors = validationResult(req);
     console.log(errors);
     console.log(req.body);
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("company_add_new_job", req.body, function (
+    kafka.make_request("company_add_new_job", req.body, (
       err,
       results
-    ) {
+    ) => {
       try {
-        let job = results;
+        const job = results;
         if (job === 0) {
           return res.status(400).json({
             errors: [
@@ -80,9 +81,9 @@ router.post(
 // @desc    Get jobs list
 // @access  Public
 router.get("/jobslist", checkAuth, async (req, res) => {
-  kafka.make_request("company_jobs_list", req.query, function (err, results) {
+  kafka.make_request("company_jobs_list", req.query, (err, results) => {
     try {
-      let jobsList = results;
+      const jobsList = results;
       res.json({ jobsList });
     } catch (err) {
       console.error(err.message);
@@ -95,10 +96,10 @@ router.get("/jobslist", checkAuth, async (req, res) => {
 // @desc    Get job information
 // @access  Public
 router.get("/job/:jobid", checkAuth, async (req, res) => {
-  let jobid = req.params.jobid;
-  kafka.make_request("job_posting_info", jobid, function (err, results) {
+  const { jobid } = req.params;
+  kafka.make_request("job_posting_info", jobid, (err, results) => {
     try {
-      let job = results;
+      const job = results;
       res.json({ job });
     } catch (err) {
       console.error(err.message);
@@ -151,17 +152,17 @@ router.put(
     const errors = validationResult(req);
     console.log(errors);
     console.log(req.body);
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("company_update_job_info", req.body, function (
+    kafka.make_request("company_update_job_info", req.body, (
       err,
       results
-    ) {
+    ) => {
       try {
-        let job = results;
+        const job = results;
         res.json({ job });
       } catch (err) {
         console.error(err.message);
@@ -175,11 +176,11 @@ router.put(
 // @desc    Delete job
 // @access  Public
 router.delete("/job/:jobid", checkAuth, async (req, res) => {
-  let jobid = req.params.jobid;
+  const { jobid } = req.params;
 
-  kafka.make_request("company_delete_job", jobid, function (err, results) {
+  kafka.make_request("company_delete_job", jobid, (err, results) => {
     try {
-      let job = results;
+      const job = results;
       res.json({ job });
     } catch (err) {
       console.error(err.message);
@@ -192,14 +193,14 @@ router.delete("/job/:jobid", checkAuth, async (req, res) => {
 // @desc    Get job's applications list
 // @access  Public
 router.get("/job/:jobid/applications", checkAuth, async (req, res) => {
-  let jobid = req.params.jobid;
+  const { jobid } = req.params;
 
-  kafka.make_request("company_job_applications_list", jobid, function (
+  kafka.make_request("company_job_applications_list", jobid, (
     err,
     results
-  ) {
+  ) => {
     try {
-      let applications = results;
+      const applications = results;
       res.json({ applications });
     } catch (err) {
       console.error(err.message);
@@ -212,12 +213,12 @@ router.get("/job/:jobid/applications", checkAuth, async (req, res) => {
 // @desc    Update status of job applications
 // @access  Public
 router.put("/job/status", checkAuth, async (req, res) => {
-  kafka.make_request("company_update_application_status", req.body, function (
+  kafka.make_request("company_update_application_status", req.body, (
     err,
     results
-  ) {
+  ) => {
     try {
-      let applications = results;
+      const applications = results;
       res.json({ applications });
     } catch (err) {
       console.error(err.message);

@@ -33,7 +33,7 @@ export const companyloadevent = (eventid) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: EVENT_UPDATE_ERROR,
@@ -55,14 +55,14 @@ export const addnewevent = ({ company_id, event }) => async (dispatch) => {
 
   let bannerphoto = "";
   if (event.bannerphoto !== "") {
-    let photo = await axios.post(
+    const photo = await axios.post(
       "http://localhost:3001/upload",
       event.bannerphoto
     );
     bannerphoto = photo.data;
   }
 
-  let {
+  const {
     title,
     dayofweek,
     month,
@@ -113,7 +113,7 @@ export const addnewevent = ({ company_id, event }) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: EVENT_UPDATE_ERROR,
@@ -137,7 +137,7 @@ export const companyloadeventslist = (page, id) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
     dispatch({
       type: EVENT_UPDATE_ERROR,
       payload: errors,
@@ -175,7 +175,7 @@ export const updatebannerphoto = (eventid, data) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: EVENT_UPDATE_ERROR,
@@ -200,7 +200,7 @@ export const deletebannerphoto = (eventid) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: EVENT_UPDATE_ERROR,
@@ -245,7 +245,7 @@ export const updateeventdescription = (event_id, description) => async (
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: EVENT_UPDATE_ERROR,
@@ -311,7 +311,7 @@ export const updateeventinfo = (event_id, event) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: EVENT_UPDATE_ERROR,
@@ -336,7 +336,7 @@ export const companydeleteevent = (eventid) => async (dispatch) => {
     });
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: EVENT_UPDATE_ERROR,
@@ -360,7 +360,7 @@ export const companyloadrsvplist = (eventid) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
     dispatch({
       type: RSVP_LIST_ERROR,
       payload: errors,
@@ -384,14 +384,10 @@ export const company_event_rsvp = (eventid, studentid) => async (dispatch) => {
   console.log(body);
 
   try {
-    const res = await axios.put(
-      "http://localhost:3001/companies/event/rsvp",
-      body,
-      config
-    );
+    await axios.put("http://localhost:3001/companies/event/rsvp", body, config);
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: EVENT_UPDATE_ERROR,
@@ -418,14 +414,14 @@ export const company_event_unregister = (eventid, studentid) => async (
   console.log(body);
 
   try {
-    const res = await axios.put(
+    await axios.put(
       "http://localhost:3001/companies/event/unregister",
       body,
       config
     );
   } catch (err) {
     console.log("ERR", err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: EVENT_UPDATE_ERROR,
@@ -449,7 +445,7 @@ export const studentloadeventslist = (page, name) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
     dispatch({
       type: EVENT_UPDATE_ERROR,
       payload: errors,
@@ -473,7 +469,7 @@ export const studentloadregisteredeventslist = (page, id) => async (
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
     dispatch({
       type: EVENT_UPDATE_ERROR,
       payload: errors,
@@ -495,7 +491,7 @@ export const studentloadupcomingeventslist = (page, id) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
     dispatch({
       type: EVENT_UPDATE_ERROR,
       payload: errors,

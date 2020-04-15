@@ -1,6 +1,6 @@
-"use strict";
-var JwtStrategy = require("passport-jwt").Strategy;
-var ExtractJwt = require("passport-jwt").ExtractJwt;
+
+const JwtStrategy = require("passport-jwt").Strategy;
+const { ExtractJwt } = require("passport-jwt");
 const passport = require("passport");
 const { secret } = require("./default");
 const Students = require("../models/Student/Students");
@@ -8,7 +8,7 @@ const Companies = require("../models/Company/Companies");
 
 // Setup work and export for the JWT passport strategy
 function auth() {
-  var opts = {
+  const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("jwt"),
     secretOrKey: secret
   };

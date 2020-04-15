@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-var { mongoURI } = require("./default");
-var db = mongoURI;
+const { mongoURI } = require("./default");
+
+const db = mongoURI;
 
 const connectDB = async () => {
   try {
@@ -15,7 +16,7 @@ const connectDB = async () => {
     console.log("MongoDB Connected");
   } catch (error) {
     console.log(error.message);
-    //Exit the app with failure
+    // Exit the app with failure
     process.exit(1);
   }
 };

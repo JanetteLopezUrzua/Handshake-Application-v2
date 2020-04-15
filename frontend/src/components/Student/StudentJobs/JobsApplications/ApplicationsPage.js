@@ -7,10 +7,10 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import { Redirect } from "react-router";
-import ApplicationsListContainer from "./ApplicationsListContainer";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 
 import { connect } from "react-redux";
+import ApplicationsListContainer from "./ApplicationsListContainer";
 import { studentloadapplications } from "../../../../actions/jobs";
 
 class ConnectedApplicationsPage extends React.Component {
@@ -25,11 +25,21 @@ class ConnectedApplicationsPage extends React.Component {
     };
   }
 
+  async componentDidMount() {
+    const id = localStorage.getItem("id");
+
+    await this.props.dispatch(studentloadapplications(1, "", id));
+
+    this.setState({
+      page: 1,
+    });
+  }
+
   async componentDidUpdate(previousProps, previousState) {
     if (
-      previousState.pending !== this.state.pending ||
-      previousState.reviewed !== this.state.reviewed ||
-      previousState.declined !== this.state.declined
+      previousState.pending !== this.state.pending
+      || previousState.reviewed !== this.state.reviewed
+      || previousState.declined !== this.state.declined
     ) {
       let filter = "";
 
@@ -37,7 +47,7 @@ class ConnectedApplicationsPage extends React.Component {
       else if (this.state.reviewed === true) filter = "Reviewed";
       else if (this.state.declined === true) filter = "Declined";
 
-      let id = localStorage.getItem("id");
+      const id = localStorage.getItem("id");
 
       await this.props.dispatch(
         studentloadapplications(this.state.page, filter, id)
@@ -50,16 +60,6 @@ class ConnectedApplicationsPage extends React.Component {
         ),
       });
     }
-  }
-
-  async componentDidMount() {
-    let id = localStorage.getItem("id");
-
-    await this.props.dispatch(studentloadapplications(1, "", id));
-
-    this.setState({
-      page: 1,
-    });
   }
 
   handlePendingClick = () => {
@@ -103,9 +103,9 @@ class ConnectedApplicationsPage extends React.Component {
 
     let clear = "";
     if (
-      this.state.pending === true ||
-      this.state.reviewed === true ||
-      this.state.declined === true
+      this.state.pending === true
+      || this.state.reviewed === true
+      || this.state.declined === true
     ) {
       clear = (
         <Button
@@ -132,12 +132,13 @@ class ConnectedApplicationsPage extends React.Component {
           Pending
         </Button>
       );
-    } else
+    } else {
       button1 = (
         <Button className="categorybuttons" onClick={this.handlePendingClick}>
           Pending
         </Button>
       );
+    }
 
     if (this.state.reviewed === true) {
       button2 = (
@@ -149,12 +150,13 @@ class ConnectedApplicationsPage extends React.Component {
           Reviewed
         </Button>
       );
-    } else
+    } else {
       button2 = (
         <Button className="categorybuttons" onClick={this.handleReviewedClick}>
           Reviewed
         </Button>
       );
+    }
 
     if (this.state.declined === true) {
       button3 = (
@@ -166,12 +168,13 @@ class ConnectedApplicationsPage extends React.Component {
           Declined
         </Button>
       );
-    } else
+    } else {
       button3 = (
         <Button className="categorybuttons" onClick={this.handleDeclinedClick}>
           Declined
         </Button>
       );
+    }
 
     let applicationsList = "";
     let message = "";
@@ -183,7 +186,7 @@ class ConnectedApplicationsPage extends React.Component {
     let pagesArrows = "";
 
     if (this.props.applicationslist.applications !== null) {
-      if (this.props.applicationslist.applications.applicationsList)
+      if (this.props.applicationslist.applications.applicationsList) {
         if (this.props.applicationslist.applications.applicationsList.docs) {
           if (
             this.props.applicationslist.applications.applicationsList.docs
@@ -193,15 +196,13 @@ class ConnectedApplicationsPage extends React.Component {
             message = "Found 0 applications";
           } else {
             applicationsList = this.props.applicationslist.applications.applicationsList.docs.map(
-              (application) => {
-                return (
-                  <ApplicationsListContainer
-                    key={application._id}
-                    appid={application._id}
-                    application={application}
-                  />
-                );
-              }
+              (application) => (
+                <ApplicationsListContainer
+                  key={application._id}
+                  appid={application._id}
+                  application={application}
+                />
+              )
             );
             currPage = this.props.applicationslist.applications.applicationsList
               .page;
@@ -300,6 +301,7 @@ class ConnectedApplicationsPage extends React.Component {
             }
           }
         }
+      }
     }
 
     return (
@@ -340,11 +342,9 @@ class ConnectedApplicationsPage extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    userprofile: state.userprofile,
-    applicationslist: state.applicationslist,
-  };
-};
+const mapStateToProps = (state) => ({
+  userprofile: state.userprofile,
+  applicationslist: state.applicationslist,
+});
 const ApplicationsPage = connect(mapStateToProps)(ConnectedApplicationsPage);
 export default ApplicationsPage;

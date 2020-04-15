@@ -13,8 +13,8 @@ const ConnectedDisplayObjective = (props) => {
   let button = "";
 
   if (
-    localStorage.getItem("id") === props.id &&
-    localStorage.getItem("type") === "student"
+    localStorage.getItem("id") === props.id
+    && localStorage.getItem("type") === "student"
   ) {
     button = (
       <Col style={{ textAlign: "right" }}>
@@ -70,7 +70,7 @@ const ConnectedDisplayObjective = (props) => {
               lineHeight: "32px",
               color: "black",
             }}
-          ></Card.Text>
+          />
         );
       }
     }
@@ -84,13 +84,11 @@ const ConnectedDisplayObjective = (props) => {
         </Col>
         {button}
       </Row>
-      <Card.Subtitle></Card.Subtitle>
+      <Card.Subtitle />
       {obj}
     </Card>
   );
 };
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const DisplayObjective = connect(mapStateToProps)(ConnectedDisplayObjective);
 export default DisplayObjective;

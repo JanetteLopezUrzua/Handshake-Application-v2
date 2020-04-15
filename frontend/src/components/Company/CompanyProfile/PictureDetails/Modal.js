@@ -4,14 +4,13 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
 const ModalPicture = props => {
-  const del =
-    props.has_image === true ? (
-      <Button className="delete" onClick={props.onDelete}>
-        Delete
-      </Button>
-    ) : (
-      ""
-    );
+  const del = props.has_image === true ? (
+    <Button className="delete" onClick={props.onDelete}>
+      Delete
+    </Button>
+  ) : (
+    ""
+  );
 
   return (
     <Modal show={props.show} onHide={props.close}>

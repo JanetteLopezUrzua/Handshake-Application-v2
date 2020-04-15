@@ -5,9 +5,9 @@ import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router";
 import "../components.css";
+import { connect } from "react-redux";
 import hsimage from "../../assets/Handshakebanner.jpg";
 
-import { connect } from "react-redux";
 import { companysignup } from "../../actions/companysignup";
 
 class ConnectedSignup extends React.Component {
@@ -28,10 +28,14 @@ class ConnectedSignup extends React.Component {
   signup = async e => {
     e.preventDefault();
 
-    const { name, email, password, location } = this.state;
+    const {
+      name, email, password, location
+    } = this.state;
 
     await this.props.dispatch(
-      companysignup({ name, email, password, location })
+      companysignup({
+        name, email, password, location
+      })
     );
   };
 
@@ -42,9 +46,9 @@ class ConnectedSignup extends React.Component {
     let locationerrormsg = "";
     let accounterrormsg = "";
 
-    const signup = this.props.signup;
+    const { signup } = this.props;
 
-    //redirect based on successful signup
+    // redirect based on successful signup
     let redirectVar = null;
 
     if (signup.isAuthenticated === true) {
@@ -129,8 +133,6 @@ class ConnectedSignup extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { signup: state.signup };
-};
+const mapStateToProps = state => ({ signup: state.signup });
 const SignUp = connect(mapStateToProps)(ConnectedSignup);
 export default SignUp;

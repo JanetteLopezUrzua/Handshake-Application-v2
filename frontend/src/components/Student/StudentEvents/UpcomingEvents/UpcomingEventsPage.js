@@ -4,11 +4,11 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import { Redirect } from "react-router";
-import EventListContainer from "./EventListContainer";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { connect } from "react-redux";
+import EventListContainer from "./EventListContainer";
 
 import setAuthToken from "../../../../utils/setAuthToken";
-import { connect } from "react-redux";
 import { loadstudentprofile } from "../../../../actions/studentprofile";
 import { studentloadupcomingeventslist } from "../../../../actions/events";
 
@@ -36,7 +36,7 @@ class ConnectedUpcomingEventsPage extends React.Component {
   }
 
   nextPage = async () => {
-    let nextpage = this.state.page + 1;
+    const nextpage = this.state.page + 1;
     await this.props.dispatch(
       studentloadupcomingeventslist(nextpage, this.state.name)
     );
@@ -48,7 +48,7 @@ class ConnectedUpcomingEventsPage extends React.Component {
   };
 
   prevPage = async () => {
-    let prevpage = this.state.page - 1;
+    const prevpage = this.state.page - 1;
     await this.props.dispatch(
       studentloadupcomingeventslist(prevpage, this.state.name)
     );
@@ -84,15 +84,13 @@ class ConnectedUpcomingEventsPage extends React.Component {
           message = "Found 0 events";
         } else {
           eventsList = this.props.eventslist.events.eventsList.docs.map(
-            (event) => {
-              return (
-                <EventListContainer
-                  key={event._id}
-                  eventid={event._id}
-                  event={event}
-                />
-              );
-            }
+            (event) => (
+              <EventListContainer
+                key={event._id}
+                eventid={event._id}
+                event={event}
+              />
+            )
           );
           currPage = this.props.eventslist.events.eventsList.page;
           numOfPages = this.props.eventslist.events.eventsList.pages;
@@ -192,12 +190,10 @@ class ConnectedUpcomingEventsPage extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    userprofile: state.userprofile,
-    eventslist: state.upcomingeventslist,
-  };
-};
+const mapStateToProps = (state) => ({
+  userprofile: state.userprofile,
+  eventslist: state.upcomingeventslist,
+});
 const UpcomingEventsPage = connect(mapStateToProps)(
   ConnectedUpcomingEventsPage
 );

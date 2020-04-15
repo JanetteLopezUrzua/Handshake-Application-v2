@@ -4,9 +4,9 @@ import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import { FaCamera } from "react-icons/fa";
+import { connect } from "react-redux";
 import BannerModal from "./EditBannerModal";
 
-import { connect } from "react-redux";
 import {
   updatebannerphoto,
   deletebannerphoto,
@@ -80,14 +80,13 @@ class ConnectedDisplayBanner extends React.Component {
     });
   };
 
-  handleShow = () =>
-    this.setState({
-      show: true,
-    });
+  handleShow = () => this.setState({
+    show: true,
+  });
 
   onDelete = async (e) => {
     e.preventDefault();
-    const event_id = this.state.event_id;
+    const { event_id } = this.state;
     await this.props.dispatch(deletebannerphoto(event_id));
 
     if (this.props.event.payload) {
@@ -122,8 +121,8 @@ class ConnectedDisplayBanner extends React.Component {
 
     if (has_image === false) {
       if (
-        localStorage.getItem("id") === company_id &&
-        localStorage.getItem("type") === "company"
+        localStorage.getItem("id") === company_id
+        && localStorage.getItem("type") === "company"
       ) {
         banner = (
           <Button className="BannerPicButton" onClick={this.handleShow}>
@@ -140,8 +139,8 @@ class ConnectedDisplayBanner extends React.Component {
       }
     } else if (has_image === true) {
       if (
-        localStorage.getItem("id") === company_id &&
-        localStorage.getItem("type") === "company"
+        localStorage.getItem("id") === company_id
+        && localStorage.getItem("type") === "company"
       ) {
         banner = (
           <>
@@ -194,8 +193,6 @@ class ConnectedDisplayBanner extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return { event: state.event };
-};
+const mapStateToProps = (state) => ({ event: state.event });
 const DisplayBanner = connect(mapStateToProps)(ConnectedDisplayBanner);
 export default DisplayBanner;

@@ -1,8 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import DisplayInfo from "./DisplayInfo";
 import EditInfo from "./EditInfo";
 
-import { connect } from "react-redux";
 import {
   updatebasicinfo,
   loadstudentprofile,
@@ -73,7 +73,7 @@ class ConnectedBasicDetails extends React.Component {
             ? this.props.currentuser.user.student.state
             : this.state.state;
         country =
-          this.props.currentuseruser.student.country === this.state.country
+          this.props.currentuser.user.student.country === this.state.country
             ? this.props.currentuser.user.student.country
             : this.state.country;
       }
@@ -126,8 +126,6 @@ class ConnectedBasicDetails extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const BasicDetails = connect(mapStateToProps)(ConnectedBasicDetails);
 export default BasicDetails;

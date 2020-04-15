@@ -74,8 +74,6 @@ const ConnectedRSVPModal = (props) => {
     </Modal>
   );
 };
-const mapStateToProps = (state) => {
-  return { rsvplist: state.rsvplist };
-};
+const mapStateToProps = (state) => ({ rsvplist: state.rsvplist });
 const RSVPModal = connect(mapStateToProps)(ConnectedRSVPModal);
 export default RSVPModal;

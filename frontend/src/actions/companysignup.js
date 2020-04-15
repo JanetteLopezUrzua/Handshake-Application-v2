@@ -14,7 +14,9 @@ export const companysignup = ({
     }
   };
 
-  const body = JSON.stringify({ name, email, password, location });
+  const body = JSON.stringify({
+    name, email, password, location
+  });
 
   console.log(body);
 
@@ -32,7 +34,7 @@ export const companysignup = ({
     });
   } catch (err) {
     console.log(err);
-    const errors = err.response.data.errors;
+    const { errors } = err.response.data;
 
     dispatch({
       type: SIGNUP_FAIL,

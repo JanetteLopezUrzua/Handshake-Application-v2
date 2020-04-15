@@ -35,10 +35,10 @@ const DisplayWork = (props) => {
   let hyphen = "";
   let noenddate = "";
   if (
-    startdatemonth === null &&
-    startdateyear === null &&
-    enddatemonth === null &&
-    enddateyear === null
+    startdatemonth === null
+    && startdateyear === null
+    && enddatemonth === null
+    && enddateyear === null
   ) {
     noenddate = "";
   } else if (enddatemonth === null && enddateyear === null) {
@@ -52,8 +52,8 @@ const DisplayWork = (props) => {
 
   let container = "";
   if (
-    localStorage.getItem("id") === props.id &&
-    localStorage.getItem("type") === "student"
+    localStorage.getItem("id") === props.id
+    && localStorage.getItem("type") === "student"
   ) {
     container = (
       <Container

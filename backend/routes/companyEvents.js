@@ -1,8 +1,9 @@
 const express = require("express");
+
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const { checkAuth } = require("../config/passport");
-var kafka = require("../kafka/client");
+const kafka = require("../kafka/client");
 
 // @route   POST companies/newevent
 // @desc    Add a new event for a company
@@ -35,17 +36,17 @@ router.post(
     const errors = validationResult(req);
     console.log(errors);
     console.log(req.body);
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("company_add_new_event", req.body, function (
+    kafka.make_request("company_add_new_event", req.body, (
       err,
       results
-    ) {
+    ) => {
       try {
-        let event = results;
+        const event = results;
         if (event === 0) {
           return res.status(400).json({
             errors: [
@@ -67,9 +68,9 @@ router.post(
 // @desc    Get events list
 // @access  Public
 router.get("/eventslist", checkAuth, async (req, res) => {
-  kafka.make_request("company_events_list", req.query, function (err, results) {
+  kafka.make_request("company_events_list", req.query, (err, results) => {
     try {
-      let eventsList = results;
+      const eventsList = results;
       res.json({ eventsList });
     } catch (err) {
       console.error(err.message);
@@ -84,12 +85,12 @@ router.get("/eventslist", checkAuth, async (req, res) => {
 router.put("/event/bannerphoto", checkAuth, async (req, res) => {
   console.log(req.body);
 
-  kafka.make_request("company_update_banner_photo", req.body, function (
+  kafka.make_request("company_update_banner_photo", req.body, (
     err,
     results
-  ) {
+  ) => {
     try {
-      let event = results;
+      const event = results;
       res.json({ event });
     } catch (err) {
       console.error(err.message);
@@ -102,14 +103,14 @@ router.put("/event/bannerphoto", checkAuth, async (req, res) => {
 // @desc    Delete event banner photo
 // @access  Public
 router.delete("/event/bannerphoto/:eventid", checkAuth, async (req, res) => {
-  let eventid = req.params.eventid;
+  const { eventid } = req.params;
 
-  kafka.make_request("company_delete_banner_photo", eventid, function (
+  kafka.make_request("company_delete_banner_photo", eventid, (
     err,
     results
-  ) {
+  ) => {
     try {
-      let event = results;
+      const event = results;
       res.json({ event });
     } catch (err) {
       console.error(err.message);
@@ -122,10 +123,10 @@ router.delete("/event/bannerphoto/:eventid", checkAuth, async (req, res) => {
 // @desc    Get event information
 // @access  Public
 router.get("/event/:eventid", checkAuth, async (req, res) => {
-  let eventid = req.params.eventid;
-  kafka.make_request("event_info", eventid, function (err, results) {
+  const { eventid } = req.params;
+  kafka.make_request("event_info", eventid, (err, results) => {
     try {
-      let event = results;
+      const event = results;
       res.json({ event });
     } catch (err) {
       console.error(err.message);
@@ -145,17 +146,17 @@ router.put(
     const errors = validationResult(req);
     console.log(errors);
     console.log(req.body);
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("company_update_event_description", req.body, function (
+    kafka.make_request("company_update_event_description", req.body, (
       err,
       results
-    ) {
+    ) => {
       try {
-        let event = results;
+        const event = results;
         res.json({ event });
       } catch (err) {
         console.error(err.message);
@@ -195,17 +196,17 @@ router.put(
     const errors = validationResult(req);
     console.log(errors);
     console.log(req.body);
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("company_update_event_info", req.body, function (
+    kafka.make_request("company_update_event_info", req.body, (
       err,
       results
-    ) {
+    ) => {
       try {
-        let event = results;
+        const event = results;
         res.json({ event });
       } catch (err) {
         console.error(err.message);
@@ -219,11 +220,11 @@ router.put(
 // @desc    Delete event
 // @access  Public
 router.delete("/event/:eventid", checkAuth, async (req, res) => {
-  let eventid = req.params.eventid;
+  const { eventid } = req.params;
 
-  kafka.make_request("company_delete_event", eventid, function (err, results) {
+  kafka.make_request("company_delete_event", eventid, (err, results) => {
     try {
-      let event = results;
+      const event = results;
       res.json({ event });
     } catch (err) {
       console.error(err.message);
@@ -236,14 +237,14 @@ router.delete("/event/:eventid", checkAuth, async (req, res) => {
 // @desc    Get events list
 // @access  Public
 router.get("/event/:eventid/rsvp", checkAuth, async (req, res) => {
-  let eventid = req.params.eventid;
+  const { eventid } = req.params;
 
-  kafka.make_request("company_event_rsvp_list", eventid, function (
+  kafka.make_request("company_event_rsvp_list", eventid, (
     err,
     results
-  ) {
+  ) => {
     try {
-      let students = results;
+      const students = results;
       res.json({ students });
     } catch (err) {
       console.error(err.message);
@@ -256,9 +257,9 @@ router.get("/event/:eventid/rsvp", checkAuth, async (req, res) => {
 // @desc    Add student to rsvp list
 // @access  Public
 router.put("/event/rsvp", checkAuth, async (req, res) => {
-  kafka.make_request("company_rsvp_student", req.body, function (err, results) {
+  kafka.make_request("company_rsvp_student", req.body, (err, results) => {
     try {
-      let students = results;
+      const students = results;
       console.log("Student Results", results);
 
       res.json({ students });
@@ -273,12 +274,12 @@ router.put("/event/rsvp", checkAuth, async (req, res) => {
 // @desc    Remove student from rsvp list
 // @access  Public
 router.put("/event/unregister", checkAuth, async (req, res) => {
-  kafka.make_request("company_unregister_student", req.body, function (
+  kafka.make_request("company_unregister_student", req.body, (
     err,
     results
-  ) {
+  ) => {
     try {
-      let students = results;
+      const students = results;
       console.log("Student Results", results);
 
       res.json({ students });

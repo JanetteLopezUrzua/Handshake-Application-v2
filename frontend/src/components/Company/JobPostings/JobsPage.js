@@ -5,10 +5,10 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
-import JobsListContainer from "./JobsListContainer/JobsListContainer";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 
 import { connect } from "react-redux";
+import JobsListContainer from "./JobsListContainer/JobsListContainer";
 import { companyloadjobslist } from "../../../actions/jobs";
 
 class ConnectedJobsPage extends React.Component {
@@ -30,7 +30,7 @@ class ConnectedJobsPage extends React.Component {
   }
 
   nextPage = async () => {
-    let nextpage = this.state.page + 1;
+    const nextpage = this.state.page + 1;
     await this.props.dispatch(
       companyloadjobslist(nextpage, localStorage.getItem("id"))
     );
@@ -42,7 +42,7 @@ class ConnectedJobsPage extends React.Component {
   };
 
   prevPage = async () => {
-    let prevpage = this.state.page - 1;
+    const prevpage = this.state.page - 1;
     await this.props.dispatch(
       companyloadjobslist(prevpage, localStorage.getItem("id"))
     );
@@ -77,11 +77,9 @@ class ConnectedJobsPage extends React.Component {
           jobsList = "";
           message = "You have 0 job postings";
         } else {
-          jobsList = this.props.jobslist.jobs.jobsList.docs.map((job) => {
-            return (
-              <JobsListContainer key={job._id} jobid={job._id} job={job} />
-            );
-          });
+          jobsList = this.props.jobslist.jobs.jobsList.docs.map((job) => (
+            <JobsListContainer key={job._id} jobid={job._id} job={job} />
+          ));
           currPage = this.props.jobslist.jobs.jobsList.page;
           numOfPages = this.props.jobslist.jobs.jobsList.pages;
           limit = this.props.jobslist.jobs.jobsList.limit;
@@ -186,11 +184,9 @@ class ConnectedJobsPage extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    userprofile: state.userprofile,
-    jobslist: state.jobslist,
-  };
-};
+const mapStateToProps = (state) => ({
+  userprofile: state.userprofile,
+  jobslist: state.jobslist,
+});
 const JobsPage = connect(mapStateToProps)(ConnectedJobsPage);
 export default JobsPage;

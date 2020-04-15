@@ -1,8 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import EventDisplayDescription from "./EventDisplayDescription";
 import EventEditDescription from "./EventEditDescription";
 
-import { connect } from "react-redux";
 import {
   updateeventdescription,
   deleteerrors,
@@ -35,14 +35,13 @@ class ConnectedEventDescription extends React.Component {
   handleSave = async (e) => {
     e.preventDefault();
 
-    let eventid = this.state.event_id;
+    const eventid = this.state.event_id;
     let description = "";
 
     if (this.props.event.event !== null) {
-      description =
-        this.state.description !== ""
-          ? this.state.description
-          : this.props.event.event.event.description;
+      description = this.state.description !== ""
+        ? this.state.description
+        : this.props.event.event.event.description;
     }
 
     await this.props.dispatch(updateeventdescription(eventid, description));
@@ -80,8 +79,6 @@ class ConnectedEventDescription extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = (state) => {
-  return { event: state.event };
-};
+const mapStateToProps = (state) => ({ event: state.event });
 const EventDescription = connect(mapStateToProps)(ConnectedEventDescription);
 export default EventDescription;

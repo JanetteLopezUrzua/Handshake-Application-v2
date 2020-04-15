@@ -1,8 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import DisplayEventInfo from "./DisplayEventInfo";
 import EditEventInfo from "./EditEventInfo";
 
-import { connect } from "react-redux";
 import { updateeventinfo, deleteerrors } from "../../../../actions/events";
 
 class ConnectedEventInfo extends React.Component {
@@ -66,57 +66,45 @@ class ConnectedEventInfo extends React.Component {
     let eligibility = "";
 
     if (this.props.event.event !== null) {
-      title =
-        this.state.title !== ""
-          ? this.state.title
-          : this.props.event.event.event.title;
-      dayofweek =
-        this.state.dayofweek !== ""
-          ? this.state.dayofweek
-          : this.props.event.event.event.dayofweek;
-      month =
-        this.state.month !== ""
-          ? this.state.month
-          : this.props.event.event.event.month;
-      day =
-        this.state.day !== ""
-          ? this.state.day
-          : this.props.event.event.event.day;
-      year =
-        this.state.year !== ""
-          ? this.state.year
-          : this.props.event.event.event.year;
-      starttime =
-        this.state.starttime !== ""
-          ? this.state.starttime
-          : this.props.event.event.event.starttime;
-      startdaytime =
-        this.state.startdaytime !== ""
-          ? this.state.startdaytime
-          : this.props.event.event.event.startdaytime;
-      endtime =
-        this.state.endtime !== ""
-          ? this.state.endtime
-          : this.props.event.event.event.endtime;
-      enddaytime =
-        this.state.enddaytime !== ""
-          ? this.state.enddaytime
-          : this.props.event.event.event.enddaytime;
-      timezone =
-        this.state.timezone !== ""
-          ? this.state.timezone
-          : this.props.event.event.event.timezone;
-      location =
-        this.state.location !== ""
-          ? this.state.location
-          : this.props.event.event.event.location;
-      eligibility =
-        this.state.eligibility !== ""
-          ? this.state.eligibility
-          : this.props.event.event.event.eligibility;
+      title = this.state.title !== ""
+        ? this.state.title
+        : this.props.event.event.event.title;
+      dayofweek = this.state.dayofweek !== ""
+        ? this.state.dayofweek
+        : this.props.event.event.event.dayofweek;
+      month = this.state.month !== ""
+        ? this.state.month
+        : this.props.event.event.event.month;
+      day = this.state.day !== ""
+        ? this.state.day
+        : this.props.event.event.event.day;
+      year = this.state.year !== ""
+        ? this.state.year
+        : this.props.event.event.event.year;
+      starttime = this.state.starttime !== ""
+        ? this.state.starttime
+        : this.props.event.event.event.starttime;
+      startdaytime = this.state.startdaytime !== ""
+        ? this.state.startdaytime
+        : this.props.event.event.event.startdaytime;
+      endtime = this.state.endtime !== ""
+        ? this.state.endtime
+        : this.props.event.event.event.endtime;
+      enddaytime = this.state.enddaytime !== ""
+        ? this.state.enddaytime
+        : this.props.event.event.event.enddaytime;
+      timezone = this.state.timezone !== ""
+        ? this.state.timezone
+        : this.props.event.event.event.timezone;
+      location = this.state.location !== ""
+        ? this.state.location
+        : this.props.event.event.event.location;
+      eligibility = this.state.eligibility !== ""
+        ? this.state.eligibility
+        : this.props.event.event.event.eligibility;
     }
 
-    let eventid = this.state.event_id;
+    const eventid = this.state.event_id;
     const event = {
       title,
       dayofweek,
@@ -196,8 +184,6 @@ class ConnectedEventInfo extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = (state) => {
-  return { event: state.event };
-};
+const mapStateToProps = (state) => ({ event: state.event });
 const EventInfo = connect(mapStateToProps)(ConnectedEventInfo);
 export default EventInfo;

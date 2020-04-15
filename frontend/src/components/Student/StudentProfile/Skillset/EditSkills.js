@@ -7,8 +7,8 @@ import Button from "react-bootstrap/Button";
 const EditSkills = props => {
   let form = "";
   if (
-    localStorage.getItem("id") === props.id &&
-    localStorage.getItem("type") === "student"
+    localStorage.getItem("id") === props.id
+    && localStorage.getItem("type") === "student"
   ) {
     form = (
       <Form>

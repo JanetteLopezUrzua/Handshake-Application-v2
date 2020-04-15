@@ -67,7 +67,7 @@ const ConnectedNewFormEducation = (props) => {
               name="month"
               type="text"
             >
-              <option value="" hidden></option>
+              <option value="" hidden />
               <option value="1">January</option>
               <option value="2">February</option>
               <option value="3">March</option>
@@ -85,14 +85,14 @@ const ConnectedNewFormEducation = (props) => {
         </Col>
         <Col>
           <Form.Group controlId="passingyear">
-            <Form.Label className="labels"></Form.Label>
+            <Form.Label className="labels" />
             <Form.Control
               as="select"
               onChange={props.handleChange}
               name="year"
               type="number"
             >
-              <option value="" hidden></option>
+              <option value="" hidden />
               <option value="2030">2030</option>
               <option value="2029">2029</option>
               <option value="2028">2028</option>
@@ -219,8 +219,6 @@ const ConnectedNewFormEducation = (props) => {
     </Container>
   );
 };
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const NewFormEducation = connect(mapStateToProps)(ConnectedNewFormEducation);
 export default NewFormEducation;

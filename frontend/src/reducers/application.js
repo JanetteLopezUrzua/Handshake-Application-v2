@@ -27,12 +27,12 @@ export default function (state = initialState, action) {
         application: payload,
       };
 
-    // case APPLICATION_STATUS_UPDATE:
-    //   return {
-    //     ...state,
-    //     application: payload,
-    //     payload: null,
-    //   };
+      // case APPLICATION_STATUS_UPDATE:
+      //   return {
+      //     ...state,
+      //     application: payload,
+      //     payload: null,
+      //   };
 
     case APPLICATION_UPDATE_ERROR:
       return {

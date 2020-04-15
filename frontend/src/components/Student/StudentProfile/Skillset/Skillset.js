@@ -1,10 +1,10 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
+import { connect } from "react-redux";
 import DisplaySkills from "./DisplaySkills";
 import EditSkills from "./EditSkills";
 
-import { connect } from "react-redux";
 import {
   updateskills,
   deleteskill,
@@ -42,22 +42,20 @@ class ConnectedSkillset extends React.Component {
     );
 
     if (
-      localStorage.getItem("id") === this.state.id &&
-      localStorage.getItem("type") === "student"
-    )
-      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+      localStorage.getItem("id") === this.state.id
+      && localStorage.getItem("type") === "student"
+    ) await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
   };
 
   handleDelete = async (skill, e) => {
     e.preventDefault();
-    const id = this.state.id;
+    const { id } = this.state;
     await this.props.dispatch(deleteskill(id, skill));
 
     if (
-      localStorage.getItem("id") === this.state.id &&
-      localStorage.getItem("type") === "student"
-    )
-      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+      localStorage.getItem("id") === this.state.id
+      && localStorage.getItem("type") === "student"
+    ) await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
   };
 
   render() {
@@ -65,9 +63,8 @@ class ConnectedSkillset extends React.Component {
     if (this.props.currentuser.user !== null) {
       if (this.props.currentuser.user.student) {
         if (this.props.currentuser.user.student.skillset) {
-          if (this.props.currentuser.user.student.skillset.length === 0)
-            skillsList = "";
-          else
+          if (this.props.currentuser.user.student.skillset.length === 0) skillsList = "";
+          else {
             skillsList = this.props.currentuser.user.student.skillset.map(
               (skill) => (
                 <DisplaySkills
@@ -78,6 +75,7 @@ class ConnectedSkillset extends React.Component {
                 />
               )
             );
+          }
         }
       }
     }
@@ -107,8 +105,6 @@ class ConnectedSkillset extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const Skillset = connect(mapStateToProps)(ConnectedSkillset);
 export default Skillset;

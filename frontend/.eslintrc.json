@@ -4,7 +4,7 @@
     "browser": true,
     "es6": true
   },
-  "extends": ["airbnb", "eslint:recommended"],
+  "extends": ["airbnb"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -24,13 +24,28 @@
     "no-console": "off",
     "arrow-parens": "off",
     "comma-dangle": "off",
+    "import/prefer-default-export": "off",
+    "camelcase": "off",
     "import/no-named-as-default": "off",
     "import/no-named-as-default-member": "off",
     "react/prefer-stateless-function": "off",
     "react/destructuring-assignment": "off",
     "react/prop-types": "off",
     "max-len": "off",
-    "react/no-access-state-in-setstate": "off"
+    "react/no-access-state-in-setstate": "off",
+    "dot-notation": "off",
+    "no-case-declarations": "off",
+    "no-empty": "off",
+    "no-underscore-dangle": "off",
+    "no-unused-vars": "off",
+    "array-callback-return": "off",
+    "react/no-unused-state": "off",
+    "consistent-return": "off",
+    "no-return-assign": "off",
+    "react/no-did-update-set-state": "off",
+    "no-param-reassign": "off",
+    "jsx-a11y/control-has-associated-label": "off",
+    "prefer-const": "off"
   },
   "parser": "babel-eslint"
 }

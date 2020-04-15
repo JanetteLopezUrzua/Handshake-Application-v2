@@ -6,10 +6,10 @@ import Nav from "react-bootstrap/Nav";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Redirect } from "react-router";
+import { connect } from "react-redux";
 import MessagesListDisplay from "./MessagesListDisplay";
 import MessagesDescriptionDisplay from "./MessageDescriptionDisplay";
 
-import { connect } from "react-redux";
 import {
   loadmessage,
   loadmessageslist,
@@ -25,8 +25,8 @@ class ConnectedMessages extends React.Component {
   }
 
   async componentDidMount() {
-    let toid = localStorage.getItem("id");
-    let type = localStorage.getItem("type");
+    const toid = localStorage.getItem("id");
+    const type = localStorage.getItem("type");
     await this.props.dispatch(loadmessageslist(type, toid));
   }
 
@@ -46,18 +46,18 @@ class ConnectedMessages extends React.Component {
     }
 
     const { message } = this.state;
-    let fromId = localStorage.getItem("id");
+    const fromId = localStorage.getItem("id");
 
     const date = new Date();
     const day = `${date.getDate()}`.slice(-2);
     const month = `${date.getMonth()}`.slice(-2);
     const year = date.getFullYear();
     let hours = date.getHours();
-    let minutes = date.getMinutes();
+    const minutes = date.getMinutes();
 
-    let day_time = hours >= 12 ? "PM" : "AM";
+    const day_time = hours >= 12 ? "PM" : "AM";
 
-    hours = hours % 12;
+    hours %= 12;
 
     await this.props.dispatch(
       sendmessage(
@@ -78,8 +78,8 @@ class ConnectedMessages extends React.Component {
 
     if (this.props.message.payload) {
     } else {
-      let fromid = fromId;
-      let currid = id;
+      const fromid = fromId;
+      const currid = id;
       await this.props.dispatch(loadmessage(fromid, currid));
     }
   };
@@ -88,7 +88,7 @@ class ConnectedMessages extends React.Component {
     let currid = localStorage.getItem("id");
 
     if (localStorage.getItem("type") === "company") {
-      let temp = currid;
+      const temp = currid;
       currid = fromid;
       fromid = temp;
     }
@@ -112,16 +112,14 @@ class ConnectedMessages extends React.Component {
           m = "Found 0 messages";
         } else {
           messagesList = this.props.messageslist.messages.messagesList.map(
-            (message) => {
-              return (
-                <MessagesListDisplay
-                  key={message._id}
-                  messageid={message._id}
-                  message={message}
-                  messageClick={this.messageClick}
-                />
-              );
-            }
+            (message) => (
+              <MessagesListDisplay
+                key={message._id}
+                messageid={message._id}
+                message={message}
+                messageClick={this.messageClick}
+              />
+            )
           );
         }
       }
@@ -181,12 +179,10 @@ class ConnectedMessages extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    userprofile: state.userprofile,
-    messageslist: state.messageslist,
-    message: state.message,
-  };
-};
+const mapStateToProps = (state) => ({
+  userprofile: state.userprofile,
+  messageslist: state.messageslist,
+  message: state.message,
+});
 const Messages = connect(mapStateToProps)(ConnectedMessages);
 export default Messages;

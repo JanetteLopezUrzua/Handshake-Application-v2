@@ -1,25 +1,26 @@
 const express = require("express");
+const cors = require("cors");
+const multer = require("multer");
 const connectDB = require("./config/db");
 const { frontendURL } = require("./config/default");
-const cors = require("cors");
-const app = express();
-const multer = require("multer");
 
-//multer
+const app = express();
+
+// multer
 app.use(express.static("public"));
 
-//Connect to Database
+// Connect to Database
 connectDB();
 
 // Initialize Middleware
 app.use(express.json({ extended: false }));
 
-//CORS
-//use cors to allow cross origin resource sharing
+// CORS
+// use cors to allow cross origin resource sharing
 app.use(cors({ origin: frontendURL, credentials: true }));
 
-//Allow Access Control
-app.use(function (req, res, next) {
+// Allow Access Control
+app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", frontendURL);
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(

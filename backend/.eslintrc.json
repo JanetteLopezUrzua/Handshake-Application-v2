@@ -12,5 +12,19 @@
   "parserOptions": {
     "ecmaVersion": 2018
   },
-  "rules": {}
+  "rules": {
+    "no-console": "off",
+    "quotes": "off",
+    "comma-dangle": "off",
+    "arrow-parens": "off",
+    "array-callback-return": "off",
+    "camelcase": "off",
+    "consistent-return": "off",
+    "no-multi-assign": "off",
+    "no-undef": "off",
+    "no-shadow": "off",
+    "no-underscore-dangle": "off",
+    "no-unused-vars": "off",
+    "import/order": "off"
+  }
 }

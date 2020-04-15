@@ -48,9 +48,7 @@ const ConnectedEventEditDescription = (props) => {
     </Card>
   );
 };
-const mapStateToProps = (state) => {
-  return { event: state.event };
-};
+const mapStateToProps = (state) => ({ event: state.event });
 const EventEditDescription = connect(mapStateToProps)(
   ConnectedEventEditDescription
 );

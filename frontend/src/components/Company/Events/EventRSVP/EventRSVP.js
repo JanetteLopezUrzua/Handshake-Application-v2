@@ -2,9 +2,9 @@ import React from "react";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { connect } from "react-redux";
 import RSVPModal from "./RSVPModal";
 
-import { connect } from "react-redux";
 import {
   company_event_unregister,
   company_event_rsvp,
@@ -36,15 +36,15 @@ class ConnectedEventRSVP extends React.Component {
   };
 
   handleRSVP = async () => {
-    let eventid = this.state.event_id;
-    let studentid = localStorage.getItem("id");
+    const eventid = this.state.event_id;
+    const studentid = localStorage.getItem("id");
     await this.props.dispatch(company_event_rsvp(eventid, studentid));
     await this.props.dispatch(companyloadrsvplist(eventid));
   };
 
   handleUnregister = async () => {
-    let eventid = this.state.event_id;
-    let studentid = localStorage.getItem("id");
+    const eventid = this.state.event_id;
+    const studentid = localStorage.getItem("id");
     await this.props.dispatch(company_event_unregister(eventid, studentid));
     await this.props.dispatch(companyloadrsvplist(eventid));
   };
@@ -72,8 +72,8 @@ class ConnectedEventRSVP extends React.Component {
           studentsList = this.props.rsvplist.students.students.map(
             (student) => {
               if (
-                student.studentid._id === localStorage.getItem("id") &&
-                localStorage.getItem("type") === "student"
+                student.studentid._id === localStorage.getItem("id")
+                && localStorage.getItem("type") === "student"
               ) {
                 alreadyrsvp = true;
               } else {
@@ -90,9 +90,9 @@ class ConnectedEventRSVP extends React.Component {
     if (localStorage.getItem("type") === "student") {
       if (alreadyrsvp === false) {
         if (
-          this.props.eligibility === "all" ||
-          this.props.eligibility.toLowerCase() ===
-            this.props.major.toLowerCase()
+          this.props.eligibility === "all"
+          || this.props.eligibility.toLowerCase()
+            === this.props.major.toLowerCase()
         ) {
           rsvpbutton = (
             <div>
@@ -142,8 +142,6 @@ class ConnectedEventRSVP extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return { rsvplist: state.rsvplist };
-};
+const mapStateToProps = (state) => ({ rsvplist: state.rsvplist });
 const EventRSVP = connect(mapStateToProps)(ConnectedEventRSVP);
 export default EventRSVP;

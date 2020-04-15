@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const DisplayStudent = (props) => {
   const { fname, lname } = props.student;
 
-  let name = `${fname} ${lname}`;
+  const name = `${fname} ${lname}`;
 
   const path = `/student/${props.studentid}`;
   let img = "";
@@ -41,7 +41,7 @@ const DisplayStudent = (props) => {
   let passingdate = "";
   let major = "";
 
-  if (props.student.schools)
+  if (props.student.schools) {
     if (props.student.schools.length !== 0) {
       collegename = props.student.schools[0].name;
       degree = props.student.schools[0].degree;
@@ -49,14 +49,15 @@ const DisplayStudent = (props) => {
       passingyear = props.student.schools[0].passingyear;
       major = props.student.schools[0].major;
     }
+  }
 
   if (
-    passingmonth === null ||
-    passingyear === null ||
-    passingmonth === "" ||
-    passingyear === "" ||
-    passingmonth === undefined ||
-    passingyear === undefined
+    passingmonth === null
+    || passingyear === null
+    || passingmonth === ""
+    || passingyear === ""
+    || passingmonth === undefined
+    || passingyear === undefined
   ) {
     passingdate = "No Passing Date Listed";
   } else {
@@ -71,7 +72,7 @@ const DisplayStudent = (props) => {
     degree = "No Degree Listed";
   }
 
-  if(collegename === "" || collegename === undefined){
+  if (collegename === "" || collegename === undefined) {
     collegename = "No College Listed";
   }
 

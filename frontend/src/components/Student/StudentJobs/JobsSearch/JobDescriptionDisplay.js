@@ -6,9 +6,9 @@ import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 import { MdLocationOn } from "react-icons/md";
 import { FaRegMoneyBillAlt, FaRegClock, FaBriefcase } from "react-icons/fa";
+import { connect } from "react-redux";
 import Application from "../Application/Application";
 
-import { connect } from "react-redux";
 import { companyloadapplicationslist } from "../../../../actions/jobs";
 
 const ConnectedJobDescriptionDisplay = (props) => {
@@ -107,7 +107,7 @@ const ConnectedJobDescriptionDisplay = (props) => {
     "Dec",
   ];
 
-  let posteddate = `${posteddatemonths[postingmonth]} ${postingday}, ${postingyear}`;
+  const posteddate = `${posteddatemonths[postingmonth]} ${postingday}, ${postingyear}`;
 
   return (
     <div>
@@ -171,9 +171,7 @@ const ConnectedJobDescriptionDisplay = (props) => {
     </div>
   );
 };
-const mapStateToProps = (state) => {
-  return { job: state.job };
-};
+const mapStateToProps = (state) => ({ job: state.job });
 const JobDescriptionDisplay = connect(mapStateToProps)(
   ConnectedJobDescriptionDisplay
 );

@@ -5,13 +5,13 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Redirect } from "react-router";
+import { connect } from "react-redux";
 import Banner from "../Banner/DisplayBanner";
 import EventInfo from "../EventInfo/EventInfo";
 import EventDescription from "../EventDescription/EventDescription";
 import EventRSVP from "../EventRSVP/EventRSVP";
 
 import setAuthToken from "../../../../utils/setAuthToken";
-import { connect } from "react-redux";
 import {
   companyloadevent,
   companydeleteevent,
@@ -80,8 +80,8 @@ class ConnectedEventContainer extends React.Component {
     let del = "";
 
     if (
-      localStorage.getItem("id") === company_id &&
-      localStorage.getItem("type") === "company"
+      localStorage.getItem("id") === company_id
+      && localStorage.getItem("type") === "company"
     ) {
       del = (
         <Button
@@ -116,8 +116,6 @@ class ConnectedEventContainer extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return { userprofile: state.userprofile, event: state.event };
-};
+const mapStateToProps = (state) => ({ userprofile: state.userprofile, event: state.event });
 const EventContainer = connect(mapStateToProps)(ConnectedEventContainer);
 export default EventContainer;

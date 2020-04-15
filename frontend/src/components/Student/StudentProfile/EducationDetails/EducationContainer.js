@@ -1,8 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import DisplayEducation from "./DisplayEducation";
 import EditEducation from "./EditEducation";
 
-import { connect } from "react-redux";
 import {
   updateschool,
   deleteerrors,
@@ -53,8 +53,8 @@ class ConnectedEducationContainer extends React.Component {
   handleSave = async (e) => {
     e.preventDefault();
 
-    const id = this.state.id;
-    const schoolid = this.state.schoolid;
+    const { id } = this.state;
+    const { schoolid } = this.state;
     const school = {
       location: this.state.school.location,
       degree: this.state.school.degree,
@@ -67,10 +67,9 @@ class ConnectedEducationContainer extends React.Component {
     await this.props.dispatch(updateschool(id, school, schoolid));
 
     if (
-      localStorage.getItem("id") === this.state.id &&
-      localStorage.getItem("type") === "student"
-    )
-      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+      localStorage.getItem("id") === this.state.id
+      && localStorage.getItem("type") === "student"
+    ) await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
 
     if (this.props.currentuser.payload) {
     } else {
@@ -123,9 +122,7 @@ class ConnectedEducationContainer extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const EducationContainer = connect(mapStateToProps)(
   ConnectedEducationContainer
 );

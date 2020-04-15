@@ -1,11 +1,12 @@
 const express = require("../node_modules/express");
+
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const { secret } = require("../config/default");
 const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
+const { secret } = require("../config/default");
 const { auth } = require("../config/passport");
-var kafka = require("../kafka/client");
+const kafka = require("../kafka/client");
 
 auth();
 
@@ -28,17 +29,17 @@ router.post(
     const errors = validationResult(req);
     console.log(errors);
     console.log(req.body);
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("student_signup", req.body, function (err, results) {
+    kafka.make_request("student_signup", req.body, (err, results) => {
       try {
-        //Check if student email exists
-        //let student = await Student.findOne({ email });
+        // Check if student email exists
+        // let student = await Student.findOne({ email });
 
-        let student = results;
+        const student = results;
         console.log("Student Results", results);
 
         if (student === 0) {
@@ -54,14 +55,14 @@ router.post(
           },
         };
 
-        //Change to 3600 in production
+        // Change to 3600 in production
         const token = jwt.sign(
           payload,
           secret,
           { expiresIn: 1008000 },
           (err, token) => {
             if (err) throw err;
-            res.json("JWT " + token);
+            res.json(`JWT ${token}`);
           }
         );
       } catch (err) {
@@ -85,22 +86,19 @@ router.post(
   (req, res) => {
     const errors = validationResult(req);
 
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
     const { password } = req.body;
 
-    kafka.make_request("student_login", req.body, async function (
-      err,
-      results
-    ) {
+    kafka.make_request("student_login", req.body, async (err, results) => {
       try {
-        //Check if student email exists
+        // Check if student email exists
         // let student = await Student.findOne({ email });
 
-        let student = results;
+        const student = results;
 
         if (!student) {
           return res.status(400).json({
@@ -126,14 +124,14 @@ router.post(
           },
         };
 
-        //Change to 3600 in production
+        // Change to 3600 in production
         const token = jwt.sign(
           payload,
           secret,
           { expiresIn: 1008000 },
           (err, token) => {
             if (err) throw err;
-            res.json("JWT " + token);
+            res.json(`JWT ${token}`);
           }
         );
       } catch (err) {

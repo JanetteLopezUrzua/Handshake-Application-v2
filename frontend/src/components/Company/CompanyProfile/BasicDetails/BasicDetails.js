@@ -1,8 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import DisplayInfo from "./DisplayInfo";
 import EditInfo from "./EditInfo";
 
-import { connect } from "react-redux";
 import {
   updatebasicinfo,
   deleteerrors,
@@ -40,15 +40,13 @@ class ConnectedBasicDetails extends React.Component {
 
     if (this.props.currentuser.user !== null) {
       if (this.currentuser.user.company) {
-        location =
-          this.props.currentuser.user.company.location === this.state.location
-            ? this.props.currentuser.user.company.location
-            : this.state.location;
-        description =
-          this.props.currentuser.user.company.description ===
-          this.state.description
-            ? this.props.currentuser.user.company.description
-            : this.state.description;
+        location = this.props.currentuser.user.company.location === this.state.location
+          ? this.props.currentuser.user.company.location
+          : this.state.location;
+        description = this.props.currentuser.user.company.description
+          === this.state.description
+          ? this.props.currentuser.user.company.description
+          : this.state.description;
       }
     }
 
@@ -90,8 +88,6 @@ class ConnectedBasicDetails extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const BasicDetails = connect(mapStateToProps)(ConnectedBasicDetails);
 export default BasicDetails;

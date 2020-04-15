@@ -16,8 +16,7 @@ const MessagesListDisplay = (props) => {
   if (localStorage.getItem("type") === "student") {
     if (props.message.onModel1 === "companies") {
       name = props.message.fromid.name;
-      lastmessage =
-        props.message.messages[props.message.messages.length - 1].message;
+      lastmessage = props.message.messages[props.message.messages.length - 1].message;
       if (props.message.fromid.photo) photo = props.message.fromid.photo;
 
       if (photo === "") {
@@ -43,8 +42,7 @@ const MessagesListDisplay = (props) => {
       fname = props.message.fromid.fname;
       lname = props.message.fromid.lname;
       name = `${fname} ${lname}`;
-      lastmessage =
-        props.message.messages[props.message.messages.length - 1].message;
+      lastmessage = props.message.messages[props.message.messages.length - 1].message;
       if (props.message.fromid.photo) photo = props.message.fromid.photo;
 
       if (photo === "") {

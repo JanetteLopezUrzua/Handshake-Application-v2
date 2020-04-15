@@ -1,8 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import DisplayObjective from "./DisplayObjective";
 import EditObjective from "./EditObjective";
 
-import { connect } from "react-redux";
 import {
   updatecareerobjective,
   loadstudentprofile,
@@ -37,10 +37,9 @@ class ConnectedCareerObjective extends React.Component {
     let objective = "";
     if (this.props.currentuser.user !== null) {
       if (this.props.currentuser.user.student) {
-        objective =
-          this.props.currentuser.user.student.objective === this.state.objective
-            ? this.props.currentuser.user.student.objective
-            : this.state.objective;
+        objective = this.props.currentuser.user.student.objective === this.state.objective
+          ? this.props.currentuser.user.student.objective
+          : this.state.objective;
       }
     }
 
@@ -52,10 +51,9 @@ class ConnectedCareerObjective extends React.Component {
     );
 
     if (
-      localStorage.getItem("id") === this.state.id &&
-      localStorage.getItem("type") === "student"
-    )
-      await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
+      localStorage.getItem("id") === this.state.id
+      && localStorage.getItem("type") === "student"
+    ) await this.props.dispatch(loadstudentprofile(localStorage.getItem("id")));
 
     this.setState({ editWasTriggered: false });
   };
@@ -85,8 +83,6 @@ class ConnectedCareerObjective extends React.Component {
     return <>{display}</>;
   }
 }
-const mapStateToProps = (state) => {
-  return { currentuser: state.currentuser };
-};
+const mapStateToProps = (state) => ({ currentuser: state.currentuser });
 const CareerObjective = connect(mapStateToProps)(ConnectedCareerObjective);
 export default CareerObjective;

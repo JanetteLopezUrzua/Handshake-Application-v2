@@ -1,18 +1,19 @@
 const express = require("express");
+
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const Student = require("../models/Student/Students");
 const { checkAuth } = require("../config/passport");
-var kafka = require("../kafka/client");
+const kafka = require("../kafka/client");
 
 // @route   GET students/info/:id
 // @desc    Get student profile information
 // @access  Public
 router.get("/info/:id", checkAuth, async (req, res) => {
-  let id = req.params.id;
-  kafka.make_request("student_info", id, function(err, results) {
+  const { id } = req.params;
+  kafka.make_request("student_info", id, (err, results) => {
     try {
-      let student = results;
+      const student = results;
       res.json({ student });
     } catch (err) {
       console.error(err.message);
@@ -46,18 +47,18 @@ router.put(
     console.log(errors);
     console.log(req.body);
 
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       console.log("inside errors");
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("student_update_basic_info", req.body, function(
+    kafka.make_request("student_update_basic_info", req.body, (
       err,
       results
-    ) {
+    ) => {
       try {
-        let student = results;
+        const student = results;
         res.json({ student });
       } catch (err) {
         console.error(err.message);
@@ -77,12 +78,12 @@ router.put(
   async (req, res) => {
     console.log(req.body);
 
-    kafka.make_request("student_update_career_objective", req.body, function(
+    kafka.make_request("student_update_career_objective", req.body, (
       err,
       results
-    ) {
+    ) => {
       try {
-        let student = results;
+        const student = results;
         res.json({ student });
       } catch (err) {
         console.error(err.message);
@@ -98,9 +99,9 @@ router.put(
 router.put("/photo", checkAuth, async (req, res) => {
   console.log(req.body);
 
-  kafka.make_request("student_update_photo", req.body, function(err, results) {
+  kafka.make_request("student_update_photo", req.body, (err, results) => {
     try {
-      let student = results;
+      const student = results;
       res.json({ student });
     } catch (err) {
       console.error(err.message);
@@ -113,11 +114,11 @@ router.put("/photo", checkAuth, async (req, res) => {
 // @desc    Delete student photo
 // @access  Public
 router.delete("/photo/:id", checkAuth, async (req, res) => {
-  let id = req.params.id;
+  const { id } = req.params;
 
-  kafka.make_request("student_delete_photo", id, function(err, results) {
+  kafka.make_request("student_delete_photo", id, (err, results) => {
     try {
-      let student = results;
+      const student = results;
       res.json({ student });
     } catch (err) {
       console.error(err.message);
@@ -144,17 +145,17 @@ router.put(
     const errors = validationResult(req);
     console.log(errors);
     console.log(req.body);
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("student_update_contact_info", req.body, function(
+    kafka.make_request("student_update_contact_info", req.body, (
       err,
       results
-    ) {
+    ) => {
       try {
-        let student = results;
+        const student = results;
         res.json({ student });
       } catch (err) {
         console.error(err.message);
@@ -180,17 +181,17 @@ router.put(
     const errors = validationResult(req);
     console.log(errors);
     console.log(req.body);
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("student_update_skillset", req.body, function(
+    kafka.make_request("student_update_skillset", req.body, (
       err,
       results
-    ) {
+    ) => {
       try {
-        let student = results;
+        const student = results;
         if (student === 0) {
           return res.status(400).json({
             errors: [{ skillmsg: "Skill already exists" }]
@@ -210,12 +211,12 @@ router.put(
 // @desc    Delete student photo
 // @access  Public
 router.delete("/skill/:id/:skill", checkAuth, async (req, res) => {
-  kafka.make_request("student_delete_skill", req.params, function(
+  kafka.make_request("student_delete_skill", req.params, (
     err,
     results
-  ) {
+  ) => {
     try {
-      let student = results;
+      const student = results;
       res.json({ student });
     } catch (err) {
       console.error(err.message);
@@ -244,26 +245,26 @@ router.post(
     const errors = validationResult(req);
     console.log(errors);
     console.log(req.body);
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
     if (
-      (req.body.passingmonth === "" && req.body.passingyear !== "") ||
-      (req.body.passingmonth !== "" && req.body.passingyear === "")
+      (req.body.passingmonth === "" && req.body.passingyear !== "")
+      || (req.body.passingmonth !== "" && req.body.passingyear === "")
     ) {
       return res
         .status(400)
         .json({ errors: [{ schoolmsg: "Enter complete end date" }] });
     }
 
-    kafka.make_request("student_add_new_school", req.body, function(
+    kafka.make_request("student_add_new_school", req.body, (
       err,
       results
-    ) {
+    ) => {
       try {
-        let student = results;
+        const student = results;
         if (student === 0) {
           return res.status(400).json({
             errors: [
@@ -285,12 +286,12 @@ router.post(
 // @desc    Delete school from the student profile
 // @access  Public
 router.delete("/school/:id/:schoolid", checkAuth, async (req, res) => {
-  kafka.make_request("student_delete_school", req.params, function(
+  kafka.make_request("student_delete_school", req.params, (
     err,
     results
-  ) {
+  ) => {
     try {
-      let student = results;
+      const student = results;
       res.json({ student });
     } catch (err) {
       console.error(err.message);
@@ -315,26 +316,26 @@ router.put(
     const errors = validationResult(req);
     console.log(errors);
     console.log(req.body);
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: update.errors.array() });
     }
 
     if (
-      (req.body.passingmonth === null && req.body.passingyear !== null) ||
-      (req.body.passingmonth !== null && req.body.passingyear === null)
+      (req.body.passingmonth === null && req.body.passingyear !== null)
+      || (req.body.passingmonth !== null && req.body.passingyear === null)
     ) {
       return res
         .status(400)
         .json({ errors: [{ updateschoolmsg: "Enter complete end date" }] });
     }
 
-    kafka.make_request("student_update_school", req.body, function(
+    kafka.make_request("student_update_school", req.body, (
       err,
       results
-    ) {
+    ) => {
       try {
-        let student = results;
+        const student = results;
         res.json({ student });
       } catch (err) {
         console.error(err.message);
@@ -364,16 +365,16 @@ router.post(
     const errors = validationResult(req);
     console.log(errors);
     console.log(req.body);
-    //Check if there are errors
+    // Check if there are errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
     if (
-      (req.body.startdatemonth !== "" && req.body.startdateyear === "") ||
-      (req.body.startdatemonth === "" && req.body.startdateyear !== "") ||
-      (req.body.enddatemonth === "" && req.body.enddateyear !== "") ||
-      (req.body.enddatemonth !== "" && req.body.enddateyear === "")
+      (req.body.startdatemonth !== "" && req.body.startdateyear === "")
+      || (req.body.startdatemonth === "" && req.body.startdateyear !== "")
+      || (req.body.enddatemonth === "" && req.body.enddateyear !== "")
+      || (req.body.enddatemonth !== "" && req.body.enddateyear === "")
     ) {
       return res.status(400).json({
         errors: [
@@ -385,9 +386,9 @@ router.post(
     }
 
     if (
-      req.body.startdateyear > req.body.enddateyear ||
-      (req.body.startdateyear === req.body.enddateyear &&
-        req.body.startdatemonth > req.body.enddatemonth)
+      req.body.startdateyear > req.body.enddateyear
+      || (req.body.startdateyear === req.body.enddateyear
+        && req.body.startdatemonth > req.body.enddatemonth)
     ) {
       return res.status(400).json({
         errors: [
@@ -398,9 +399,9 @@ router.post(
       });
     }
 
-    kafka.make_request("student_add_new_job", req.body, function(err, results) {
+    kafka.make_request("student_add_new_job", req.body, (err, results) => {
       try {
-        let student = results;
+        const student = results;
         if (student === 0) {
           return res.status(400).json({
             errors: [
@@ -424,9 +425,9 @@ router.post(
 // @desc    Delete job from the student profile
 // @access  Public
 router.delete("/job/:id/:jobid", checkAuth, async (req, res) => {
-  kafka.make_request("student_delete_job", req.params, function(err, results) {
+  kafka.make_request("student_delete_job", req.params, (err, results) => {
     try {
-      let student = results;
+      const student = results;
       res.json({ student });
     } catch (err) {
       console.error(err.message);
@@ -442,16 +443,16 @@ router.put("/job", checkAuth, async (req, res) => {
   const errors = validationResult(req);
   console.log(errors);
   console.log(req.body);
-  //Check if there are errors
+  // Check if there are errors
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: update.errors.array() });
   }
 
   if (
-    (req.body.startdatemonth !== null && req.body.startdateyear === null) ||
-    (req.body.startdatemonth === null && req.body.startdateyear !== null) ||
-    (req.body.enddatemonth === null && req.body.enddateyear !== null) ||
-    (req.body.enddatemonth !== null && req.body.enddateyear === null)
+    (req.body.startdatemonth !== null && req.body.startdateyear === null)
+    || (req.body.startdatemonth === null && req.body.startdateyear !== null)
+    || (req.body.enddatemonth === null && req.body.enddateyear !== null)
+    || (req.body.enddatemonth !== null && req.body.enddateyear === null)
   ) {
     return res.status(400).json({
       errors: [
@@ -464,9 +465,9 @@ router.put("/job", checkAuth, async (req, res) => {
   }
 
   if (
-    req.body.startdateyear > req.body.enddateyear ||
-    (req.body.startdateyear === req.body.enddateyear &&
-      req.body.startdatemonth > req.body.enddatemonth)
+    req.body.startdateyear > req.body.enddateyear
+    || (req.body.startdateyear === req.body.enddateyear
+      && req.body.startdatemonth > req.body.enddatemonth)
   ) {
     return res.status(400).json({
       errors: [
@@ -477,9 +478,9 @@ router.put("/job", checkAuth, async (req, res) => {
     });
   }
 
-  kafka.make_request("student_update_job", req.body, function(err, results) {
+  kafka.make_request("student_update_job", req.body, (err, results) => {
     try {
-      let student = results;
+      const student = results;
       res.json({ student });
     } catch (err) {
       console.error(err.message);
