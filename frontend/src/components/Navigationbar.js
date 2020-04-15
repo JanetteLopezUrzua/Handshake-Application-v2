@@ -113,16 +113,19 @@ class ConnectedNavigationbar extends React.Component {
     let eventspath = "";
     let jobspath = "";
     let studentspath = "";
+    let messagespath = "";
 
     if (localStorage.getItem("type") === "student") {
       studentspath = "/student/students?page=1&nameorcollege=''&major=''";
       eventspath = "/student/events/upcoming?page=1";
       jobspath =
         "/student/jobs/search?page=1&companynameoreventtitle=''&category=''&location=''&sort_direction=posting_date_desc";
+      messagespath = "/student/messages";
     } else {
       studentspath = "/company/students?page=1&nameorcollegeorskillset=''";
       eventspath = "/company/events?page=1";
       jobspath = "/company/jobs?page=1";
+      messagespath = "/company/messages";
     }
 
     return (
@@ -156,9 +159,9 @@ class ConnectedNavigationbar extends React.Component {
           <Link className="navbaritem" to={studentspath}>
             <span>Students</span>
           </Link>
-          <Nav.Link className="navbaritem" href="#">
+          <Link className="navbaritem" to={messagespath}>
             <span>Messages</span>
-          </Nav.Link>
+          </Link>
           <Nav.Link className="navbaritem" href="#">
             <span>Career Center</span>
           </Nav.Link>

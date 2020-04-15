@@ -34,4 +34,40 @@ router.post(
   }
 );
 
+// @route   GET students/messageslist
+// @desc    Get messages list
+// @access  Public
+router.get("/messageslist", checkAuth, async (req, res) => {
+  kafka.make_request("student_messages_list", req.query, function (
+    err,
+    results
+  ) {
+    try {
+      let messagesList = results;
+      res.json({ messagesList });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
+// @route   GET students/messageinfo
+// @desc    Get message info
+// @access  Public
+router.get("/messageinfo", checkAuth, async (req, res) => {
+  kafka.make_request("student_message_info", req.query, function (
+    err,
+    results
+  ) {
+    try {
+      let message = results;
+      res.json({ message });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+});
+
 module.exports = router;

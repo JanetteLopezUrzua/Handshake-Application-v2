@@ -20,19 +20,50 @@ async function handle_request(msg, callback) {
   } = msg;
 
   try {
-    const m = await Message.create({
+    //Check if email conversation exists
+    let m = await Message.findOne({
       fromid: new mongoose.Types.ObjectId(from_id),
       onModel: from_type,
       toid: new mongoose.Types.ObjectId(to_id),
-      message,
-      read,
-      messagemonth: message_month,
-      messageday: message_day,
-      messageyear: message_year,
-      messagehour: message_hour,
-      messageminute: message_minute,
-      messagedaytime: message_day_time,
     });
+
+    if (m) {
+      let data = {
+        message,
+        read,
+        messagemonth: message_month,
+        messageday: message_day,
+        messageyear: message_year,
+        messagehour: message_hour,
+        messageminute: message_minute,
+        messagedaytime: message_day_time,
+      };
+      m = await Message.findOneAndUpdate(
+        {
+          fromid: new mongoose.Types.ObjectId(from_id),
+          onModel: from_type,
+          toid: new mongoose.Types.ObjectId(to_id),
+        },
+        { $push: { messages: data } },
+        { new: true }
+      );
+    } else {
+      m = await Message.create({
+        fromid: new mongoose.Types.ObjectId(from_id),
+        onModel: from_type,
+        toid: new mongoose.Types.ObjectId(to_id),
+        messages: {
+          message,
+          read,
+          messagemonth: message_month,
+          messageday: message_day,
+          messageyear: message_year,
+          messagehour: message_hour,
+          messageminute: message_minute,
+          messagedaytime: message_day_time,
+        },
+      });
+    }
 
     callback(null, m);
   } catch (err) {

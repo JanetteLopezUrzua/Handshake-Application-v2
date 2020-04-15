@@ -1,0 +1,98 @@
+import React from "react";
+import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import { Link } from "react-router-dom";
+import Image from "react-bootstrap/Image";
+import Container from "react-bootstrap/Container";
+
+const MessagesListDisplay = (props) => {
+  let name = "";
+  let fname = "";
+  let lname = "";
+  let photo = "";
+  let img = "";
+  let lastmessage = "";
+  if (props.message.onModel === "companies") {
+    name = props.message.fromid.name;
+    lastmessage =
+      props.message.messages[props.message.messages.length - 1].message;
+    if (props.message.fromid.photo) photo = props.message.fromid.photo;
+
+    if (photo === "") {
+      img = (
+        <div>
+          <div className="studentslistpics">
+            <p style={{ paddingTop: "10px" }}>{name.charAt(0)}</p>
+          </div>
+        </div>
+      );
+    } else {
+      img = (
+        <Image
+          className="studentslistpics"
+          src={`http://localhost:3001/resumesandimages/${photo}`}
+          roundedcircle="true"
+        />
+      );
+    }
+  }
+
+  if (props.message.onModel === "students") {
+    fname = props.message.fromid.fname;
+    lname = props.message.fromid.lname;
+    name = `${fname} ${lname}`;
+    lastmessage =
+      props.message.messages[props.message.messages.length - 1].message;
+    if (props.message.fromid.photo) photo = props.message.fromid.photo;
+
+    if (photo === "") {
+      img = (
+        <div>
+          <div className="studentslistpics">
+            <p style={{ paddingTop: "10px" }}>
+              {fname.charAt(0)}
+              {lname.charAt(0)}
+            </p>
+          </div>
+        </div>
+      );
+    } else {
+      img = (
+        <Image
+          className="studentslistpics"
+          src={`http://localhost:3001/resumesandimages/${photo}`}
+          roundedcircle="true"
+        />
+      );
+    }
+  }
+
+  return (
+    <Container
+      style={{ padding: "10px" }}
+      onClick={(e) => props.messageClick(props.message.fromid._id)}
+    >
+      <Link style={{ color: "black" }} to="###">
+        <Row>
+          <Col sm={3}>{img}</Col>
+          <Col sm={9}>
+            <Card.Title className="studentslistname">{name}</Card.Title>
+            <p
+              style={{
+                whiteSpace: "nowrap",
+                width: "100%",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {lastmessage}
+            </p>
+          </Col>
+        </Row>
+      </Link>
+    </Container>
+  );
+};
+
+export default MessagesListDisplay;

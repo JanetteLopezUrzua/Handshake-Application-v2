@@ -24,6 +24,8 @@ import Job from "./components/Company/JobPostings/JobContainer/JobContainer";
 import JobsNavBar from "./components/Student/StudentJobs/JobsNavBar";
 import JobsSearch from "./components/Student/StudentJobs/JobsSearch/JobsSearch";
 import ApplicationsList from "./components/Student/StudentJobs/JobsApplications/ApplicationsPage";
+import StudentMessages from "./components/Student/MessagesTab/Messages";
+//import CompanyMessages from "./components/Company/MessagesTab/Messages";
 
 // App Component
 class App extends Component {
@@ -65,6 +67,7 @@ class App extends Component {
       <div>
         <Navbar />
         <Switch>
+          <Route exact path="/student/messages" component={StudentMessages} />
           <Route exact path="/job/:job_id" component={Job} />
           <Route exact path="/event/:event_id" component={Event} />
           <Route exact path="/company/events/new" component={NewEvent} />

@@ -30,6 +30,8 @@ var StudentJobsList = require("./services/student/jobs/student_jobs_list");
 var StudentUploadResume = require("./services/student/jobs/student_upload_resume");
 var StudentApplicationsList = require("./services/student/jobs/student_applications_list");
 var StudentNewMessage = require("./services/student/messages/student_add_new_message");
+var StudentMessagesList = require("./services/student/messages/student_messages_list");
+var StudentMessageInfo = require("./services/student/messages/student_message_info");
 
 /************* COMPANY *************************/
 var CompanyLogin = require("./services/company/auth/company_login.js");
@@ -124,6 +126,8 @@ handleTopicRequest("student_jobs_list", StudentJobsList);
 handleTopicRequest("student_upload_resume", StudentUploadResume);
 handleTopicRequest("student_applications_list", StudentApplicationsList);
 handleTopicRequest("student_add_new_message", StudentNewMessage);
+handleTopicRequest("student_messages_list", StudentMessagesList);
+handleTopicRequest("student_message_info", StudentMessageInfo);
 
 /************* COMPANY *************************/
 handleTopicRequest("company_login", CompanyLogin);

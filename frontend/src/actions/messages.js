@@ -1,5 +1,10 @@
 import axios from "axios";
-import { MESSAGE_LOADED, DELETE_ERRORS, MESSAGE_ERROR } from "./types";
+import {
+  MESSAGE_LOADED,
+  DELETE_ERRORS,
+  MESSAGE_ERROR,
+  MESSAGES_LIST_LOADED,
+} from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
 // Messages
@@ -63,6 +68,50 @@ export const sendmessage = (
     console.log("ERR", err);
     const errors = err.response.data.errors;
 
+    dispatch({
+      type: MESSAGE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+export const loadmessageslist = (toid) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.get(
+      `http://localhost:3001/students/messageslist?toid=${toid}`
+    );
+    dispatch({
+      type: MESSAGES_LIST_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    dispatch({
+      type: MESSAGE_ERROR,
+      payload: errors,
+    });
+  }
+};
+
+export const loadmessage = (fromid, currid) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.get(
+      `http://localhost:3001/students/messageinfo?fromid=${fromid}&currid=${currid}`
+    );
+    dispatch({
+      type: MESSAGE_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
     dispatch({
       type: MESSAGE_ERROR,
       payload: errors,

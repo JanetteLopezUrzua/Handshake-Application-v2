@@ -22,9 +22,11 @@ const ConnectedModalPicture = (props) => {
       <Modal.Body>
         <Form.Group controlId="message">
           <Form.Control
+            as="textarea"
             onChange={props.messageHandler}
             name="message"
             type="text"
+            rows="3"
             autoFocus
           />
         </Form.Group>
