@@ -16,6 +16,7 @@ import {
   deletephoto,
   updatecompanyname,
   deleteerrors,
+  loadcompanyprofile,
 } from "../../../../actions/companyprofile";
 
 class ConnectedPictureDetails extends React.Component {
@@ -76,6 +77,15 @@ class ConnectedPictureDetails extends React.Component {
         })
       );
 
+      if (
+        localStorage.getItem("id") === this.state.id &&
+        localStorage.getItem("type") === "company"
+      ) {
+        await this.props.dispatch(
+          loadcompanyprofile(localStorage.getItem("id"))
+        );
+      }
+
       if (this.props.currentuser.payload) {
       } else {
         this.setState({
@@ -92,9 +102,10 @@ class ConnectedPictureDetails extends React.Component {
     });
   };
 
-  handleShow = () => this.setState({
-    show: true,
-  });
+  handleShow = () =>
+    this.setState({
+      show: true,
+    });
 
   onDelete = async (e) => {
     e.preventDefault();
@@ -103,6 +114,15 @@ class ConnectedPictureDetails extends React.Component {
 
     if (this.props.currentuser.payload) {
     } else {
+      if (
+        localStorage.getItem("id") === this.state.id &&
+        localStorage.getItem("type") === "company"
+      ) {
+        await this.props.dispatch(
+          loadcompanyprofile(localStorage.getItem("id"))
+        );
+      }
+
       this.setState({
         show: false,
       });
@@ -121,9 +141,10 @@ class ConnectedPictureDetails extends React.Component {
     let name = "";
 
     if (this.props.currentuser.user !== null) {
-      name = this.props.currentuser.user.company.name === this.state.name
-        ? this.props.currentuser.user.company.name
-        : this.state.name;
+      name =
+        this.props.currentuser.user.company.name === this.state.name
+          ? this.props.currentuser.user.company.name
+          : this.state.name;
     }
 
     await this.props.dispatch(
@@ -187,8 +208,8 @@ class ConnectedPictureDetails extends React.Component {
 
     if (has_image === false) {
       if (
-        localStorage.getItem("id") === this.state.id
-        && localStorage.getItem("type") === "company"
+        localStorage.getItem("id") === this.state.id &&
+        localStorage.getItem("type") === "company"
       ) {
         profilePhoto = (
           <Button className="CompanyProfilePicButton" onClick={this.handleShow}>
@@ -209,8 +230,8 @@ class ConnectedPictureDetails extends React.Component {
       }
     } else if (has_image === true) {
       if (
-        localStorage.getItem("id") === this.state.id
-        && localStorage.getItem("type") === "company"
+        localStorage.getItem("id") === this.state.id &&
+        localStorage.getItem("type") === "company"
       ) {
         profilePhoto = (
           <>
@@ -246,8 +267,8 @@ class ConnectedPictureDetails extends React.Component {
     }
     let button = "";
     if (
-      localStorage.getItem("id") === this.state.id
-      && localStorage.getItem("type") === "company"
+      localStorage.getItem("id") === this.state.id &&
+      localStorage.getItem("type") === "company"
     ) {
       button = (
         <Col style={{ textAlign: "right" }}>

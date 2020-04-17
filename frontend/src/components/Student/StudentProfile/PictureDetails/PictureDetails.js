@@ -76,8 +76,8 @@ class ConnectedPictureDetails extends React.Component {
       );
 
       if (
-        localStorage.getItem("id") === this.state.id
-        && localStorage.getItem("type") === "student"
+        localStorage.getItem("id") === this.state.id &&
+        localStorage.getItem("type") === "student"
       ) {
         await this.props.dispatch(
           loadstudentprofile(localStorage.getItem("id"))
@@ -187,6 +187,15 @@ class ConnectedPictureDetails extends React.Component {
 
     if (this.props.currentuser.payload) {
     } else {
+      if (
+        localStorage.getItem("id") === this.state.id &&
+        localStorage.getItem("type") === "student"
+      ) {
+        await this.props.dispatch(
+          loadstudentprofile(localStorage.getItem("id"))
+        );
+      }
+
       this.setState({
         show: false,
       });
@@ -220,9 +229,12 @@ class ConnectedPictureDetails extends React.Component {
         lname = this.props.currentuser.user.student.lname
           ? this.props.currentuser.user.student.lname
           : "";
-        college = this.props.currentuser.user.student.schools.length !== 0
-          ? this.props.currentuser.user.student.schools.find((school) => school.primaryschool === "true")
-          : "";
+        college =
+          this.props.currentuser.user.student.schools.length !== 0
+            ? this.props.currentuser.user.student.schools.find(
+                (school) => school.primaryschool === "true"
+              )
+            : "";
         photo = this.props.currentuser.user.student.photo
           ? this.props.currentuser.user.student.photo
           : "";
@@ -243,8 +255,8 @@ class ConnectedPictureDetails extends React.Component {
 
     if (has_image === false) {
       if (
-        localStorage.getItem("id") === this.state.id
-        && localStorage.getItem("type") === "student"
+        localStorage.getItem("id") === this.state.id &&
+        localStorage.getItem("type") === "student"
       ) {
         studentPhoto = (
           <Button className="ProfilePicButton" onClick={this.handleShow}>
@@ -270,8 +282,8 @@ class ConnectedPictureDetails extends React.Component {
       }
     } else if (has_image === true) {
       if (
-        localStorage.getItem("id") === this.state.id
-        && localStorage.getItem("type") === "student"
+        localStorage.getItem("id") === this.state.id &&
+        localStorage.getItem("type") === "student"
       ) {
         studentPhoto = (
           <>
@@ -310,8 +322,8 @@ class ConnectedPictureDetails extends React.Component {
 
     let messagebutton = "";
     if (
-      localStorage.getItem("id") === currid
-      && localStorage.getItem("type") === "student"
+      localStorage.getItem("id") === currid &&
+      localStorage.getItem("type") === "student"
     ) {
       messagebutton = "";
     } else {
@@ -367,6 +379,9 @@ class ConnectedPictureDetails extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => ({ currentuser: state.currentuser, message: state.message });
+const mapStateToProps = (state) => ({
+  currentuser: state.currentuser,
+  message: state.message,
+});
 const PictureDetails = connect(mapStateToProps)(ConnectedPictureDetails);
 export default PictureDetails;
