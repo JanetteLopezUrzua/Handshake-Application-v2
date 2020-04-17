@@ -7,7 +7,8 @@
     "start": "node server",
     "server": "nodemon server",
     "client": "cd /home/janette/Documents/Lab2/lab2-cmpe273/frontend && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "mocha test"
   },
   "author": "Janette Lopez",
   "license": "ISC",
@@ -24,12 +25,15 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "config": "^3.3.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-validator": "^6.4.0",
     "jsonwebtoken": "^8.5.1",
     "kafka-node": "^3.0.1",
+    "mocha": "^7.1.1",
     "mongoose": "^5.9.5",
     "multer": "^1.4.2",
     "passport": "^0.4.1",

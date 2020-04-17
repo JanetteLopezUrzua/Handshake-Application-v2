@@ -76,3 +76,5 @@ app.post("/upload", upload.single("file"), (req, res) => {
 const PORT = 3001;
 
 app.listen(PORT, () => console.log(`Server started on port: ${PORT}`));
+
+module.exports = app;

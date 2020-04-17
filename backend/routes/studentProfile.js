@@ -28,18 +28,12 @@ router.get("/info/:id", checkAuth, async (req, res) => {
 router.put(
   "/basicinfo",
   [
-    check("fname", "First name is required")
-      .not()
-      .isEmpty()
-      .trim(),
-    check("lname", "Last name is required")
-      .not()
-      .isEmpty()
-      .trim(),
+    check("fname", "First name is required").not().isEmpty().trim(),
+    check("lname", "Last name is required").not().isEmpty().trim(),
     check("dob").trim(),
     check("city").trim(),
     check("state").trim(),
-    check("country").trim()
+    check("country").trim(),
   ],
   checkAuth,
   async (req, res) => {
@@ -53,18 +47,19 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("student_update_basic_info", req.body, (
-      err,
-      results
-    ) => {
-      try {
-        const student = results;
-        res.json({ student });
-      } catch (err) {
-        console.error(err.message);
-        res.status(500).send("Server Error");
+    kafka.make_request(
+      "student_update_basic_info",
+      req.body,
+      (err, results) => {
+        try {
+          const student = results;
+          res.json({ student });
+        } catch (err) {
+          console.error(err.message);
+          res.status(500).send("Server Error");
+        }
       }
-    });
+    );
   }
 );
 
@@ -78,18 +73,19 @@ router.put(
   async (req, res) => {
     console.log(req.body);
 
-    kafka.make_request("student_update_career_objective", req.body, (
-      err,
-      results
-    ) => {
-      try {
-        const student = results;
-        res.json({ student });
-      } catch (err) {
-        console.error(err.message);
-        res.status(500).send("Server Error");
+    kafka.make_request(
+      "student_update_career_objective",
+      req.body,
+      (err, results) => {
+        try {
+          const student = results;
+          res.json({ student });
+        } catch (err) {
+          console.error(err.message);
+          res.status(500).send("Server Error");
+        }
       }
-    });
+    );
   }
 );
 
@@ -133,12 +129,10 @@ router.delete("/photo/:id", checkAuth, async (req, res) => {
 router.put(
   "/contactinfo",
   [
-    check("email", "Please enter a valid email")
-      .isEmail()
-      .trim(),
+    check("email", "Please enter a valid email").isEmail().trim(),
     check("phonenumber", "Phone Number must be exactly 10 numbers")
       .isNumeric()
-      .isLength({ min: 10, max: 10 })
+      .isLength({ min: 10, max: 10 }),
   ],
   checkAuth,
   async (req, res) => {
@@ -150,18 +144,19 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("student_update_contact_info", req.body, (
-      err,
-      results
-    ) => {
-      try {
-        const student = results;
-        res.json({ student });
-      } catch (err) {
-        console.error(err.message);
-        res.status(500).send("Server Error");
+    kafka.make_request(
+      "student_update_contact_info",
+      req.body,
+      (err, results) => {
+        try {
+          const student = results;
+          res.json({ student });
+        } catch (err) {
+          console.error(err.message);
+          res.status(500).send("Server Error");
+        }
       }
-    });
+    );
   }
 );
 
@@ -170,12 +165,7 @@ router.put(
 // @access  Public
 router.put(
   "/skillset",
-  [
-    check("skill", "Enter a skill")
-      .not()
-      .isEmpty()
-      .trim()
-  ],
+  [check("skill", "Enter a skill").not().isEmpty().trim()],
   checkAuth,
   async (req, res) => {
     const errors = validationResult(req);
@@ -186,15 +176,12 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    kafka.make_request("student_update_skillset", req.body, (
-      err,
-      results
-    ) => {
+    kafka.make_request("student_update_skillset", req.body, (err, results) => {
       try {
         const student = results;
         if (student === 0) {
           return res.status(400).json({
-            errors: [{ skillmsg: "Skill already exists" }]
+            errors: [{ skillmsg: "Skill already exists" }],
           });
         }
 
@@ -211,10 +198,7 @@ router.put(
 // @desc    Delete student photo
 // @access  Public
 router.delete("/skill/:id/:skill", checkAuth, async (req, res) => {
-  kafka.make_request("student_delete_skill", req.params, (
-    err,
-    results
-  ) => {
+  kafka.make_request("student_delete_skill", req.params, (err, results) => {
     try {
       const student = results;
       res.json({ student });
@@ -231,14 +215,11 @@ router.delete("/skill/:id/:skill", checkAuth, async (req, res) => {
 router.post(
   "/newschool",
   [
-    check("name", "School name is required")
-      .not()
-      .isEmpty()
-      .trim(),
+    check("name", "School name is required").not().isEmpty().trim(),
     check("gpa", "GPA must follow this format: 0.00").isLength({
       min: 4,
-      max: 4
-    })
+      max: 4,
+    }),
   ],
   checkAuth,
   async (req, res) => {
@@ -251,25 +232,22 @@ router.post(
     }
 
     if (
-      (req.body.passingmonth === "" && req.body.passingyear !== "")
-      || (req.body.passingmonth !== "" && req.body.passingyear === "")
+      (req.body.passingmonth === "" && req.body.passingyear !== "") ||
+      (req.body.passingmonth !== "" && req.body.passingyear === "")
     ) {
       return res
         .status(400)
         .json({ errors: [{ schoolmsg: "Enter complete end date" }] });
     }
 
-    kafka.make_request("student_add_new_school", req.body, (
-      err,
-      results
-    ) => {
+    kafka.make_request("student_add_new_school", req.body, (err, results) => {
       try {
         const student = results;
         if (student === 0) {
           return res.status(400).json({
             errors: [
-              { schoolmsg: "A school with this information already exists" }
-            ]
+              { schoolmsg: "A school with this information already exists" },
+            ],
           });
         }
 
@@ -286,10 +264,7 @@ router.post(
 // @desc    Delete school from the student profile
 // @access  Public
 router.delete("/school/:id/:schoolid", checkAuth, async (req, res) => {
-  kafka.make_request("student_delete_school", req.params, (
-    err,
-    results
-  ) => {
+  kafka.make_request("student_delete_school", req.params, (err, results) => {
     try {
       const student = results;
       res.json({ student });
@@ -308,8 +283,8 @@ router.put(
   [
     check("gpa", "GPA must follow this format: 0.00").isLength({
       min: 4,
-      max: 4
-    })
+      max: 4,
+    }),
   ],
   checkAuth,
   async (req, res) => {
@@ -322,18 +297,15 @@ router.put(
     }
 
     if (
-      (req.body.passingmonth === null && req.body.passingyear !== null)
-      || (req.body.passingmonth !== null && req.body.passingyear === null)
+      (req.body.passingmonth === null && req.body.passingyear !== null) ||
+      (req.body.passingmonth !== null && req.body.passingyear === null)
     ) {
       return res
         .status(400)
         .json({ errors: [{ updateschoolmsg: "Enter complete end date" }] });
     }
 
-    kafka.make_request("student_update_school", req.body, (
-      err,
-      results
-    ) => {
+    kafka.make_request("student_update_school", req.body, (err, results) => {
       try {
         const student = results;
         res.json({ student });
@@ -351,14 +323,8 @@ router.put(
 router.post(
   "/newjob",
   [
-    check("companyname", "Company name is required")
-      .not()
-      .isEmpty()
-      .trim(),
-    check("title", "Title is required")
-      .not()
-      .isEmpty()
-      .trim()
+    check("companyname", "Company name is required").not().isEmpty().trim(),
+    check("title", "Title is required").not().isEmpty().trim(),
   ],
   checkAuth,
   async (req, res) => {
@@ -371,31 +337,31 @@ router.post(
     }
 
     if (
-      (req.body.startdatemonth !== "" && req.body.startdateyear === "")
-      || (req.body.startdatemonth === "" && req.body.startdateyear !== "")
-      || (req.body.enddatemonth === "" && req.body.enddateyear !== "")
-      || (req.body.enddatemonth !== "" && req.body.enddateyear === "")
+      (req.body.startdatemonth !== "" && req.body.startdateyear === "") ||
+      (req.body.startdatemonth === "" && req.body.startdateyear !== "") ||
+      (req.body.enddatemonth === "" && req.body.enddateyear !== "") ||
+      (req.body.enddatemonth !== "" && req.body.enddateyear === "")
     ) {
       return res.status(400).json({
         errors: [
           {
-            jobmsg: "Found date with a year but not a month. Enter month too."
-          }
-        ]
+            jobmsg: "Found date with a year but not a month. Enter month too.",
+          },
+        ],
       });
     }
 
     if (
-      req.body.startdateyear > req.body.enddateyear
-      || (req.body.startdateyear === req.body.enddateyear
-        && req.body.startdatemonth > req.body.enddatemonth)
+      req.body.startdateyear > req.body.enddateyear ||
+      (req.body.startdateyear === req.body.enddateyear &&
+        req.body.startdatemonth > req.body.enddatemonth)
     ) {
       return res.status(400).json({
         errors: [
           {
-            jobmsg: "Start date cannot be after end date"
-          }
-        ]
+            jobmsg: "Start date cannot be after end date",
+          },
+        ],
       });
     }
 
@@ -406,9 +372,10 @@ router.post(
           return res.status(400).json({
             errors: [
               {
-                jobmsg: "A work experience with this information already exists"
-              }
-            ]
+                jobmsg:
+                  "A work experience with this information already exists",
+              },
+            ],
           });
         }
 
@@ -449,32 +416,32 @@ router.put("/job", checkAuth, async (req, res) => {
   }
 
   if (
-    (req.body.startdatemonth !== null && req.body.startdateyear === null)
-    || (req.body.startdatemonth === null && req.body.startdateyear !== null)
-    || (req.body.enddatemonth === null && req.body.enddateyear !== null)
-    || (req.body.enddatemonth !== null && req.body.enddateyear === null)
+    (req.body.startdatemonth !== null && req.body.startdateyear === null) ||
+    (req.body.startdatemonth === null && req.body.startdateyear !== null) ||
+    (req.body.enddatemonth === null && req.body.enddateyear !== null) ||
+    (req.body.enddatemonth !== null && req.body.enddateyear === null)
   ) {
     return res.status(400).json({
       errors: [
         {
           updatejobmsg:
-            "Found date with a year but not a month. Enter month too."
-        }
-      ]
+            "Found date with a year but not a month. Enter month too.",
+        },
+      ],
     });
   }
 
   if (
-    req.body.startdateyear > req.body.enddateyear
-    || (req.body.startdateyear === req.body.enddateyear
-      && req.body.startdatemonth > req.body.enddatemonth)
+    req.body.startdateyear > req.body.enddateyear ||
+    (req.body.startdateyear === req.body.enddateyear &&
+      req.body.startdatemonth > req.body.enddatemonth)
   ) {
     return res.status(400).json({
       errors: [
         {
-          updatejobmsg: "Start date cannot be after end date"
-        }
-      ]
+          updatejobmsg: "Start date cannot be after end date",
+        },
+      ],
     });
   }
 
