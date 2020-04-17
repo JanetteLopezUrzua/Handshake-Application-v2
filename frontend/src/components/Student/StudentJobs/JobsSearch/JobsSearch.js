@@ -57,13 +57,13 @@ class ConnectedJobSearch extends React.Component {
 
   async componentDidUpdate(previousProps, previousState) {
     if (
-      previousState.nameortitle !== this.state.nameortitle
-      || previousState.fulltime !== this.state.fulltime
-      || previousState.parttime !== this.state.parttime
-      || previousState.internship !== this.state.internship
-      || previousState.oncampus !== this.state.oncampus
-      || previousState.location !== this.state.location
-      || previousState.sort !== this.state.sort
+      previousState.nameortitle !== this.state.nameortitle ||
+      previousState.fulltime !== this.state.fulltime ||
+      previousState.parttime !== this.state.parttime ||
+      previousState.internship !== this.state.internship ||
+      previousState.oncampus !== this.state.oncampus ||
+      previousState.location !== this.state.location ||
+      previousState.sort !== this.state.sort
     ) {
       let filter = "";
 
@@ -169,6 +169,54 @@ class ConnectedJobSearch extends React.Component {
     });
   };
 
+  nextPage = async () => {
+    const nextpage = this.state.page + 1;
+    await this.props.dispatch(
+      studentloadjobslist(nextpage, "", "", "", "posting_date_desc")
+    );
+    window.scrollTo(0, 0);
+
+    let filter = "";
+
+    if (this.state.fulltime === true) filter = "Full-Time";
+    else if (this.state.parttime === true) filter = "Part-Time";
+    else if (this.state.internship === true) filter = "Intern";
+    else if (this.state.oncampus === true) filter = "On-Campus";
+
+    this.setState({
+      page: nextpage,
+      redirect: (
+        <Redirect
+          to={`/student/jobs/search?page=${nextpage}&companynameoreventtitle=${this.state.nameortitle}&category=${filter}&location=${this.state.location}&sort_direction=${this.state.sort}`}
+        />
+      ),
+    });
+  };
+
+  prevPage = async () => {
+    const prevpage = this.state.page - 1;
+    await this.props.dispatch(
+      studentloadjobslist(prevpage, "", "", "", "posting_date_desc")
+    );
+    window.scrollTo(0, 0);
+
+    let filter = "";
+
+    if (this.state.fulltime === true) filter = "Full-Time";
+    else if (this.state.parttime === true) filter = "Part-Time";
+    else if (this.state.internship === true) filter = "Intern";
+    else if (this.state.oncampus === true) filter = "On-Campus";
+
+    this.setState({
+      page: prevpage,
+      redirect: (
+        <Redirect
+          to={`/student/jobs/search?page=${prevpage}&companynameoreventtitle=${this.state.nameortitle}&category=${filter}&location=${this.state.location}&sort_direction=${this.state.sort}`}
+        />
+      ),
+    });
+  };
+
   render() {
     // if not logged in go to login page
     let redirectVar = null;
@@ -178,10 +226,10 @@ class ConnectedJobSearch extends React.Component {
 
     let clear = "";
     if (
-      this.state.fulltime === true
-      || this.state.parttime === true
-      || this.state.internship === true
-      || this.state.oncampus === true
+      this.state.fulltime === true ||
+      this.state.parttime === true ||
+      this.state.internship === true ||
+      this.state.oncampus === true
     ) {
       clear = (
         <Button
